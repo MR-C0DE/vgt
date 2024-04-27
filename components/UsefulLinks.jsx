@@ -1,14 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./stylesheets/UsefulLinks.module.css";
-import { useLanguage } from "./contexts/LanguageContext";
 
 const UsefulLinks = () => {
-  const {language} = useLanguage();
-  const links = {
-    en:{vgr: "https://branham.org/fr/home"},
-    fr:{vgr: "https://branham.org/fr/home"}
-  };
+
 
   return (
     <div className={styles.UsefulLinks}>
@@ -24,7 +19,7 @@ const UsefulLinks = () => {
           </Link>
         </li>
         <li className={styles.LinkItem}>
-          <Link className={styles.Link} target="_blank" href={links[language]["vgr"]}>
+          <Link className={styles.Link} target="_blank" href={"https://branham.org/en/home"}>
             <img
               src="/logos/VGR-WHEAT.png"
               alt="VGR"
