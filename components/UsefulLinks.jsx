@@ -6,7 +6,7 @@ import { useLanguage } from "./contexts/LanguageContext";
 const UsefulLinks = () => {
   const {language} = useLanguage();
   const links = {
-    en:{vgr: "https://branham.org/fr/home"},
+    en:{vgr: "https://branham.org/fr/home", bt: ""},
     fr:{vgr: "https://branham.org/fr/home"}
   };
 
