@@ -1,0 +1,70 @@
+.Form {
+
+    background-color: #ffffff;
+      /* Styles for the language container */
+
+  }
+
+  .Form form{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .InputGroup {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 5px;
+  }
+  
+  .Form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .Form input[type="text"],
+  .Form input[type="email"],
+  .Form input[type="tel"],
+  .Form select,
+  .Form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f6f6f6;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400; /* Poids exemple, remplacez par le poids désiré */
+    font-style: normal;
+  }
+  
+  .Form textarea {
+    resize: vertical;
+  }
+  
+  .Form input[type="text"]:focus,
+  .Form input[type="email"]:focus,
+  .Form input[type="tel"]:focus,
+  .Form select:focus,
+  .Form textarea:focus {
+    border-color: #007bff;
+  }
+  
+  .Form button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .Form button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  

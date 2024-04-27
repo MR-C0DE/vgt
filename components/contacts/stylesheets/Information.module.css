@@ -1,0 +1,49 @@
+.Information {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #544500;
+    padding: 8rem 20px;
+  }
+  
+  .Information > div {
+    flex: 1;
+    margin: 0 10px;
+    text-align: center;
+  }
+  
+  .svg_content {
+    margin-bottom: 10px;
+  }
+  
+  .info_title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  
+  .info_detail {
+    font-size: 1.1em;
+    color: rgb(209, 209, 209);
+    font-weight: 600;
+  }
+  
+  .info_description {
+    font-size: 0.9em;
+    color: #888;
+  }
+  
+  .Information > div:hover {
+    transform: translateY(-5px);
+  }
+  
+  .svg_content svg {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .svg_content:hover svg {
+    transform: scale(1.1);
+  }
+  

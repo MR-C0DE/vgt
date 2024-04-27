@@ -1,0 +1,73 @@
+.Banner {
+  background-image: url("/images/b8.jpeg");
+  color: #fff;
+  padding: 4rem 2rem;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transition: height 5s ease, font-size 5s ease, max-width 5s ease; /* Ajout des transitions sur la hauteur, la taille de la police et la largeur maximale */
+}
+
+.Banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}
+
+.Banner h2 {
+  font-size: 5em;
+  margin-bottom: 30px;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+  transition: font-size 0.5s ease; /* Ajout de la transition pour la taille de la police */
+}
+
+.Banner p {
+  font-size: 1.5em;
+  line-height: 1.8;
+  transition: font-size 5s ease; /* Ajout de la transition pour la taille de la police */
+}
+
+.Banner div {
+  background-color: #ffc10732;
+  padding: 0 1rem;
+  max-width: 800px;
+  transition: max-width 5s ease; /* Ajout de la transition pour la largeur maximale */
+}
+
+@media screen and (max-width: 1200px) {
+  .Banner {
+    height: 40vh;
+  }
+
+  .Banner h2 {
+    font-size: 3em;
+    margin-bottom: 30px;
+  }
+
+  .Banner p {
+    font-size: 1.2em;
+    line-height: 1.8;
+  }
+
+  .Banner div {
+    max-width: 400px;
+    
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .Banner {
+    height: 30vh;
+  }
+}

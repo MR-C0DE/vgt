@@ -1,0 +1,63 @@
+.UsefulLinks {
+  padding: 4rem 1rem;
+ 
+background-color: rgb(250, 250, 250);
+}
+
+.UsefulLinks h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.LinkList {
+  display: flex;
+
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.LinkItem {
+flex-grow: 1;
+flex-basis: calc(25% - 10px);
+  border-radius: 3px;
+  padding: 0.4rem 1rem;
+  text-transform: uppercase;
+  overflow: hidden;
+  border: 5px solid rgb(92, 92, 92);
+  transition: transform 1s ease, border-color 1s ease, box-shadow 1s ease;
+}
+
+.LinkItem:hover {
+  border-color: #ffc107;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.Link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+}
+
+.LinkImage {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.LinkText {
+  padding: 10px;
+  text-align: center;
+  transition: color 1.7s ease;
+  font-size: .7rem;
+}
+
+.LinkItem:hover .LinkText {
+  color: #ffc107;
+}

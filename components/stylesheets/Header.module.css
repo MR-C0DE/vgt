@@ -1,0 +1,144 @@
+.Header {
+    background-color: #272727;
+    color: azure;
+    padding: 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Légère augmentation de l'ombre pour plus de profondeur */
+  }
+  
+  .Header h1 {
+    text-transform: uppercase;
+    font-size: 1.8em; /* Augmentation supplémentaire de la taille de la police */
+    margin: 0;
+    letter-spacing: 2px; /* Ajout d'un espacement entre les lettres pour une meilleure lisibilité */
+  }
+  
+  .Header nav {
+    display: flex;
+    align-items: center;
+  }
+  
+    
+  @keyframes normalGap {
+    from {
+      gap: 1rem; /* Valeur de départ du gap */
+    }
+    to {
+      gap: 3rem; /* Valeur finale du gap */
+    }
+
+  }
+  .Header nav ul {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    animation: normalGap 2s ease forwards;
+  }
+  
+  .Header nav ul li {
+    position: relative;
+  }
+  
+  .Header nav ul li a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    font-weight: 600; /* Renforcement de l'épaisseur de la police */
+    transition: color 0.3s ease;
+  }
+  
+  .Header nav ul li a:hover {
+    color: #ffc107;
+  }
+  
+  .Header nav ul li:before {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+  }
+  
+  .Header nav ul li:hover:before {
+    background-color: #ffc107;
+  }
+  
+  /* Style pour le bouton de langue */
+  .LanguageButton {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .LanguageButton:hover {
+    color: #ffc107;
+  }
+
+  .Mini{
+    display: flex;
+    width: 10rem;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  @keyframes reduceGap {
+    from {
+      gap: 3rem; /* Valeur de départ du gap */
+    }
+    to {
+      gap: 1rem; /* Valeur finale du gap */
+    }
+
+  }
+
+  
+  @media screen and (max-width: 1200px) {
+    .Header h1 {
+      text-transform: uppercase;
+      font-size: 1.4em; /* Augmentation supplémentaire de la taille de la police */
+      margin: 0;
+      letter-spacing: 2px; /* Ajout d'un espacement entre les lettres pour une meilleure lisibilité */
+    }
+    .Header nav ul {
+      gap: 1rem;
+      animation: reduceGap 0.5s ease forwards;
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .Header {
+      background-color: rgb(39, 39, 39);
+      color: azure;
+      padding: 1rem ;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 6rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Légère augmentation de l'ombre pour plus de profondeur */
+    }
+    .Header nav ul {
+      display: block;
+      
+    }
+    .Header h1 {
+      text-transform: uppercase;
+      font-size: 1em; /* Augmentation supplémentaire de la taille de la police */
+      margin: 0;
+      letter-spacing: 2px; /* Ajout d'un espacement entre les lettres pour une meilleure lisibilité */
+    }
+
+    .Header nav {
+      display: block;
+    }
+  }

@@ -1,0 +1,64 @@
+.Language {
+  /* Styles for the language container */
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400; /* Poids exemple, remplacez par le poids désiré */
+  font-style: normal;
+}
+
+.menu {
+  position: relative;
+}
+
+.selectedLanguage {
+  border: 3px solid #f1c40f;
+  background-color: #272727;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #f1c40f;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Ajout de transitions pour la couleur de fond et l'échelle au survol */
+}
+
+.selectedLanguage:hover {
+  background-color: #d19c00;
+  color: #fff;
+  transform: scale(
+    1.05
+  ); /* Légèrement agrandir le bouton au survol pour un effet visuel subtil */
+}
+
+.languageMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background-color: #333;
+  border: 1px solid #6e6e6e;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  opacity: 0; /* Masquer initialement le menu */
+  transform: translateY(
+    -10px
+  ); /* Déplacer légèrement vers le haut pour un effet de transition */
+  transition: opacity 0.3s ease, transform 0.2s ease; /* Ajouter des transitions pour l'opacité et la position */
+  z-index: 1000;
+  width: 8rem;
+}
+
+.menu:hover .languageMenu {
+  opacity: 1; /* Afficher le menu au survol */
+  transform: translateY(0); /* Ramener à sa position d'origine */
+}
+
+.languageMenu li {
+  padding: 8px 16px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.languageMenu li:hover {
+  background-color: #464646;
+}

@@ -1,0 +1,50 @@
+.Menu {
+  position: relative;
+}
+
+.MenuIcon {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #fff;
+  z-index: 999;
+}
+
+.MenuNav {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+
+  width: 13rem;
+  background-color: #1e1e1ee6;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 998;
+
+  border-radius: 4px;
+}
+
+.MenuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.MenuItem {
+  margin-bottom: 20px;
+}
+
+.MenuItem a {
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.MenuItem a:hover {
+  color: #ff0000;
+}
