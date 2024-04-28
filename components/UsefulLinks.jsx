@@ -9,7 +9,7 @@ const UsefulLinks = () => {
     <div className={styles.UsefulLinks}>
       <ul className={styles.LinkList}>
         <li className={styles.LinkItem}>
-          <Link className={styles.Link} href="/">
+          <Link className={styles.Link} target="_blank" href="https://branhamtabernacle.org/en/home">
             <img
               src="/logos/BT.png"
               alt="Branham Tabernacle"
@@ -30,7 +30,7 @@ const UsefulLinks = () => {
         </li>
 
         <li className={styles.LinkItem}>
-          <Link className={styles.Link} href="/">
+          <Link className={styles.Link} target="_blank" href="https://youngfoundations.org/en/home">
             <img
               src="/logos/YF.png"
               alt="YF"
@@ -40,7 +40,7 @@ const UsefulLinks = () => {
           </Link>
         </li>
         <li className={styles.LinkItem}>
-          <Link className={styles.Link} href="/">
+          <Link className={styles.Link} target="_blank" href="https://themessage.com/en/home">
             <img
               src="/logos/themessage.png"
               alt="Creation"
@@ -51,7 +51,7 @@ const UsefulLinks = () => {
         </li>
 
         <li className={styles.LinkItem}>
-          <Link className={styles.Link} href="/">
+          <Link className={styles.Link} href="https://youngfoundations.org/en/creations">
             <img
               src="/logos/creations.png"
               alt="creation"
@@ -61,7 +61,7 @@ const UsefulLinks = () => {
           </Link>
         </li>
         <li className={styles.LinkItem}>
-          <Link className={styles.Link} href="/">
+          <Link className={styles.Link} target="_blank" href="https://branhamtabernacle.org/en/streaming">
             <img
               src="/logos/BT.png"
               alt="VGR"
@@ -71,7 +71,7 @@ const UsefulLinks = () => {
           </Link>
         </li>
         <li className={styles.LinkItem}>
-          <Link className={styles.Link} href="/">
+          <Link className={styles.Link} target="_blank" href="https://branhamtabernacle.org/en/archive">
             <img
               src="/logos/BT.png"
               alt="VGR"
