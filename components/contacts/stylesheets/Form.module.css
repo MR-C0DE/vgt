@@ -18,9 +18,17 @@
   }
   
   .Form label {
-    display: block;
+    
     font-weight: bold;
     margin-bottom: 5px;
+  }
+
+  .labelg{
+    display: block;
+    
+  }
+  .labels{
+    display: none;
   }
   
   .Form input[type="text"],
@@ -68,3 +76,32 @@
     background-color: #0056b3;
   }
   
+  @media screen and (max-width: 600px) {
+    .InputGroup {
+      flex-direction: column;
+      margin-bottom: 0;
+    }
+
+    .labelg{
+      display: none;
+    }
+    .labels{
+      display: block;
+    }
+  
+    .Form input[type="text"],
+    .Form input[type="email"],
+    .Form input[type="tel"],
+    .Form select,
+    .Form textarea {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 1rem;
+      
+
+    }
+    .Form label{
+      margin-bottom: 0;
+    }
+ 
+  }

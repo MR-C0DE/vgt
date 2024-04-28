@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #544500;
+    background-color: #413500;
     padding: 8rem 20px;
   }
   
@@ -47,3 +47,20 @@
     transform: scale(1.1);
   }
   
+
+  @media screen and (max-width: 1200px) {
+    .Information {
+      padding: 6rem 10px;
+    }
+  }
+  
+  @media screen and (max-width: 900px) {
+    .Information {
+      flex-direction: column;
+      gap: 4rem;
+    }
+  
+    .Information > div {
+      margin: 10px 0;
+    }
+  }

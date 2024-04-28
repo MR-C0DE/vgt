@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import styles from "./stylesheets/Form.module.css";
+import { useScreenSize } from "../contexts/ScreenSizeContext";
 
 const Form = () => {
   const { t } = useTranslation();
@@ -13,6 +14,10 @@ const Form = () => {
     object: "",
     message: "",
   });
+
+  const {width} = useScreenSize();
+
+
 
   // Gestionnaire d'événements pour mettre à jour les valeurs du formulaire
   const handleInputChange = (event) => {
@@ -34,65 +39,92 @@ const Form = () => {
   return (
     <div className={styles.Form}>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="">{t("Name")}*</label>
+        <label className={styles.labelg} htmlFor="">
+          {t("Name")}*
+        </label>
         <div className={styles.InputGroup}>
+          <label className={styles.labels} htmlFor="">
+            {t("Firstname")}*
+          </label>
+
           <input
             type="text"
             name="firstname"
             id="firstname"
-            placeholder={t("Firstname")}
+            
+            placeholder={ width >= 601 && t("Firstname")}
             value={formData.firstname}
             onChange={handleInputChange}
           />
+
+          <label className={styles.labels} htmlFor="">
+            {t("Lastname")}*
+          </label>
 
           <input
             type="text"
             name="lastname"
             id="lastname"
-            placeholder={t("Lastname")}
+            placeholder={ width >= 601 && t("Lastname")}
             value={formData.lastname}
             onChange={handleInputChange}
           />
         </div>
 
-        <label htmlFor="">{t("Contact information")}</label>
+        <label className={styles.labelg} htmlFor="">
+          {t("Contact information")}
+        </label>
         <div className={styles.InputGroup}>
+          <label className={styles.labels} htmlFor="">
+            {t("Email")}*
+          </label>
+
           <input
             type="email"
             name="email"
             id="email"
             title="Email"
-            placeholder={t("Email")+ "*"}
+            placeholder={ width >= 601 && t("Email") + "*"}
             value={formData.email}
             onChange={handleInputChange}
           />
-
+          <label className={styles.labels} htmlFor="">
+            {t("Telephone")}
+          </label>
           <input
             type="tel"
             name="telephone"
             id="telephone"
-            placeholder={t("Telephone")}
+            placeholder={ width >= 601 && t("Telephone")}
             value={formData.telephone}
             onChange={handleInputChange}
           />
         </div>
-        <label htmlFor="">{t("Message content")}*</label>
+        <label className={styles.labelg} htmlFor="">
+          {t("Message content")}*
+        </label>
         <div className={styles.InputGroup}>
+          <label className={styles.labels} htmlFor="">
+            {t("Object")}*
+          </label>
           <input
             type="text"
             name="object"
             id="object"
-            placeholder={t("Object")}
+            placeholder={ width >= 601 && t("Object")}
           />
         </div>
 
         <div className={styles.InputGroup}>
+          <label className={styles.labels} htmlFor="">
+            {t("Message")}
+          </label>
           <textarea
             name="message"
             id="message"
             cols="30"
             rows="10"
-            placeholder={t("Message")}
+            placeholder={ width >= 601 && t("Message")}
             value={formData.message}
             onChange={handleInputChange}
           ></textarea>

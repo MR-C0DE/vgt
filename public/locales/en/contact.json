@@ -9,6 +9,12 @@
     "Submit button": "Submit",
     "Message content": "Message content",
     "Name": "Name",
-    "Contact information": "Contact information"
+    "Contact information": "Contact information",
+    "address": "Address",
+    "phone-info": "Phone",
+    "addressDetail": "Address of the location",
+    "phoneDetail": "Contact phone number",
+    "emailDetail": "Contact email address",
+    "defaultAddress": "2285 Boulevard Saint-Laurent, unit-D10"
     
 }

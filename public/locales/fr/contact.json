@@ -9,6 +9,12 @@
     "Submit button": "Soumettre",
     "Message content": "Contenu du message",
     "Name": "Nom",
-    "Contact information": "Coordonnées de contact"
+    "Contact information": "Coordonnées de contact",
+    "address": "Adresse",
+    "phone-info": "Téléphone",
+    "addressDetail": "Adresse de l'emplacement",
+    "phoneDetail": "Numéro de téléphone de contact",
+    "emailDetail": "Adresse e-mail de contact",
+    "defaultAddress": "2285 Boulevard Saint-Laurent, unité D10"
 }
 
