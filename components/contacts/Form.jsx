@@ -52,7 +52,7 @@ const Form = () => {
             name="firstname"
             id="firstname"
             
-            placeholder={ width >= 601 && t("Firstname")}
+            placeholder={ width >= 701 && t("Firstname")}
             value={formData.firstname}
             onChange={handleInputChange}
           />
@@ -65,7 +65,7 @@ const Form = () => {
             type="text"
             name="lastname"
             id="lastname"
-            placeholder={ width >= 601 && t("Lastname")}
+            placeholder={ width >= 701 && t("Lastname")}
             value={formData.lastname}
             onChange={handleInputChange}
           />
@@ -84,7 +84,7 @@ const Form = () => {
             name="email"
             id="email"
             title="Email"
-            placeholder={ width >= 601 && t("Email") + "*"}
+            placeholder={ width >= 701 && t("Email") + "*"}
             value={formData.email}
             onChange={handleInputChange}
           />
@@ -95,7 +95,7 @@ const Form = () => {
             type="tel"
             name="telephone"
             id="telephone"
-            placeholder={ width >= 601 && t("Telephone")}
+            placeholder={ width >= 701 && t("Telephone")}
             value={formData.telephone}
             onChange={handleInputChange}
           />
@@ -111,7 +111,7 @@ const Form = () => {
             type="text"
             name="object"
             id="object"
-            placeholder={ width >= 601 && t("Object")}
+            placeholder={ width >= 701 && t("Object")}
           />
         </div>
 
@@ -124,7 +124,7 @@ const Form = () => {
             id="message"
             cols="30"
             rows="10"
-            placeholder={ width >= 601 && t("Message")}
+            placeholder={ width >= 701 && t("Message")}
             value={formData.message}
             onChange={handleInputChange}
           ></textarea>

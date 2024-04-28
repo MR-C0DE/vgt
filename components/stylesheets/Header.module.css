@@ -14,6 +14,8 @@
     font-size: 1.8em; /* Augmentation supplémentaire de la taille de la police */
     margin: 0;
     letter-spacing: 2px; /* Ajout d'un espacement entre les lettres pour une meilleure lisibilité */
+    transition: font-size 1s ease;
+    font-weight: 300;
   }
   
   .Header nav {

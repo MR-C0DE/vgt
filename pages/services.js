@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Head from "next/head";
 
 import { LanguageProvider } from "@/components/contexts/LanguageContext";
+import UsefulLinks from "@/components/UsefulLinks";
 export default function Services() {
   return (
     <LanguageProvider>
@@ -13,7 +14,9 @@ export default function Services() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main></main>
+      <main>
+        <UsefulLinks />
+      </main>
       <Footer />
     </LanguageProvider>
   );
