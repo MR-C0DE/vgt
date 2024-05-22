@@ -77,7 +77,7 @@ const UsefulLinks = () => {
               alt="VGR"
               className={styles.LinkImage}
             />
-            <p className={styles.LinkText}>Lettre Bro Josepth</p>
+            <p className={styles.LinkText}>Lettres Bro Joseph</p>
           </Link>
         </li>
         {/* Ajoutez plus de liens ici */}
