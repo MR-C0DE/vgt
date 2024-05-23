@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/components/contexts/LanguageContext";
 import UsefulLinks from "@/components/UsefulLinks";
 import Banner from "@/components/home/Banner";
 import Blockquote from "@/components/home/Blockquote";
+import Schedule from "@/components/home/Schedule";
 export default function Home() {
   return (
     <LanguageProvider>
@@ -18,6 +19,7 @@ export default function Home() {
       <main>
         <Banner />
         <Blockquote />
+        <Schedule />
         <UsefulLinks />
       </main>
       <Footer />

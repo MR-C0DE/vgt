@@ -11,7 +11,7 @@ const Information = () => {
   const defaultEmail = "info@example.com";
 
   return (
-    <div className={styles.Information}>
+    <div id="info" className={styles.Information}>
       <div>
         <div className={styles.svg_content}>
           <img width={50} src="/location.svg" alt="Location Icon" />
