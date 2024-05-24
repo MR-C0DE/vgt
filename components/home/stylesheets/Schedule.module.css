@@ -70,7 +70,7 @@
 
 @media (max-width: 767px) {
     .Schedule {
-        height: 80vh;
+        height: 65vh;
     }
 
     .content {
@@ -78,7 +78,7 @@
     }
 
     .title {
-        font-size: 2em;
+        font-size: 1.7em;
     }
 
     .detail {
