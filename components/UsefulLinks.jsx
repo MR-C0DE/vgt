@@ -1,15 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./stylesheets/UsefulLinks.module.css";
+import { useLanguage } from "./contexts/LanguageContext";
 
 const UsefulLinks = () => {
-
+  const {language} = useLanguage();
+console.log(language);
 
   return (
     <div className={styles.UsefulLinks}>
       <ul className={styles.LinkList}>
         <li className={styles.LinkItem}>
-          <Link className={styles.Link} target="_blank" href="https://branhamtabernacle.org/en/home">
+          <Link className={styles.Link} target="_blank" href={"https://branhamtabernacle.org/"+language+"/home"}>
             <img
               src="/logos/BT.png"
               alt="Branham Tabernacle"

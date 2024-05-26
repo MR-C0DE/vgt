@@ -6,6 +6,7 @@ import UsefulLinks from "@/components/UsefulLinks";
 import Banner from "@/components/home/Banner";
 import Blockquote from "@/components/home/Blockquote";
 import Schedule from "@/components/home/Schedule";
+import Annonce from "@/components/home/Annonce";
 export default function Home() {
   return (
     <LanguageProvider>
@@ -20,7 +21,9 @@ export default function Home() {
         <Banner />
         <Blockquote />
         <Schedule />
+        <Annonce />
         <UsefulLinks />
+
       </main>
       <Footer />
     </LanguageProvider>

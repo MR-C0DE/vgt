@@ -1,10 +1,13 @@
 .dds__blockquote {
-  padding:  1rem;
+  padding: 1rem;
   background-color: #f3f3f3;
-  border-left: 7px solid #ffc107;
- text-align: center;
+  text-align: center;
   color: #6e6e6e;
-  margin: 1rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: .1rem;
+  border-left: 7px solid #6e6e6e;
 }
 
 .dds__blockquote p {
