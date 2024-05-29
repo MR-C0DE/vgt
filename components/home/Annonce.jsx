@@ -6,7 +6,7 @@ const Annonce = () => {
   const { t } = useTranslation();
   const annonces = [
     {
-      expéditeur: "Fr Andre",
+      expéditeur: "Fr Andre Mulaja",
       message: "Ceci est un message important de l'église. Nous tenons à rappeler à tous nos membres que la messe de dimanche prochain sera suivie d'une réunion communautaire pour discuter des projets à venir. Votre présence est vivement encouragée.",
       date: "2024-05-23"
     },
@@ -17,7 +17,7 @@ const Annonce = () => {
     }
   ];
 
-  annonces.length = 0;
+  annonces.length =0;
   const MAX_LENGTH = 200;
 
   return (

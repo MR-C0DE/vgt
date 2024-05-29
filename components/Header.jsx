@@ -12,9 +12,9 @@ const Header = () => {
   const { width } = useScreenSize();
   return (
     <div className={styles.Header}>
-      <h1>
-        Voice of God <br /> Tabernacle
-      </h1>
+      <Link className={styles.title}  href={"/"}>
+        <h1 >Voice of God <br /> Tabernacle</h1>
+      </Link>
       {width > 900 && (
         <>
         <nav>

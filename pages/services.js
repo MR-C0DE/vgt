@@ -1,9 +1,11 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "next/head";
-
 import { LanguageProvider } from "@/components/contexts/LanguageContext";
 import UsefulLinks from "@/components/UsefulLinks";
+import Banner from "@/components/services/Banner";
+import Program from "@/components/services/Program";
+
 export default function Services() {
   return (
     <LanguageProvider>
@@ -15,6 +17,8 @@ export default function Services() {
       </Head>
       <Header />
       <main>
+        <Banner />
+        <Program />
         <UsefulLinks />
       </main>
       <Footer />

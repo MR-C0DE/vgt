@@ -9,6 +9,12 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Légère augmentation de l'ombre pour plus de profondeur */
   }
   
+   .title {
+
+    color:azure;
+    text-decoration: none;
+  }
+
   .Header h1 {
     text-transform: uppercase;
     font-size: 1.8em; /* Augmentation supplémentaire de la taille de la police */
@@ -16,7 +22,10 @@
     letter-spacing: 2px; /* Ajout d'un espacement entre les lettres pour une meilleure lisibilité */
     transition: font-size 1s ease;
     font-weight: 300;
+
   }
+
+
   
   .Header nav {
     display: flex;
