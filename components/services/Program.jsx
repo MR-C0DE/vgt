@@ -9,12 +9,12 @@ const Program = () => {
         <div className={styles.info}>
           <h3 className={styles.title}>Réunion d'adoration</h3>
           <h4 className={styles.time}>DIMANCHE - 11:00</h4>
-          <p className={styles.description}>La réunion d'adoration est un moment spécial où nous nous rassemblons pour louer et adorer Dieu. Venez vous joindre à nous alors que nous chantons des chants de louange et élevons nos cœurs et nos voix vers le Seigneur.</p>
+          <p className={styles.description}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam incidunt magni distinctio error beatae non, repellat cumque explicabo earum et aperiam atque esse. Quos doloribus eligendi repellendus necessitatibus nihil tempore!</p>
         </div>
         <div className={styles.info}>
           <h3 className={styles.title}>Réunion de prière</h3>
           <h4 className={styles.time}>MERCREDI - 17:00</h4>
-          <p className={styles.description}>La réunion de prière est un temps où nous nous rassemblons pour prier ensemble. C'est une occasion pour nous de partager nos fardeaux, nos joies et nos préoccupations avec Dieu et les uns avec les autres. Rejoignez-nous alors que nous cherchons la présence et la direction de Dieu dans nos vies et dans notre communauté.</p>
+          <p className={styles.description}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad temporibus molestias et nam, magnam amet accusamus aspernatur! Minus quisquam a tempora saepe explicabo? Saepe, ratione consectetur quibusdam asperiores eligendi inventore!</p>
         </div>
       </div>
    
