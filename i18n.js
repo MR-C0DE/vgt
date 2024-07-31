@@ -11,18 +11,22 @@ import enContact from "/public/locales/en/contact.json";
 import frContact from "/public/locales/fr/contact.json";
 import enHome from "/public/locales/en/home.json";
 import frHome from "/public/locales/fr/home.json";
+import enService from "/public/locales/en/services.json";
+import frService from "/public/locales/fr/services.json";
 
 const english = {
   ...enTranslation,
   ...enMenu,
   ...enContact,
-  ...enHome
+  ...enHome,
+  ...enService
 };
 const francais = {
   ...frTranslation,
   ...frMenu,
   ...frContact,
-  ...frHome
+  ...frHome,
+  ...frService
 };
 
 

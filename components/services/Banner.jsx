@@ -7,7 +7,7 @@ const Banner = () => {
   return (
     <div className={styles.Banner}>
         <div>
-        <h2>{"Nos réunions de services"}</h2>
+        <h2>{t("service_meetings")}</h2>
             
         </div>
 

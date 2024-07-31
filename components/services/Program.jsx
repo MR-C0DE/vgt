@@ -1,18 +1,19 @@
 import React from 'react';
 import styles from "./stylesheets/Program.module.css";
-
+import { useTranslation } from "next-i18next";
 const Program = () => {
+  const {t}  = useTranslation();
   return (
     <div className={styles.container}>
       <div className={styles.info}>
-        <h3 className={styles.title}>Culte du dimanche</h3>
-        <h4 className={styles.time}>DIMANCHE - 11:00</h4>
-        <p className={styles.description}>Joignez-vous à nous pour un moment de louange et d'adoration le dimanche à 11h.</p>
+        <h3 className={styles.title}>{t('sunday_worship')}</h3>
+        <h4 className={styles.time}>{t('sunday_time')}</h4>
+        <p className={styles.description}>{t('sunday_description')}</p>
       </div>
       <div className={styles.info}>
-        <h3 className={styles.title}>Réunion de prière</h3>
-        <h4 className={styles.time}>MERCREDI - 17:00</h4>
-        <p className={styles.description}>Rejoignez-nous pour un temps de prière et de partage le mercredi à 17h.</p>
+        <h3 className={styles.title}>{t('prayer_meeting')}</h3>
+        <h4 className={styles.time}>{t('wednesday_time')}</h4>
+        <p className={styles.description}>{t('wednesday_description')}</p>
       </div>
     </div>
   );

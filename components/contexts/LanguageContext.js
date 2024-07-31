@@ -3,18 +3,22 @@ import Cookies from 'js-cookie';
 import { useTranslation } from 'next-i18next';
 
 const LanguageContext = createContext();
+const detectSubstring = (substring, mainString) => mainString.includes(substring) ? substring : "";
 
 export const LanguageProvider = ({ children }) => {
   const { i18n } = useTranslation();
   const [language, setLanguage] = useState(() => {
     const langFromCookie = Cookies.get('lang');
     const userLanguage = typeof window !== 'undefined' ? window.navigator.language || window.navigator.userLanguage : 'en';
-    return langFromCookie || userLanguage;
+    const detectedLang = detectSubstring("en", userLanguage) || detectSubstring("fr", userLanguage) || 'en';
+
+
+    return langFromCookie || detectedLang;
   });
 
   useEffect(() => {
     i18n.changeLanguage(language);
-    Cookies.set('lang', language, { expires: 365 });
+    Cookies.set('lang', language, { expires: 365, sameSite: 'None', secure: true });
   }, [language, i18n]);
 
   return (

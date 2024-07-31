@@ -7,8 +7,8 @@ const Information = () => {
 
   // Informations par défaut
   const defaultAddress = "2285 Boulevard Saint-Laurent, unit-D10";
-  const defaultPhone = "+1 (555) 123-4567";
-  const defaultEmail = "info@example.com";
+  const defaultPhone = "+1 (613) 322-9508";
+  const defaultEmail = "- - - -";
 
   return (
     <div id="info" className={styles.Information}>
