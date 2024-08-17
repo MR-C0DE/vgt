@@ -28,7 +28,7 @@ flex-basis: calc(25% - 10px);
   text-transform: uppercase;
   overflow: hidden;
   border: 5px solid rgb(92, 92, 92);
-  transition: transform 1s ease, border-color 1s ease, box-shadow 1s ease;
+  transition: transform 1s ease, border-color 1s ease, box-shadow 1s ease, border-radius .5s ease;
 }
 
 .LinkItem:hover {

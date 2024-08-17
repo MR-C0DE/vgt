@@ -1,0 +1,44 @@
+.dds__blockquote {
+  padding: 2rem;
+  background-color: #fafafa;
+  text-align: left;
+  color: #505050;
+  margin: 4rem auto;
+  width: 100%;
+  max-width: 60rem;
+  border-left: 8px solid #8a6d3b;
+  border-radius: .3rem;
+  box-sizing: border-box;
+}
+
+.dds__blockquote p {
+  font-size: 1.2em;
+  color: #2c2c2c;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .dds__blockquote {
+    padding: 1.5rem;
+    margin: 2rem 1rem;
+  }
+
+  .dds__blockquote p {
+    font-size: 1.1em;
+  }
+}
+
+/* Media query for very small screens */
+@media (max-width: 480px) {
+  .dds__blockquote {
+    padding: 1rem;
+    margin: 2rem 0.5rem;
+  }
+
+  .dds__blockquote p {
+    font-size: 1em;
+  }
+}

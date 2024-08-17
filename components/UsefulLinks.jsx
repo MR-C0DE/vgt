@@ -2,8 +2,10 @@ import React from "react";
 import Link from "next/link";
 import styles from "./stylesheets/UsefulLinks.module.css";
 import { useLanguage } from "./contexts/LanguageContext";
+import { useTranslation } from "next-i18next";
 
 const UsefulLinks = () => {
+  const {t}= useTranslation();
   const {language} = useLanguage();
 console.log(language);
 
@@ -79,7 +81,7 @@ console.log(language);
               alt="VGR"
               className={styles.LinkImage}
             />
-            <p className={styles.LinkText}>Lettres Bro Joseph</p>
+            <p className={styles.LinkText}>{t('letter_archive')}</p>
           </Link>
         </li>
         {/* Ajoutez plus de liens ici */}
