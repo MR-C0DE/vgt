@@ -4,18 +4,18 @@ import styles from "./stylesheets/Album.module.css";
 
 const photos = [
   {
-    src: "https://images.unsplash.com/photo-1594000033503-51ac2b9adf7b?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    src: "./images/ajust/0.jpg",
     alt: "Photo 1",
   },
   {
-    src: "https://images.unsplash.com/photo-1593883909666-1af75c2b68f7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    src: "./images/ajust/1.jpg",
     alt: "Photo 2",
   },
-  { src: "https://picsum.photos/id/239/300/200", alt: "Photo 3" },
-  { src: "https://picsum.photos/id/240/300/200", alt: "Photo 4" },
-  { src: "https://picsum.photos/id/241/300/200", alt: "Photo 5" },
+  { src: "./images/ajust/7.jpg", alt: "Photo 3" },
+  { src: "./images/ajust/10.jpg", alt: "Photo 4" },
+  { src: "./images/ajust/6.jpg", alt: "Photo 5" },
   {
-    src: "https://plus.unsplash.com/premium_photo-1664006989021-4628d0604c36?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    src: "./images/ajust/4.jpg",
     alt: "Photo 6",
   },
   
@@ -47,7 +47,7 @@ const Album = ({ series, setSeries, setIsOpenSeries }) => {
         {photos.map((photo, index) => (
           <div className={styles.photo} key={index}>
             <img
-              src={"images/placeholder.png"}
+              src={photo.src}
               alt={photo.alt}
               onClick={() => openModal(index)}
             />

@@ -6,7 +6,7 @@ const Story = () => {
     <div className={styles.historyContainer}>
       {/* Image Section */}
       <div className={styles.historyImage}>
-        <img src="./images/placeholder.png" alt="Church in the basement" />
+        <img src="./images/ajust/13.jpg" alt="Church in the basement" />
       </div>
 
       {/* Text Section */}

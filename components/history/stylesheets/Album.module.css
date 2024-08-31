@@ -1,11 +1,13 @@
 .container {
   max-width: 60rem;
   margin: 1rem auto;
+  padding: 0 1rem; /* Ajoute du padding pour éviter que le contenu touche les bords de l'écran sur des petits écrans */
 }
 
 .container p {
   margin-bottom: 2rem;
 }
+
 .album {
   display: grid;
   grid-gap: 10px;
@@ -13,7 +15,8 @@
   grid-auto-rows: 200px;
   grid-auto-flow: dense;
   margin: 0 auto;
-  width: 60rem;
+  width: 100%; /* Passe à 100% pour la réactivité */
+  max-width: 60rem; /* Conserve la largeur maximale pour les grands écrans */
 }
 
 .photo {
@@ -36,4 +39,17 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Media Queries pour la réactivité */
+@media (max-width: 768px) {
+  .album {
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes pour les tablettes et les petits écrans */
+  }
+}
+
+@media (max-width: 480px) {
+  .album {
+    grid-template-columns: 1fr; /* 1 colonne pour les téléphones */
+  }
 }

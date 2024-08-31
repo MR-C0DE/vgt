@@ -11,7 +11,6 @@
   overflow: hidden;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   position: relative;
   transition: height 5s ease, font-size 5s ease, max-width 5s ease; /* Ajout des transitions sur la hauteur, la taille de la police et la largeur maximale */
 }
