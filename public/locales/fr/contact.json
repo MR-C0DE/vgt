@@ -15,6 +15,12 @@
     "addressDetail": "Adresse de l'emplacement",
     "phoneDetail": "Numéro de téléphone de contact",
     "emailDetail": "Adresse e-mail de contact",
-    "defaultAddress": "2285 Boulevard Saint-Laurent, unité D10"
+    "defaultAddress": "2285 Boulevard Saint-Laurent, unité D10",
+    "errorFirstnameRequired": "Le prénom est requis.",
+    "errorLastnameRequired": "Le nom est requis.",
+    "errorEmailRequired": "L'adresse e-mail est requise.",
+    "errorEmailInvalid": "L'adresse e-mail n'est pas valide.",
+    "errorObjectRequired": "L'objet est requis.",
+    "errorMessageRequired": "Le message est requis."
 }
 

@@ -7,7 +7,6 @@ import { useTranslation } from "next-i18next";
 const UsefulLinks = () => {
   const {t}= useTranslation();
   const {language} = useLanguage();
-console.log(language);
 
   return (
     <div className={styles.UsefulLinks}>

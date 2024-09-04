@@ -36,7 +36,6 @@ const Album = ({ series, setSeries, setIsOpenSeries }) => {
   };
 
   useEffect(() => {
-    console.log(series);
   }, []);
 
   return (

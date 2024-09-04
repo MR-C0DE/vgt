@@ -18,7 +18,7 @@ const Languages = () => {
   };
 
   useEffect(() => {
-    console.log(t("welcome"), language);
+    //console.log(t("welcome"), language);
   }, [language, t]);
 
   return (
