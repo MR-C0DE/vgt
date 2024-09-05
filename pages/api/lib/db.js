@@ -2,10 +2,10 @@ import mysql from 'mysql2/promise'; // Assurez-vous d'importer mysql2 avec prome
 
 // Créez le pool de connexions
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: 'vgt.cf0wq2me40rb.ca-central-1.rds.amazonaws.com',
+  user: 'admin',
+  password: 'voiceofgod',
+  database: 'vgt',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
