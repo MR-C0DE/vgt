@@ -21,6 +21,8 @@
     "errorEmailRequired": "Email address is required.",
     "errorEmailInvalid": "Email address is not valid.",
     "errorObjectRequired": "Subject is required.",
-    "errorMessageRequired": "Message is required."
+    "errorMessageRequired": "Message is required.",
+    "formError": "An error occurred while submitting the form. Please try again.",
+    "formSuccess": "Form submitted successfully!"
     
 }

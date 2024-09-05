@@ -51,7 +51,7 @@ const Form = () => {
     } else {
       try {
         const response = await axios.post("/api/message", formData);
-        setSuccessMessage(t("Form submitted successfully!"));
+        setSuccessMessage(t("formSuccess"));
         setErrors({});
         setFormData({
           firstname: "",
@@ -65,7 +65,7 @@ const Form = () => {
         console.log(response);
       } catch (error) {
         console.error("Error submitting the form:", error);
-        setErrors({ submit: t("An error occurred while submitting the form. Please try again.") });
+        setErrors({ submit: t("formError") });
       }
     }
   };
