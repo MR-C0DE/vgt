@@ -4,7 +4,7 @@ import styles from "./stylesheets/MessageList.module.css";
 
 const MessageList = () => {
   const [messages, setMessages] = useState([]);
-  const [selectedMessage, setSelectedMessage] = useState(null); // Nouveau : message sélectionné
+  const [selectedMessage, setSelectedMessage] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 

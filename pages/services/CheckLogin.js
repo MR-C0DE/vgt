@@ -10,7 +10,7 @@ const CheckLogin = ({ children }) => {
   
       // Si pas de token, rediriger vers la page de login
       if (!token) {
-        router.push('/admin/login'); // Rediriger vers la page de login
+        router.push('/login'); // Rediriger vers la page de login
       } 
     }, [router]);
 
