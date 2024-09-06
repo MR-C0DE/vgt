@@ -3,9 +3,9 @@ import { db } from '../lib/db';
 class Messages {
   static selectMessages() {
     return new Promise((resolve, reject) => {
-      db.query("SELECT * FROM messages")
+      db.query("SELECT * FROM messages ORDER BY id DESC ")
         .then(([results]) => {
-          console.log("Query results:", results);
+          // console.log("Query results:", results);
           resolve(results);
         })
         .catch((error) => {

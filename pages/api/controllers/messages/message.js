@@ -10,6 +10,8 @@ export default async function handler(req, res) {
       return await handleGet(req, res);
     case 'DELETE':
       return await handleDelete(req, res);
+    case 'PUT':
+      return await handlePut(req, res);
     default:
       return res.status(405).json({ message: 'Method Not Allowed' });
   }
@@ -84,6 +86,25 @@ async function handleDelete(req, res) {
     }
 
     return res.status(200).json({ message: 'Message deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
+
+// PUT: Mettre à jour un message par ID
+async function handlePut(req, res) {
+  try {
+    
+    const { id } = req.query;
+    const { firstname, lastname, email, telephone, objet, message , date, state} = req.body;
+    const updatedMessage = await Messages.updateMessage(id, firstname, lastname, email, telephone, objet, message, date, state);
+    
+    if (updatedMessage.affectedRows === 0) {
+      return res.status(404).json({ message: 'Message not found' });
+    }
+
+    return res.status(200).json({ message: 'Message updated successfully', data: updatedMessage });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal Server Error' });
