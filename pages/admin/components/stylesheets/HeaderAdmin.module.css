@@ -1,0 +1,49 @@
+.container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.title {
+    font-size: 24px;
+    color: #343a40;
+    margin-bottom: 10px;
+}
+
+.nav {
+    margin-top: 10px;
+}
+
+.navList {
+    list-style: none;
+    padding: 0;
+}
+
+.navItem {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navLink {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.navLink:hover {
+    color: #0056b3;
+}
+
+.logoutButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logoutButton:hover {
+    background-color: #c82333;
+}
