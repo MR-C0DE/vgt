@@ -1,7 +1,7 @@
-import { HeaderAdmin } from "./components/HeaderAdmin";
-import MessageList from "./components/MessageList";
-import CheckLogin from "./services/CheckLogin";
+import { HeaderAdmin } from "@/components/HeaderAdmin";
+import MessageList from "@/components/MessageList";
 import Head from "next/head";
+import CheckLogin from "@/components/CheckLogin";
 
 export default function Messages() {
   return (

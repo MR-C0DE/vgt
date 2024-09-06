@@ -7,7 +7,7 @@ const HeaderAdmin  = () => {
     const router = useRouter();
     const logout = () => {
         localStorage.removeItem("token");
-        router.push("/login");
+        router.push("/admin/login");
     }
 
     return (
@@ -20,7 +20,7 @@ const HeaderAdmin  = () => {
                         <Link href="/admin" className={styles.navLink}>Dashboard</Link>
                     </li>
                     <li className={styles.navItem}>
-                        <Link href="/messages" className={styles.navLink}>Messages</Link>
+                        <Link href="/admin/messages" className={styles.navLink}>Messages</Link>
                     </li>
                     <li className={styles.navItem}>
                         <button onClick={logout} className={styles.logoutButton}>Logout</button>
