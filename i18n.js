@@ -16,13 +16,26 @@ import frService from "/public/locales/fr/services.json";
 import enHistory from "/public/locales/en/history.json";
 import frHistory from "/public/locales/fr/history.json";
 
+import frHeadHome from '/public/locales/fr/header/FRHome.json'
+import enHeadHome from '/public/locales/en/header/ENHome.json'
+import frHeadContact from '/public/locales/fr/header/FRContact.json'
+import enHeadContact from '/public/locales/en/header/ENContact.json'
+import frHeadServices from '/public/locales/fr/header/FRServices.json'
+import enHeadServices from '/public/locales/en/header/ENServices.json'
+import frHeadHistory from '/public/locales/fr/header/FRHistory.json'
+import enHeadHistory from '/public/locales/en/header/ENHistory.json'
+
 const english = {
   ...enTranslation,
   ...enMenu,
   ...enContact,
   ...enHome,
   ...enService,
-  ...enHistory
+  ...enHistory,
+  ...enHeadHome,
+  ...enHeadContact,
+  ...enHeadServices,
+  ...enHeadHistory
 };
 const francais = {
   ...frTranslation,
@@ -30,7 +43,11 @@ const francais = {
   ...frContact,
   ...frHome,
   ...frService,
-  ...frHistory
+  ...frHistory,
+  ...frHeadHome,
+  ...frHeadContact,
+  ...frHeadServices,
+  ...frHeadHistory,
 };
 
 

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://voiceofgodtabernacle.com
+
+# Sitemaps
+Sitemap: https://voiceofgodtabernacle.com/sitemap.xml
