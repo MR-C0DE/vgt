@@ -1,13 +1,32 @@
-.Footer {
-    background-color: #fff;
-    border-top:1px solid #333;
-    color: rgb(86, 86, 86);
-    padding: 1.5rem 0;
-    text-align: center;
-    margin-top: 0rem;
-    font-size: 0.9rem;
-   
+/* Footer style */
+.footer {
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  /* Bordure plus subtile */
+  color: rgb(86, 86, 86);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
 
-    /*box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);*/
+/* Amélioration du lien */
+.footer a {
+  color: #3498db;
+  /* Couleur de lien attrayante */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  /* Couleur au survol */
+  text-decoration: underline;
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+  .footer {
+    padding: 1rem;
+    font-size: 0.9rem;
   }
-  
+}
