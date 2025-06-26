@@ -1,8 +1,8 @@
 .Banner {
   /* superposition sombre + image en fond */
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)),
-    url("/images/v4.jpg");
+    linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),
+    url("/images/v1.jpg");
   color: #fff;
   padding: 4rem 2rem;
   height: 50vh;
@@ -13,7 +13,7 @@
   position: relative;
   overflow: hidden;
   background-size: cover;
-  background-position: center;
+  background-position:top;
   transition: height 5s ease, font-size 5s ease, max-width 5s ease;
 }
 
