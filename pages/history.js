@@ -54,7 +54,6 @@ export default function History() {
         <Story />
         <Album />
         <UsefulLinks />
-
       </main>
       <Footer />
     </>

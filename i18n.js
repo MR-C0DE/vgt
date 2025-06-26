@@ -17,6 +17,8 @@ import enHistory from "/public/locales/en/history.json";
 import frHistory from "/public/locales/fr/history.json";
 import enPrivacy from "/public/locales/en/privacy.json";
 import frPrivacy from "/public/locales/fr/privacy.json";
+import enEvent from "/public/locales/en/event.json";
+import frEvent from "/public/locales/fr/event.json";
 
 import frHeadHome from '/public/locales/fr/header/FRHome.json'
 import enHeadHome from '/public/locales/en/header/ENHome.json'
@@ -38,7 +40,8 @@ const english = {
   ...enHeadHome,
   ...enHeadContact,
   ...enHeadServices,
-  ...enHeadHistory
+  ...enHeadHistory,
+  ...enEvent
 };
 const francais = {
   ...frTranslation,
@@ -52,6 +55,7 @@ const francais = {
   ...frHeadContact,
   ...frHeadServices,
   ...frHeadHistory,
+  ...frEvent
 };
 
 

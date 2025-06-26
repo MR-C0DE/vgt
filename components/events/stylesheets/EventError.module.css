@@ -1,0 +1,21 @@
+.errorContainer {
+    padding: 2rem;
+    text-align: center;
+    background-color: #fff3f3;
+    border: 1px solid #ffcccc;
+    border-radius: 12px;
+    margin: 2rem auto;
+    max-width: 600px;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.1);
+}
+
+.errorTitle {
+    color: #cc0000;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.errorText {
+    color: #990000;
+    font-size: 1.2rem;
+}
