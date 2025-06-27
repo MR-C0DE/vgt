@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "next/head";
@@ -5,16 +6,24 @@ import Head from "next/head";
 import { LanguageProvider, useLanguage } from "@/components/contexts/LanguageContext";
 import UsefulLinks from "@/components/UsefulLinks";
 import EventError from "@/components/events/EventError";
-import Blockquote from "@/components/history/Blockquote";
-import Story from "@/components/history/Story";
-import Album from "@/components/history/Album";
-import { useTranslation } from "next-i18next";
 import Banner from "@/components/events/Banner";
+import EventContent from "@/components/events/EventContent";
 
-export default function History() {
+import events from './data/events.json';
+import { useTranslation } from "next-i18next";
 
+export default function Events() {
+    const router = useRouter();
     const { t } = useTranslation();
     const { language } = useLanguage();
+
+    // Récupérer l'id dans les paramètres de l'URL
+    const { id } = router.query;
+
+    // Trouver l'événement correspondant dans le JSON
+    const event = id ? events.find(e => e.id === id) : null;
+
+
 
     return (
         <>
@@ -51,7 +60,15 @@ export default function History() {
             <Header />
             <main>
                 <Banner />
-                <EventError />
+
+                {/* Si id non fourni ou non trouvé */}
+                {!id && <EventError message={t("event_no_id")} />}
+
+                {id && !event && <EventError message={t("event_not_found")} />}
+
+                {/* Si événement trouvé, afficher son contenu */}
+                {event && <EventContent data={event} />}
+
                 <UsefulLinks />
             </main>
             <Footer />

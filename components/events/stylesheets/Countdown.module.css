@@ -1,0 +1,27 @@
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.block {
+    background-color: #f0f0f0;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    min-width: 70px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.label {
+    font-size: 0.9rem;
+    color: #666;
+}
