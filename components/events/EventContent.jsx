@@ -2,11 +2,11 @@ import React from "react";
 import Countdown from "./Countdown";
 import EventDetail from "./EventDetail";
 
-const EventContent = ({ data }) => {
+const EventContent = ({ data, lang }) => {
   return (
     <div>
-      <Countdown targetDate="2025-08-02T09:00:00" />
-      <EventDetail data={data} />
+      <Countdown targetDate={data.datetime} />
+      <EventDetail data={data} lang={lang} />
     </div>
   );
 };

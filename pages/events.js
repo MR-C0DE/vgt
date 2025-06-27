@@ -18,7 +18,7 @@ export default function Events() {
     const { language } = useLanguage();
 
     // Récupérer l'id dans les paramètres de l'URL
-    const { id } = router.query;
+    const { id, lang } = router.query;
 
     // Trouver l'événement correspondant dans le JSON
     const event = id ? events.find(e => e.id === id) : null;
@@ -67,7 +67,7 @@ export default function Events() {
                 {id && !event && <EventError message={t("event_not_found")} />}
 
                 {/* Si événement trouvé, afficher son contenu */}
-                {event && <EventContent data={event} />}
+                {event && <EventContent data={event} lang={lang} />}
 
                 <UsefulLinks />
             </main>

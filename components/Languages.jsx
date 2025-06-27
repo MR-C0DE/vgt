@@ -1,8 +1,7 @@
-
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
-import { useLanguage } from './contexts/LanguageContext';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { useLanguage } from "./contexts/LanguageContext";
 import styles from "./stylesheets/Language.module.css";
 
 const Languages = () => {
@@ -13,7 +12,9 @@ const Languages = () => {
 
   const handleChange = (selectedLanguage) => {
     setLanguage(selectedLanguage);
-    router.push(router.pathname, undefined, { locale: selectedLanguage });
+    router.push({ pathname: router.pathname, query: router.query }, undefined, {
+      locale: selectedLanguage,
+    });
     setMenuOpen(false); // Close the menu after selection
   };
 
@@ -24,13 +25,16 @@ const Languages = () => {
   return (
     <div className={styles.Language}>
       <div className={styles.menu}>
-        <button className={styles.selectedLanguage} onClick={() => setMenuOpen(!menuOpen)}>
-          {language === 'en' ? 'English' : 'Français'}
+        <button
+          className={styles.selectedLanguage}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {language === "en" ? "English" : "Français"}
         </button>
         {menuOpen && (
           <ul className={styles.languageMenu}>
-            <li onClick={() => handleChange('en')}>English</li>
-            <li onClick={() => handleChange('fr')}>Français</li>
+            <li onClick={() => handleChange("en")}>English</li>
+            <li onClick={() => handleChange("fr")}>Français</li>
           </ul>
         )}
       </div>
