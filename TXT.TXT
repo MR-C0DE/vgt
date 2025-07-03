@@ -1,0 +1,37 @@
+Informations sur le Participant
+-------------------------------
+
+- prenom
+- nom 
+- categierie d'age: 
+* Adulte 13 ans 
+* Enfant 6 - 12 ans
+* Bambin 2 - 5 ans 
+* Bébé 0 - 23 mois
+
+- Contribution (facultatif)
+*(ex. : bouteilles d’eau, jus, fruits, desserts…)
+
+-Présence d’allergies ou conditions médicales à prendre en compte ?
+*OUI (Vous pouvez preciser)
+*NON
+*Sera adressé (pour des raisons de confidentialité vous êtes pas obligé de donner des détails)
+[si oui, champs de precision]
+---------------------------
+
+
+
+Informations pour les Conducteurs
+---------------------------------
+
+Êtes-vous conducteur avec un véhicule sécuritaire ?
+*OUI/*NON
+
+Avez-vous de la place pour d’autres passagers ?
+*OUI/*NON
+
+Nombre de places disponibles dans votre véhicule ?
+
+Marque, modèle et année de votre véhicule
+
+Numéro de téléphone (pour coordination)
