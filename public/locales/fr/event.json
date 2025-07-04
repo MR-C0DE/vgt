@@ -29,7 +29,7 @@
   "event.form.legend.medical": "Présence d’allergies ou conditions médicales à prendre en compte ?",
   "event.form.medical.no": "Non",
   "event.form.medical.yes": "Oui (vous pouvez préciser)",
-  "event.form.medical.private": "Sera adressé",
+  "event.form.medical.private": "Oui – Préfère ne pas préciser",
   "event.form.label.medicalDetails": "Veuillez préciser",
   "event.form.placeholder.medicalDetails": "Détaillez les allergies ou conditions médicales",
   "event.form.section.driver": "Informations pour les Conducteurs",

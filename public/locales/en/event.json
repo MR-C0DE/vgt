@@ -29,7 +29,7 @@
   "event.form.legend.medical": "Any allergies or medical conditions to consider?",
   "event.form.medical.no": "No",
   "event.form.medical.yes": "Yes (please specify)",
-  "event.form.medical.private": "Will be addressed",
+  "event.form.medical.private": "Yes – I prefer not to provide details",
   "event.form.label.medicalDetails": "Please specify",
   "event.form.placeholder.medicalDetails": "Describe allergies or medical conditions",
   "event.form.section.driver": "Driver Information",
