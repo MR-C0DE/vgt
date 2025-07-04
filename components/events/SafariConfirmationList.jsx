@@ -52,11 +52,8 @@ const SafariConfirmationList = () => {
                 <th>{t("event.display.name")}</th>
                 <th>{t("event.display.age")}</th>
                 <th>{t("event.display.contribution")}</th>
-                <th>{t("event.display.allergies")}</th>
                 <th>{t("event.display.driver")}</th>
                 <th>{t("event.display.seats")}</th>
-                <th>{t("event.display.vehicle")}</th>
-                <th>{t("event.display.phone")}</th>
               </tr>
             </thead>
             <tbody>
@@ -79,15 +76,7 @@ const SafariConfirmationList = () => {
                     <td data-label={t("event.display.contribution")}>
                       {entry.contribution || "—"}
                     </td>
-                    <td data-label={t("event.display.allergies")}>
-                      {entry.medical_issues === "yes"
-                        ? `${t("event.display.yes")} (${
-                            entry.medical_details || "—"
-                          })`
-                        : entry.medical_issues === "private"
-                        ? t("event.display.private")
-                        : t("event.display.no")}
-                    </td>
+
                     <td data-label={t("event.display.driver")}>
                       {entry.is_driver === "yes"
                         ? t("event.display.yes")
@@ -98,10 +87,6 @@ const SafariConfirmationList = () => {
                         ? entry.capacity || 0
                         : t("event.display.no")}
                     </td>
-                    <td data-label={t("event.display.vehicle")}>
-                      {entry.vehicle || "—"}
-                    </td>
-                    <td data-label={t("event.display.phone")}>{entry.phone}</td>
                   </tr>
                 ))
               )}
