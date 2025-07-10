@@ -62,7 +62,6 @@ const SafariConfirmationList = () => {
 
         if (!response.ok) throw new Error(t("event.display.fetchError"));
         const result = await response.json();
-        alert(JSON.stringify(result));
         setSubmissions(Array.isArray(result.data) ? result.data : []);
         const idFromCookie = Cookies.get("form_submit_id");
         if (idFromCookie) setUserFormId(idFromCookie);

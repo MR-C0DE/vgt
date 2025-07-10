@@ -120,8 +120,6 @@ const SafariConfirmationForm = () => {
           medicalDetails: acc.allergies === "yes" ? acc.medicalDetails : "",
         })),
       };
-      alert(JSON.stringify(data));
-      console.log(data);
 
       try {
         const response = await fetch("/api/safari_confirmation", {
