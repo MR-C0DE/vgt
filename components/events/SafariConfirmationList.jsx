@@ -345,6 +345,12 @@ const SafariConfirmationList = () => {
             <h4 style={{ marginTop: "1.5rem" }}>
               {t("event.display.accompagnants")}
             </h4>
+            <p>
+              un conducteur parmi les accompagnants :{" "}
+              {selectedEntry.accompagnant_is_driver
+                ? t("event.display.yes")
+                : t("event.display.no")}
+            </p>
             {selectedEntry.accompagnants &&
             selectedEntry.accompagnants.length > 0 ? (
               <ul>
