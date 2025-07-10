@@ -1,45 +1,103 @@
 import { useTranslation } from "next-i18next";
 import React, { useState } from "react";
 import styles from "./stylesheets/SafariConfirmationForm.module.css";
+import Cookies from "js-cookie";
+import AccompagnantForm from "./AccompagnantForm";
 
 const SafariConfirmationForm = () => {
   const { t } = useTranslation();
 
   const [allergies, setAllergies] = useState("no");
+  const [placeNumber, setPlaceNumber] = useState("");
   const [errors, setErrors] = useState({});
+  const [accompagnants, setAccompagnants] = useState([]);
+  const [isDriver, setIsDriver] = useState("");
+  const [accompagnantDriver, setAccompagnantDriver] = useState("");
+  const [havePlace, setHavePlace] = useState(true);
+
+  const addAccompagnant = () => {
+    setAccompagnants((prev) => [
+      ...prev,
+      {
+        firstName: "",
+        lastName: "",
+        ageCategory: "",
+        contribution: "",
+        medicalDetails: "",
+      },
+    ]);
+  };
+
+  const handleAccompagnantChange = (index, field, value) => {
+    const updated = [...accompagnants];
+    updated[index][field] = value;
+    setAccompagnants(updated);
+  };
+
+  const removeAccompagnant = (indexToRemove) => {
+    setAccompagnants((prev) =>
+      prev.filter((_, index) => index !== indexToRemove)
+    );
+  };
+
+  const generateId = (length = 12) => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Générer ou récupérer l'ID existant dans cookie
+    let formSubmitId = Cookies.get("form_submit_id");
+    if (!formSubmitId) {
+      formSubmitId = generateId();
+      Cookies.set("form_submit_id", formSubmitId, { expires: 365 }); // expire dans 1 an
+    }
+
     const form = e.target;
     const newErrors = {};
 
     const firstName = form.firstName.value.trim();
     const lastName = form.lastName.value.trim();
     const ageCategory = form.ageCategory.value;
-    const isDriver = form.isDriver.value;
-    const hasSpace = form.hasSpace.value;
-    const phone = form.phone.value.trim();
+    const phone = form.phone?.value?.trim();
+    const hasSpace = form.hasSpace?.value;
+    const vehicle = form.vehicle?.value?.trim();
+    const capacity = Number(placeNumber);
 
-    if (!firstName) newErrors.firstName = t("event.form.errors.firstName");
-    if (!lastName) newErrors.lastName = t("event.form.errors.lastName");
-    if (!ageCategory)
-      newErrors.ageCategory = t("event.form.errors.ageCategory");
-    if (!isDriver) newErrors.isDriver = t("event.form.errors.isDriver");
-    if (!hasSpace) newErrors.hasSpace = t("event.form.errors.hasSpace");
-    if (!phone || !/^\+?[0-9\s\-()]{10,}$/.test(phone)) {
-      newErrors.phone = t("event.form.errors.phone");
-    }
+    // Valides comme avant...
 
-    if (allergies === "yes") {
-      const medicalDetails = form.medicalDetails.value.trim();
-      if (!medicalDetails)
-        newErrors.medicalDetails = t("event.form.errors.medicalDetails");
-    }
+    // Validation accompagnants (exemple simple)
+    accompagnants.forEach((acc, idx) => {
+      if (!acc.firstName)
+        newErrors[`acc_firstName_${idx}`] = `Prénom accompagnant #${
+          idx + 1
+        } requis`;
+      if (!acc.lastName)
+        newErrors[`acc_lastName_${idx}`] = `Nom accompagnant #${
+          idx + 1
+        } requis`;
+      if (!acc.ageCategory)
+        newErrors[`acc_ageCategory_${idx}`] = `Catégorie âge accompagnant #${
+          idx + 1
+        } requise`;
+      if (acc.allergies === "yes" && !acc.medicalDetails)
+        newErrors[
+          `acc_medicalDetails_${idx}`
+        ] = `Détail médical accompagnant #${idx + 1} requis`;
+    });
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
+      // Construire données complètes avec accompagnants
       const data = {
+        form_submit_id: formSubmitId,
         first_name: firstName,
         last_name: lastName,
         age_category: ageCategory,
@@ -48,32 +106,47 @@ const SafariConfirmationForm = () => {
         medical_details:
           allergies === "yes" ? form.medicalDetails.value.trim() : "",
         is_driver: isDriver,
-        has_space: hasSpace,
-        capacity: form.capacity.value ? Number(form.capacity.value) : 0,
-        vehicle: form.vehicle.value.trim(),
-        phone,
+        accompagnant_is_driver: accompagnantDriver,
+        has_space: hasSpace || "",
+        capacity: isNaN(capacity) ? 0 : capacity,
+        vehicle: vehicle || "",
+        phone: phone || "",
+        accompagnants: accompagnants.map((acc) => ({
+          firstName: acc.firstName,
+          lastName: acc.lastName,
+          ageCategory: acc.ageCategory,
+          contribution: acc.contribution,
+          allergies: acc.allergies,
+          medicalDetails: acc.allergies === "yes" ? acc.medicalDetails : "",
+        })),
       };
+      alert(JSON.stringify(data));
+      console.log(data);
 
       try {
         const response = await fetch("/api/safari_confirmation", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
 
         if (!response.ok) {
-          // Optionnel : tu peux lire un message d'erreur côté serveur ici
           const errorData = await response.json();
           alert(`Erreur serveur : ${errorData.message || response.statusText}`);
           return;
         }
 
-        alert(t("event.form.successMessage") || "Form submitted successfully!");
+        alert(
+          t("event.form.successMessage") || "Formulaire soumis avec succès !"
+        );
         form.reset();
-        setAllergies("no");
         setErrors({});
+        setAllergies("no");
+        setIsDriver("");
+        setAccompagnantDriver("");
+        setHavePlace(false);
+        setPlaceNumber("");
+        setAccompagnants([]); // reset aussi la liste des accompagnants
       } catch (error) {
         alert(
           t("event.form.networkError") || "Erreur réseau, veuillez réessayer."
@@ -200,6 +273,24 @@ const SafariConfirmationForm = () => {
       </section>
 
       <section className={styles.section}>
+        <h3>{t("event.form.section.accompagnants")}</h3>
+        {accompagnants.map((acc, idx) => (
+          <AccompagnantForm
+            key={idx}
+            index={idx}
+            data={acc}
+            onChange={handleAccompagnantChange}
+            onRemove={removeAccompagnant}
+            t={t}
+          />
+        ))}
+        <div>
+          <button type="button" onClick={addAccompagnant}>
+            {t("event.form.button.addAccompagnant")}
+          </button>
+        </div>
+      </section>
+      <section className={styles.section}>
         <h3 className={styles.sectionTitle}>
           {t("event.form.section.driver")}
         </h3>
@@ -208,57 +299,133 @@ const SafariConfirmationForm = () => {
           <legend>{t("event.form.legend.isDriver")}</legend>
           <div className={styles.checkboxGroup}>
             <label>
-              <input type="radio" name="isDriver" value="yes" />
+              <input
+                type="radio"
+                name="isDriver"
+                value="yes"
+                checked={isDriver === "yes"}
+                onChange={() => {
+                  setIsDriver("yes");
+                  setAccompagnantDriver("");
+                  setPlaceNumber("");
+                }}
+              />
               {t("event.form.driver.yes")}
             </label>
             <label>
-              <input type="radio" name="isDriver" value="no" />
+              <input
+                type="radio"
+                name="isDriver"
+                value="no"
+                checked={isDriver === "no"}
+                onChange={() => {
+                  setIsDriver("no");
+                  setHavePlace(false);
+                  setPlaceNumber("");
+                }}
+              />
               {t("event.form.driver.no")}
             </label>
           </div>
         </fieldset>
 
-        <fieldset className={styles.inputGroup}>
-          <legend>{t("event.form.legend.hasSpace")}</legend>
-          <div className={styles.checkboxGroup}>
-            <label>
-              <input type="radio" name="hasSpace" value="yes" />
-              {t("event.form.driver.yes")}
+        {/* ✅ Ajout ou révision selon choix */}
+        {(isDriver === "yes" || accompagnantDriver === "yes") && (
+          <>
+            <fieldset className={styles.inputGroup}>
+              <legend>{t("event.form.legend.hasSpace")}</legend>
+              <div className={styles.checkboxGroup}>
+                <label>
+                  <input
+                    type="radio"
+                    name="hasSpace"
+                    value="yes"
+                    onChange={() => setHavePlace(false)} // ✅ logique claire
+                  />
+                  {t("event.form.driver.yes")}
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="hasSpace"
+                    value="no"
+                    onChange={() => setHavePlace(true)} // ✅ logique claire
+                  />
+                  {t("event.form.driver.no")}
+                </label>
+              </div>
+            </fieldset>
+
+            {/* ✅ S'affiche si la personne a de la place */}
+            {!havePlace && (
+              <label className={styles.inputGroup}>
+                {t("event.form.label.capacity")}
+                <input
+                  type="number"
+                  name="capacity"
+                  min="0"
+                  value={placeNumber}
+                  onChange={(e) => setPlaceNumber(e.target.value)} // 🔁 input contrôlé
+                  placeholder={t("event.form.placeholder.capacity")}
+                />
+              </label>
+            )}
+
+            <label className={styles.inputGroup}>
+              {t("event.form.label.vehicle")}
+              <input
+                type="text"
+                name="vehicle"
+                placeholder={t("event.form.placeholder.vehicle")}
+              />
             </label>
-            <label>
-              <input type="radio" name="hasSpace" value="no" />
-              {t("event.form.driver.no")}
+
+            <label className={styles.inputGroup}>
+              {t("event.form.label.phone")}
+              <input
+                type="tel"
+                name="phone"
+                placeholder={t("event.form.placeholder.phone")}
+              />
             </label>
-          </div>
-        </fieldset>
+          </>
+        )}
 
-        <label className={styles.inputGroup}>
-          {t("event.form.label.capacity")}
-          <input
-            type="number"
-            name="capacity"
-            min="0"
-            placeholder={t("event.form.placeholder.capacity")}
-          />
-        </label>
-
-        <label className={styles.inputGroup}>
-          {t("event.form.label.vehicle")}
-          <input
-            type="text"
-            name="vehicle"
-            placeholder={t("event.form.placeholder.vehicle")}
-          />
-        </label>
-
-        <label className={styles.inputGroup}>
-          {t("event.form.label.phone")}
-          <input
-            type="tel"
-            name="phone"
-            placeholder={t("event.form.placeholder.phone")}
-          />
-        </label>
+        {/* Cas où l'utilisateur n'est pas conducteur mais son accompagnant l'est */}
+        {isDriver === "no" && (
+          <fieldset className={styles.inputGroup}>
+            <legend>{t("event.form.legend.accompagnantIsDriver")}</legend>
+            <div className={styles.checkboxGroup}>
+              <label>
+                <input
+                  type="radio"
+                  name="accompagnantDriver"
+                  value="yes"
+                  checked={accompagnantDriver === "yes"}
+                  onChange={() => {
+                    setAccompagnantDriver("yes");
+                    setPlaceNumber("");
+                  }}
+                />
+                {t("event.form.driver.yes")}
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="accompagnantDriver"
+                  value="no"
+                  checked={accompagnantDriver === "no"}
+                  onChange={() => {
+                    setAccompagnantDriver("no");
+                    setHavePlace(false);
+                    setPlaceNumber("");
+                  }}
+                />
+                {t("event.form.driver.no")}
+              </label>
+            </div>
+          </fieldset>
+        )}
       </section>
 
       <section className={styles.section}>

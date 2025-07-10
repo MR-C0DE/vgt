@@ -181,3 +181,168 @@
         flex-basis: 45%;
     }
 }
+
+/* Ajoute dans SafariConfirmationList.module.css */
+
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.modalContent {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    background: #fff;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 8px 24px rgba(26, 115, 232, 0.25);
+    z-index: 1000;
+    animation: scaleIn 0.3s ease forwards;
+}
+
+.modalCloseBtn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 1.75rem;
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modalCloseBtn:hover {
+    color: #1a73e8;
+}
+
+.modalDetails h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #1a73e8;
+    font-weight: 700;
+}
+
+.modalDetails p {
+    margin: 0.4rem 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.modalActions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.editBtn,
+.deleteBtn,
+.saveBtn,
+.cancelBtn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.editBtn {
+    background-color: #1a73e8;
+    color: white;
+}
+
+.editBtn:hover {
+    background-color: #155ab6;
+}
+
+.deleteBtn {
+    background-color: #e53935;
+    color: white;
+}
+
+.deleteBtn:hover {
+    background-color: #b71c1c;
+}
+
+.saveBtn {
+    background-color: #43a047;
+    color: white;
+}
+
+.saveBtn:hover {
+    background-color: #2e7d32;
+}
+
+.cancelBtn {
+    background-color: #999;
+    color: white;
+}
+
+.cancelBtn:hover {
+    background-color: #666;
+}
+
+.modalForm label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #222;
+}
+
+.modalForm input,
+.modalForm select,
+.modalForm textarea {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    margin-top: 0.3rem;
+    transition: border-color 0.3s ease;
+}
+
+.modalForm input:focus,
+.modalForm select:focus,
+.modalForm textarea:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 6px #1a73e8aa;
+}
+
+.modalForm textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8)
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1)
+    }
+}
