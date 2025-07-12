@@ -1,5 +1,6 @@
 CREATE TABLE participants (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    form_submit_id VARCHAR(12) NOT NULL, -- nouvel identifiant généré côté client
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     age_category ENUM('adult', 'child', 'toddler', 'baby') NOT NULL,

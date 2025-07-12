@@ -159,3 +159,28 @@ fieldset.inputGroup legend {
     margin-bottom: 1rem;
     border-radius: 5px;
 }
+
+.addAccompagnant {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #007bff;
+    /* Bleu classique */
+    border: none;
+    border-radius: 0.375rem;
+    /* bords légèrement arrondis */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.addAccompagnant:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.addAccompagnant:active {
+    background-color: #004080;
+    transform: translateY(0);
+}

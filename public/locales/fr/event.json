@@ -14,6 +14,10 @@
   "event.form.errors.hasSpace": "Veuillez indiquer si vous avez de la place disponible.",
   "event.form.errors.phone": "Numéro de téléphone invalide.",
   "event.form.errors.medicalDetails": "Veuillez préciser les allergies.",
+  "event.form.errors.accompagnant.firstName": "Le prénom de la personne accompagnante #{index} est requis.",
+  "event.form.errors.accompagnant.lastName": "Le nom de la personne accompagnante #{index} est requis.",
+  "event.form.errors.accompagnant.ageCategory": "Veuillez sélectionner une catégorie d’âge pour la personne accompagnante #{index}.",
+  "event.form.errors.accompagnant.medicalDetails": "Veuillez fournir les détails médicaux pour la personne accompagnante #{index}.",
   "event.form.section.participant": "Informations sur le participant",
   "event.form.label.firstName": "Prénom",
   "event.form.placeholder.firstName": "Prénom du participant",
@@ -58,6 +62,10 @@
   "event.form.legend.accompagnantIsDriver": "L'un de vos accompagnants est-il conducteur ?",
   "event.form.button.addAccompagnant": "Ajouter une personne accompagnante",
   "event.form.button.remove": "Supprimer",
+  "event.form.estimate.title": "Estimation du prix à payer au parc Safari",
+  "event.form.estimate.notice": "Ce montant doit être payé directement à l'entrée du parc Safari.",
+  "event.form.estimate.total": "Total",
+
 
   "event.display.title": "Liste des confirmations",
   "event.display.loading": "Chargement...",

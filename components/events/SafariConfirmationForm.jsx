@@ -14,6 +14,31 @@ const SafariConfirmationForm = () => {
   const [isDriver, setIsDriver] = useState("");
   const [accompagnantDriver, setAccompagnantDriver] = useState("");
   const [havePlace, setHavePlace] = useState(true);
+  const [participantAgeCategory, setParticipantAgeCategory] = useState("");
+
+  // Prix par catégorie
+  const PRICES = {
+    adult: 42.49,
+    child: 29.74,
+    toddler: 16.99,
+    baby: 0,
+  };
+
+  const calculateTotal = (participantCategory, accompagnants) => {
+    let total = 0;
+
+    if (participantCategory) {
+      total += PRICES[participantCategory] || 0;
+    }
+
+    for (const acc of accompagnants) {
+      if (acc.ageCategory) {
+        total += PRICES[acc.ageCategory] || 0;
+      }
+    }
+
+    return total.toFixed(2);
+  };
 
   const addAccompagnant = () => {
     setAccompagnants((prev) => [
@@ -23,6 +48,7 @@ const SafariConfirmationForm = () => {
         lastName: "",
         ageCategory: "",
         contribution: "",
+        allergies: "no", // ✅ valeur par défaut
         medicalDetails: "",
       },
     ]);
@@ -52,11 +78,10 @@ const SafariConfirmationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Générer ou récupérer l'ID existant dans cookie
     let formSubmitId = Cookies.get("form_submit_id");
     if (!formSubmitId) {
       formSubmitId = generateId();
-      Cookies.set("form_submit_id", formSubmitId, { expires: 365 }); // expire dans 1 an
+      Cookies.set("form_submit_id", formSubmitId, { expires: 365 });
     }
 
     const form = e.target;
@@ -70,32 +95,49 @@ const SafariConfirmationForm = () => {
     const vehicle = form.vehicle?.value?.trim();
     const capacity = Number(placeNumber);
 
-    // Valides comme avant...
+    if (!firstName) newErrors.firstName = t("event.form.errors.firstName");
+    if (!lastName) newErrors.lastName = t("event.form.errors.lastName");
+    if (!ageCategory)
+      newErrors.ageCategory = t("event.form.errors.ageCategory");
 
-    // Validation accompagnants (exemple simple)
+    if ((isDriver === "yes" || accompagnantDriver === "yes") && !phone) {
+      newErrors.phone = t("event.form.errors.phone");
+    }
+
+    if (!isDriver && isDriver !== "no") {
+      newErrors.isDriver = t("event.form.errors.isDriver");
+    }
+
+    if ((isDriver === "yes" || accompagnantDriver === "yes") && !hasSpace) {
+      newErrors.hasSpace = t("event.form.errors.hasSpace");
+    }
+
+    if (allergies === "yes" && !form.medicalDetails.value.trim()) {
+      newErrors.medicalDetails = t("event.form.errors.medicalDetails");
+    }
+
     accompagnants.forEach((acc, idx) => {
       if (!acc.firstName)
-        newErrors[`acc_firstName_${idx}`] = `Prénom accompagnant #${
-          idx + 1
-        } requis`;
+        newErrors[`acc_firstName_${idx}`] = t(
+          "event.form.errors.accompagnant.firstName"
+        ).replace("#{index}", idx + 1);
       if (!acc.lastName)
-        newErrors[`acc_lastName_${idx}`] = `Nom accompagnant #${
-          idx + 1
-        } requis`;
+        newErrors[`acc_lastName_${idx}`] = t(
+          "event.form.errors.accompagnant.lastName"
+        ).replace("#{index}", idx + 1);
       if (!acc.ageCategory)
-        newErrors[`acc_ageCategory_${idx}`] = `Catégorie âge accompagnant #${
-          idx + 1
-        } requise`;
+        newErrors[`acc_ageCategory_${idx}`] = t(
+          "event.form.errors.accompagnant.ageCategory"
+        ).replace("#{index}", idx + 1);
       if (acc.allergies === "yes" && !acc.medicalDetails)
-        newErrors[
-          `acc_medicalDetails_${idx}`
-        ] = `Détail médical accompagnant #${idx + 1} requis`;
+        newErrors[`acc_medicalDetails_${idx}`] = t(
+          "event.form.errors.accompagnant.medicalDetails"
+        ).replace("#{index}", idx + 1);
     });
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Construire données complètes avec accompagnants
       const data = {
         form_submit_id: formSubmitId,
         first_name: firstName,
@@ -144,7 +186,8 @@ const SafariConfirmationForm = () => {
         setAccompagnantDriver("");
         setHavePlace(false);
         setPlaceNumber("");
-        setAccompagnants([]); // reset aussi la liste des accompagnants
+        setAccompagnants([]);
+        setParticipantAgeCategory("");
       } catch (error) {
         alert(
           t("event.form.networkError") || "Erreur réseau, veuillez réessayer."
@@ -194,22 +237,17 @@ const SafariConfirmationForm = () => {
         <fieldset className={styles.inputGroup}>
           <legend>{t("event.form.legend.ageCategory")}</legend>
           <div className={styles.checkboxGroup}>
-            <label>
-              <input type="radio" name="ageCategory" value="adult" />
-              {t("event.form.age.adult")}
-            </label>
-            <label>
-              <input type="radio" name="ageCategory" value="child" />
-              {t("event.form.age.child")}
-            </label>
-            <label>
-              <input type="radio" name="ageCategory" value="toddler" />
-              {t("event.form.age.toddler")}
-            </label>
-            <label>
-              <input type="radio" name="ageCategory" value="baby" />
-              {t("event.form.age.baby")}
-            </label>
+            {["adult", "child", "toddler", "baby"].map((cat) => (
+              <label key={cat}>
+                <input
+                  type="radio"
+                  name="ageCategory"
+                  value={cat}
+                  onChange={() => setParticipantAgeCategory(cat)}
+                />
+                {t(`event.form.age.${cat}`)}
+              </label>
+            ))}
           </div>
         </fieldset>
 
@@ -271,7 +309,6 @@ const SafariConfirmationForm = () => {
       </section>
 
       <section className={styles.section}>
-        <h3>{t("event.form.section.accompagnants")}</h3>
         {accompagnants.map((acc, idx) => (
           <AccompagnantForm
             key={idx}
@@ -283,11 +320,16 @@ const SafariConfirmationForm = () => {
           />
         ))}
         <div>
-          <button type="button" onClick={addAccompagnant}>
+          <button
+            type="button"
+            className={styles.addAccompagnant}
+            onClick={addAccompagnant}
+          >
             {t("event.form.button.addAccompagnant")}
           </button>
         </div>
       </section>
+
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>
           {t("event.form.section.driver")}
@@ -327,69 +369,6 @@ const SafariConfirmationForm = () => {
           </div>
         </fieldset>
 
-        {/* ✅ Ajout ou révision selon choix */}
-        {(isDriver === "yes" || accompagnantDriver === "yes") && (
-          <>
-            <fieldset className={styles.inputGroup}>
-              <legend>{t("event.form.legend.hasSpace")}</legend>
-              <div className={styles.checkboxGroup}>
-                <label>
-                  <input
-                    type="radio"
-                    name="hasSpace"
-                    value="yes"
-                    onChange={() => setHavePlace(false)} // ✅ logique claire
-                  />
-                  {t("event.form.driver.yes")}
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="hasSpace"
-                    value="no"
-                    onChange={() => setHavePlace(true)} // ✅ logique claire
-                  />
-                  {t("event.form.driver.no")}
-                </label>
-              </div>
-            </fieldset>
-
-            {/* ✅ S'affiche si la personne a de la place */}
-            {!havePlace && (
-              <label className={styles.inputGroup}>
-                {t("event.form.label.capacity")}
-                <input
-                  type="number"
-                  name="capacity"
-                  min="0"
-                  value={placeNumber}
-                  onChange={(e) => setPlaceNumber(e.target.value)} // 🔁 input contrôlé
-                  placeholder={t("event.form.placeholder.capacity")}
-                />
-              </label>
-            )}
-
-            <label className={styles.inputGroup}>
-              {t("event.form.label.vehicle")}
-              <input
-                type="text"
-                name="vehicle"
-                placeholder={t("event.form.placeholder.vehicle")}
-              />
-            </label>
-
-            <label className={styles.inputGroup}>
-              {t("event.form.label.phone")}
-              <input
-                type="tel"
-                name="phone"
-                placeholder={t("event.form.placeholder.phone")}
-              />
-            </label>
-          </>
-        )}
-
-        {/* Cas où l'utilisateur n'est pas conducteur mais son accompagnant l'est */}
         {isDriver === "no" && (
           <fieldset className={styles.inputGroup}>
             <legend>{t("event.form.legend.accompagnantIsDriver")}</legend>
@@ -424,7 +403,94 @@ const SafariConfirmationForm = () => {
             </div>
           </fieldset>
         )}
+
+        {(isDriver === "yes" || accompagnantDriver === "yes") && (
+          <>
+            <fieldset className={styles.inputGroup}>
+              <legend>{t("event.form.legend.hasSpace")}</legend>
+              <div className={styles.checkboxGroup}>
+                <label>
+                  <input
+                    type="radio"
+                    name="hasSpace"
+                    value="yes"
+                    onChange={() => setHavePlace(false)}
+                  />
+                  {t("event.form.driver.yes")}
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="hasSpace"
+                    value="no"
+                    onChange={() => setHavePlace(true)}
+                  />
+                  {t("event.form.driver.no")}
+                </label>
+              </div>
+            </fieldset>
+
+            {!havePlace && (
+              <label className={styles.inputGroup}>
+                {t("event.form.label.capacity")}
+                <input
+                  type="number"
+                  name="capacity"
+                  min="0"
+                  value={placeNumber}
+                  onChange={(e) => setPlaceNumber(e.target.value)}
+                  placeholder={t("event.form.placeholder.capacity")}
+                />
+              </label>
+            )}
+
+            <label className={styles.inputGroup}>
+              {t("event.form.label.vehicle")}
+              <input
+                type="text"
+                name="vehicle"
+                placeholder={t("event.form.placeholder.vehicle")}
+              />
+            </label>
+
+            <label className={styles.inputGroup}>
+              {t("event.form.label.phone")}
+              <input
+                type="tel"
+                name="phone"
+                placeholder={t("event.form.placeholder.phone")}
+              />
+            </label>
+          </>
+        )}
       </section>
+
+      {participantAgeCategory && (
+        <section className={styles.section}>
+          <h3 className={styles.sectionTitle}>
+            {t("event.form.estimate.title")}
+          </h3>
+          <p>{t("event.form.estimate.notice")}</p>
+          <ul>
+            <li>
+              {t("event.form.age." + participantAgeCategory)}: $
+              {PRICES[participantAgeCategory].toFixed(2)}
+            </li>
+            {accompagnants.map((acc, idx) =>
+              acc.ageCategory ? (
+                <li key={idx}>
+                  {t("event.form.age." + acc.ageCategory)} #{idx + 1}: $
+                  {PRICES[acc.ageCategory].toFixed(2)}
+                </li>
+              ) : null
+            )}
+          </ul>
+          <strong>
+            {t("event.form.estimate.total")}: $
+            {calculateTotal(participantAgeCategory, accompagnants)}
+          </strong>
+        </section>
+      )}
 
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>{t("event.form.section.info")}</h3>
