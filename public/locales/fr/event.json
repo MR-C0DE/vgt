@@ -104,5 +104,9 @@
   "event.display.removeAccompagnant": "Supprimer la personne accompagnante",
   "event.display.confirmDelete": "Êtes-vous sûr de vouloir supprimer cette entrée ?",
   "event.display.updateError": "Erreur lors de la mise à jour.",
-  "event.display.deleteError": "Erreur lors de la suppression."
+  "event.display.deleteError": "Erreur lors de la suppression.",
+  "event.display.missingField": "Champ obligatoire manquant",
+  "event.display.invalidCapacity": "Capacité invalide. Entrez un nombre supérieur à 0.",
+  "event.display._accompagnant": "Accompagnant",
+  "event.display.missingRequiredFields": "Champs obligatoires manquants"
 }

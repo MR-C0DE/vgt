@@ -101,5 +101,9 @@
   "event.display.removeAccompagnant": "Remove accompanying person",
   "event.display.confirmDelete": "Are you sure you want to delete this entry?",
   "event.display.updateError": "Error updating entry.",
-  "event.display.deleteError": "Error deleting entry."
+  "event.display.deleteError": "Error deleting entry.",
+  "event.display.missingField": "Missing required field",
+  "event.display.invalidCapacity": "Invalid capacity. Enter a number greater than 0.",
+  "event.display._accompagnant": "Accompanist",
+  "event.display.missingRequiredFields": "Missing required fields"
 }

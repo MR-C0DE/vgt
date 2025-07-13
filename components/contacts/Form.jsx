@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
-import axios from "axios";  // Importer Axios
+import axios from "axios"; // Importer Axios
 import styles from "./stylesheets/Form.module.css";
 import { useScreenSize } from "../contexts/ScreenSizeContext";
 
@@ -61,8 +61,6 @@ const Form = () => {
           object: "",
           message: "",
         });
-
-        console.log(response);
       } catch (error) {
         console.error("Error submitting the form:", error);
         setErrors({ submit: t("formError") });
@@ -178,9 +176,7 @@ const Form = () => {
 
       {/* Affichage du message de succès */}
       {successMessage && (
-        <div className={styles.SuccessMessage}>
-          {successMessage}
-        </div>
+        <div className={styles.SuccessMessage}>{successMessage}</div>
       )}
     </div>
   );
