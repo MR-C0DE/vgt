@@ -279,7 +279,7 @@ const SafariConfirmationList = () => {
                 <th>{t("event.display.driver")}</th>
                 <th>{t("event.display.seats")}</th>
                 <th>{t("event.display.accompagnants")}</th>
-                <th>{t("event.display.actions")}</th>
+                {/* <th>{t("event.display.actions")}</th>*/}
               </tr>
             </thead>
             <tbody>
@@ -316,11 +316,13 @@ const SafariConfirmationList = () => {
                         : t("event.display.no")}
                     </td>
                     <td data-label={t("event.display.seats")}>
-                      {entry.has_space === "yes" ? entry.capacity || 0 : "—"}
+                      {entry.has_space ? entry.capacity || 0 : "—"}
                     </td>
                     <td data-label={t("event.display.accompagnant")}>
                       {entry.accompagnants?.length ?? 0}
                     </td>
+
+                    {/*
                     <td data-label={t("event.display.actions")}>
                       {entry.form_submit_id === userFormId ? (
                         <>
@@ -346,7 +348,7 @@ const SafariConfirmationList = () => {
                       ) : (
                         "—"
                       )}
-                    </td>
+                    </td>*/}
                   </tr>
                 ))
               )}
@@ -380,13 +382,13 @@ const SafariConfirmationList = () => {
             </p>
             <p>
               <strong>{t("event.display.driver")}:</strong>{" "}
-              {selectedEntry.is_driver === "yes"
+              {selectedEntry.is_driver
                 ? t("event.display.yes")
                 : t("event.display.no")}
             </p>
             <p>
               <strong>{t("event.display.hasSpace")}:</strong>{" "}
-              {selectedEntry.has_space === "yes"
+              {selectedEntry.has_space
                 ? t("event.display.yes")
                 : t("event.display.no")}
             </p>
@@ -429,6 +431,7 @@ const SafariConfirmationList = () => {
             )}
 
             <div className={styles.modalActions}>
+              {/*
               <button
                 onClick={() => setIsEditing(true)}
                 className={styles.editBtn}
@@ -440,7 +443,7 @@ const SafariConfirmationList = () => {
                 className={styles.deleteBtn}
               >
                 {t("event.display.delete")}
-              </button>
+              </button>*/}
             </div>
           </div>
         )}
