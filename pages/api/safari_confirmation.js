@@ -96,10 +96,13 @@ export default async function handler(req, res) {
       capacity,
       vehicle,
       phone,
+      accompagnants = [],
     } = req.body;
+  
     if (!id) return res.status(400).json({ message: "ID manquant" });
-
+  
     try {
+      // Met à jour le participant
       await SafariConfirmation.updateById(id, {
         first_name,
         last_name,
@@ -114,12 +117,30 @@ export default async function handler(req, res) {
         vehicle,
         phone,
       });
+  
+      // Supprime les anciens accompagnants
+      await SafariConfirmation.deleteAccompagnantsByParticipantId(id);
+  
+      // Insère les nouveaux accompagnants (si présents)
+      if (Array.isArray(accompagnants) && accompagnants.length > 0) {
+        const formatted = accompagnants.map((acc) => ({
+          firstName: acc.first_name,
+          lastName: acc.last_name,
+          ageCategory: acc.age_category,
+          contribution: acc.contribution,
+          allergies: acc.allergies,
+          medicalDetails: acc.medical_details,
+        }));
+        await SafariConfirmation.insertAccompagnants(id, formatted);
+      }
+  
       return res.status(200).json({ message: "Modification enregistrée" });
     } catch (error) {
       console.error("PUT error:", error);
       return res.status(500).json({ message: "Erreur modification" });
     }
   }
+  
 
   return res.status(405).json({ message: "Méthode non autorisée" });
 }

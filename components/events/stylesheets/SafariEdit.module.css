@@ -1,0 +1,129 @@
+/* SafariConfirmationList.module.css */
+
+.modalForm {
+    max-width: 800px;
+    margin: auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+}
+
+.formTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.sectionTitle {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #222;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+}
+
+.inputGroup label,
+.inputGroup legend {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.inputGroup input,
+.inputGroup select,
+.inputGroup textarea {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.inputGroup input:focus,
+.inputGroup select:focus,
+.inputGroup textarea:focus {
+    border-color: #0070f3;
+}
+
+.checkboxGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.checkboxGroup label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 400;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.modalFooter button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modalFooter button[type="submit"] {
+    background-color: #0070f3;
+    color: white;
+}
+
+.modalFooter button[type="submit"]:hover {
+    background-color: #0059c1;
+}
+
+.modalFooter button[type="button"] {
+    background-color: #eee;
+    color: #333;
+}
+
+.modalFooter button[type="button"]:hover {
+    background-color: #ccc;
+}
+
+.addAccompagnant {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    padding: 0.6rem 1rem;
+    margin-top: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.addAccompagnant:hover {
+    background-color: #218838;
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 80px;
+}

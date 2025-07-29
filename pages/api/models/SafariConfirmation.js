@@ -115,6 +115,10 @@ class SafariConfirmation {
     ];
     return db.query(query, values);
   }
+  static async deleteAccompagnantsByParticipantId(participant_id) {
+    return db.query("DELETE FROM accompagnants WHERE participant_id = ?", [participant_id]);
+  }
+  
 }
 
 export { SafariConfirmation };

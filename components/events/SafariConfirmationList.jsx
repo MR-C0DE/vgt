@@ -279,7 +279,7 @@ const SafariConfirmationList = () => {
                 <th>{t("event.display.driver")}</th>
                 <th>{t("event.display.seats")}</th>
                 <th>{t("event.display.accompagnants")}</th>
-                {/* <th>{t("event.display.actions")}</th>*/}
+                <th>{t("event.display.actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -322,7 +322,6 @@ const SafariConfirmationList = () => {
                       {entry.accompagnants?.length ?? 0}
                     </td>
 
-                    {/*
                     <td data-label={t("event.display.actions")}>
                       {entry.form_submit_id === userFormId ? (
                         <>
@@ -348,7 +347,7 @@ const SafariConfirmationList = () => {
                       ) : (
                         "—"
                       )}
-                    </td>*/}
+                    </td>
                   </tr>
                 ))
               )}
@@ -364,6 +363,7 @@ const SafariConfirmationList = () => {
             <h3>
               {selectedEntry.first_name} {selectedEntry.last_name}
             </h3>
+
             <p>
               <strong>{t("event.display.age")}:</strong>{" "}
               {selectedEntry.age_category}
@@ -376,53 +376,85 @@ const SafariConfirmationList = () => {
               <strong>{t("event.display.medicalIssues")}:</strong>{" "}
               {selectedEntry.medical_issues}
             </p>
-            <p>
-              <strong>{t("event.display.medicalDetails")}:</strong>{" "}
-              {selectedEntry.medical_details || "—"}
-            </p>
+            {selectedEntry.medical_details && (
+              <p>
+                <strong>{t("event.display.medicalDetails")}:</strong>{" "}
+                {selectedEntry.medical_details}
+              </p>
+            )}
             <p>
               <strong>{t("event.display.driver")}:</strong>{" "}
-              {selectedEntry.is_driver
+              {selectedEntry.is_driver === "yes"
                 ? t("event.display.yes")
                 : t("event.display.no")}
             </p>
-            <p>
-              <strong>{t("event.display.hasSpace")}:</strong>{" "}
-              {selectedEntry.has_space
-                ? t("event.display.yes")
-                : t("event.display.no")}
-            </p>
-            <p>
-              <strong>{t("event.display.capacity")}:</strong>{" "}
-              {selectedEntry.capacity || 0}
-            </p>
-            <p>
-              <strong>{t("event.display.vehicle")}:</strong>{" "}
-              {selectedEntry.vehicle || "—"}
-            </p>
-            <p>
-              <strong>{t("event.display.phone")}:</strong>{" "}
-              {selectedEntry.phone || "—"}
-            </p>
+            {(selectedEntry.is_driver === "yes" ||
+              selectedEntry.accompagnant_is_driver === "yes") && (
+              <p>
+                <strong>{t("event.display.hasSpace")}:</strong>{" "}
+                {selectedEntry.has_space === "yes"
+                  ? t("event.display.yes")
+                  : t("event.display.no")}
+              </p>
+            )}
+            {selectedEntry.capacity > 0 && (
+              <p>
+                <strong>{t("event.display.capacity")}:</strong>{" "}
+                {selectedEntry.capacity}
+              </p>
+            )}
+            {selectedEntry.vehicle && (
+              <p>
+                <strong>{t("event.display.vehicle")}:</strong>{" "}
+                {selectedEntry.vehicle}
+              </p>
+            )}
+            {selectedEntry.phone && (
+              <p>
+                <strong>{t("event.display.phone")}:</strong>{" "}
+                {selectedEntry.phone}
+              </p>
+            )}
 
-            {/* Liste accompagnants */}
-            <h4 style={{ marginTop: "1.5rem" }}>
+            {/* Accompagnants */}
+            <h4
+              style={{
+                marginTop: "1.5rem",
+                fontSize: "1.1rem",
+                color: "#1a73e8",
+              }}
+            >
               {t("event.display.accompagnants")}
             </h4>
-            <p>
-              un conducteur parmi les accompagnants :{" "}
-              {selectedEntry.accompagnant_is_driver
-                ? t("event.display.yes")
-                : t("event.display.no")}
-            </p>
+
+            {selectedEntry.is_driver === "no" && (
+              <p>
+                🚗 {t("event.display.accompagnantDriver")}:{" "}
+                {selectedEntry.accompagnant_is_driver === "yes"
+                  ? t("event.display.yes")
+                  : t("event.display.no")}
+              </p>
+            )}
+
             {selectedEntry.accompagnants &&
             selectedEntry.accompagnants.length > 0 ? (
-              <ul>
+              <ul style={{ paddingLeft: "1rem" }}>
                 {selectedEntry.accompagnants.map((acc, i) => (
-                  <li key={i}>
-                    {acc.first_name} {acc.last_name} - {acc.age_category} -{" "}
-                    {acc.contribution || "—"} - {acc.allergies || "—"} -{" "}
-                    {acc.medical_details || "—"}
+                  <li
+                    key={i}
+                    style={{ marginBottom: "0.75rem", lineHeight: 1.4 }}
+                  >
+                    <strong>
+                      {acc.first_name} {acc.last_name}
+                    </strong>{" "}
+                    – {t("event.form.age." + acc.age_category)}
+                    {acc.contribution && ` – ${acc.contribution}`}
+                    {acc.allergies === "yes" && acc.medical_details ? (
+                      <div style={{ fontSize: "0.9rem", color: "#666" }}>
+                        ⚠️ {t("event.form.label.medicalDetails")}:{" "}
+                        {acc.medical_details}
+                      </div>
+                    ) : null}
                   </li>
                 ))}
               </ul>
@@ -430,21 +462,22 @@ const SafariConfirmationList = () => {
               <p>{t("event.display.noAccompagnants")}</p>
             )}
 
-            <div className={styles.modalActions}>
-              {/*
-              <button
-                onClick={() => setIsEditing(true)}
-                className={styles.editBtn}
-              >
-                {t("event.display.edit")}
-              </button>
-              <button
-                onClick={() => handleDelete(selectedEntry.id)}
-                className={styles.deleteBtn}
-              >
-                {t("event.display.delete")}
-              </button>*/}
-            </div>
+            {selectedEntry.form_submit_id === userFormId && (
+              <div className={styles.modalActions}>
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className={styles.editBtn}
+                >
+                  {t("event.display.edit")}
+                </button>
+                <button
+                  onClick={() => handleDelete(selectedEntry.id)}
+                  className={styles.deleteBtn}
+                >
+                  {t("event.display.delete")}
+                </button>
+              </div>
+            )}
           </div>
         )}
 

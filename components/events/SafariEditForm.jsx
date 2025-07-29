@@ -1,5 +1,7 @@
+// SafariEditForm.js (Version corrigée)
 import React from "react";
-import styles from "./stylesheets/SafariConfirmationList.module.css";
+import styles from "./stylesheets/SafariEdit.module.css";
+import AccompagnantForm from "./AccompagnantForm";
 
 const SafariEditForm = ({
   t,
@@ -11,6 +13,11 @@ const SafariEditForm = ({
   handleSave,
   closeModal,
 }) => {
+  const isDriverYes = formData.is_driver === "yes";
+  const accompagnantDriverYes = formData.accompagnant_is_driver === "yes";
+  const hasSpaceYes = formData.has_space === "yes";
+  const hasMedicalIssues = formData.medical_issues === "yes";
+
   return (
     <form
       className={styles.modalForm}
@@ -19,229 +26,239 @@ const SafariEditForm = ({
         handleSave();
       }}
     >
-      <h3>{t("event.display.edit")}</h3>
+      <h2 className={styles.formTitle}>{t("event.display.edit")}</h2>
 
-      <label>
-        {t("event.form.label.firstName")}
-        <input
-          name="first_name"
-          placeholder={t("event.form.placeholder.firstName")}
-          value={formData.first_name || ""}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        {t("event.form.label.lastName")}
-        <input
-          name="last_name"
-          placeholder={t("event.form.placeholder.lastName")}
-          value={formData.last_name || ""}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        {t("event.form.legend.ageCategory")}
-        <select
-          name="age_category"
-          value={formData.age_category || ""}
-          onChange={handleChange}
-          required
-        >
-          <option value="adult">{t("event.form.age.adult")}</option>
-          <option value="child">{t("event.form.age.child")}</option>
-          <option value="toddler">{t("event.form.age.toddler")}</option>
-          <option value="baby">{t("event.form.age.baby")}</option>
-        </select>
-      </label>
-      <label>
-        {t("event.form.label.contribution")}
-        <input
-          name="contribution"
-          placeholder={t("event.form.placeholder.contribution")}
-          value={formData.contribution || ""}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        {t("event.form.legend.medical")}
-        <select
-          name="medical_issues"
-          value={formData.medical_issues || ""}
-          onChange={handleChange}
-        >
-          <option value="no">{t("event.form.medical.no")}</option>
-          <option value="yes">{t("event.form.medical.yes")}</option>
-          <option value="private">{t("event.form.medical.private")}</option>
-        </select>
-      </label>
-      {formData.medical_issues === "yes" && (
-        <label>
-          {t("event.form.label.medicalDetails")}
-          <textarea
-            name="medical_details"
-            placeholder={t("event.form.placeholder.medicalDetails")}
-            value={formData.medical_details || ""}
+      <div className={styles.section}>
+        <label className={styles.inputGroup}>
+          {t("event.form.label.firstName")}
+          <input
+            name="first_name"
+            value={formData.first_name || ""}
             onChange={handleChange}
+            placeholder={t("event.form.placeholder.firstName")}
+            required
           />
         </label>
-      )}
 
-      <label>
-        {t("event.form.legend.isDriver")}
-        <select
-          name="is_driver"
-          value={formData.is_driver || ""}
-          onChange={handleChange}
-        >
-          <option value="yes">{t("event.form.driver.yes")}</option>
-          <option value="no">{t("event.form.driver.no")}</option>
-        </select>
-      </label>
-
-      {formData.is_driver === "no" && (
-        <label>
-          {t("event.form.legend.accompagnantIsDriver")}
-          <select
-            name="accompagnant_is_driver"
-            value={formData.accompagnant_is_driver || ""}
+        <label className={styles.inputGroup}>
+          {t("event.form.label.lastName")}
+          <input
+            name="last_name"
+            value={formData.last_name || ""}
             onChange={handleChange}
-          >
-            <option value="yes">{t("event.form.driver.yes")}</option>
-            <option value="no">{t("event.form.driver.no")}</option>
-          </select>
+            placeholder={t("event.form.placeholder.lastName")}
+            required
+          />
         </label>
-      )}
 
-      <label>
-        {t("event.form.legend.hasSpace")}
-        <select
-          name="has_space"
-          value={formData.has_space || ""}
-          onChange={handleChange}
-        >
-          <option value="">{t("event.display.choose")}</option>
-          <option value="yes">{t("event.form.driver.yes")}</option>
-          <option value="no">{t("event.form.driver.no")}</option>
-        </select>
-      </label>
-      {formData.has_space === "yes" && (
-        <>
-          <label>
-            {t("event.form.label.capacity")}
-            <input
-              type="number"
-              name="capacity"
-              placeholder={t("event.form.placeholder.capacity")}
-              value={formData.capacity || ""}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            {t("event.form.label.vehicle")}
-            <input
-              name="vehicle"
-              placeholder={t("event.form.placeholder.vehicle")}
-              value={formData.vehicle || ""}
-              onChange={handleChange}
-            />
-          </label>
-        </>
-      )}
-      <label>
-        {t("event.form.label.phone")}
-        <input
-          name="phone"
-          placeholder={t("event.form.placeholder.phone")}
-          value={formData.phone || ""}
-          onChange={handleChange}
-        />
-      </label>
+        <fieldset className={styles.inputGroup}>
+          <legend>{t("event.form.legend.ageCategory")}</legend>
+          <div className={styles.checkboxGroup}>
+            {["adult", "child", "toddler", "baby"].map((type) => (
+              <label key={type}>
+                <input
+                  type="radio"
+                  name="age_category"
+                  value={type}
+                  checked={formData.age_category === type}
+                  onChange={handleChange}
+                />
+                {t(`event.form.age.${type}`)}
+              </label>
+            ))}
+          </div>
+        </fieldset>
 
-      <h4>{t("event.form.section.accompagnants")}</h4>
+        <label className={styles.inputGroup}>
+          {t("event.form.label.contribution")}
+          <input
+            name="contribution"
+            value={formData.contribution || ""}
+            onChange={handleChange}
+            placeholder={t("event.form.placeholder.contribution")}
+          />
+        </label>
 
-      {formData.accompagnants.map((acc, i) => (
-        <fieldset key={i}>
-          <legend>
-            {t("event.form.section.accompagnant")} #{i + 1}
-            <button type="button" onClick={() => removeAccompagnant(i)}>
-              {t("event.form.button.remove")}
-            </button>
-          </legend>
+        <fieldset className={styles.inputGroup}>
+          <legend>{t("event.form.legend.medical")}</legend>
+          <div className={styles.checkboxGroup}>
+            {["no", "yes", "private"].map((option) => (
+              <label key={option}>
+                <input
+                  type="radio"
+                  name="medical_issues"
+                  value={option}
+                  checked={formData.medical_issues === option}
+                  onChange={handleChange}
+                />
+                {t(`event.form.medical.${option}`)}
+              </label>
+            ))}
+          </div>
 
-          <label>
-            {t("event.form.label.firstName")}
-            <input
-              name="first_name"
-              placeholder={t("event.form.placeholder.firstName")}
-              value={acc.first_name || ""}
-              onChange={(e) => handleAccompagnantChange(i, e)}
-              required
-            />
-          </label>
-          <label>
-            {t("event.form.label.lastName")}
-            <input
-              name="last_name"
-              placeholder={t("event.form.placeholder.lastName")}
-              value={acc.last_name || ""}
-              onChange={(e) => handleAccompagnantChange(i, e)}
-              required
-            />
-          </label>
-          <label>
-            {t("event.form.legend.ageCategory")}
-            <select
-              name="age_category"
-              value={acc.age_category || ""}
-              onChange={(e) => handleAccompagnantChange(i, e)}
-              required
-            >
-              <option value="adult">{t("event.form.age.adult")}</option>
-              <option value="child">{t("event.form.age.child")}</option>
-              <option value="toddler">{t("event.form.age.toddler")}</option>
-              <option value="baby">{t("event.form.age.baby")}</option>
-            </select>
-          </label>
-          <label>
-            {t("event.form.label.contribution")}
-            <input
-              name="contribution"
-              placeholder={t("event.form.placeholder.contribution")}
-              value={acc.contribution || ""}
-              onChange={(e) => handleAccompagnantChange(i, e)}
-            />
-          </label>
-          <label>
-            {t("event.form.legend.medical")}
-            <select
-              name="allergies"
-              value={acc.allergies || ""}
-              onChange={(e) => handleAccompagnantChange(i, e)}
-            >
-              <option value="no">{t("event.form.medical.no")}</option>
-              <option value="yes">{t("event.form.medical.yes")}</option>
-              <option value="private">{t("event.form.medical.private")}</option>
-            </select>
-          </label>
-          {acc.allergies === "yes" && (
-            <label>
+          {hasMedicalIssues && (
+            <label className={styles.inputGroup}>
               {t("event.form.label.medicalDetails")}
               <textarea
                 name="medical_details"
+                value={formData.medical_details || ""}
+                onChange={handleChange}
                 placeholder={t("event.form.placeholder.medicalDetails")}
-                value={acc.medical_details || ""}
-                onChange={(e) => handleAccompagnantChange(i, e)}
               />
             </label>
           )}
         </fieldset>
-      ))}
+      </div>
 
-      <button type="button" onClick={addAccompagnant}>
-        {t("event.form.button.addAccompagnant")}
-      </button>
+      <div className={styles.section}>
+        <fieldset className={styles.inputGroup}>
+          <legend>{t("event.form.legend.isDriver")}</legend>
+          <div className={styles.checkboxGroup}>
+            {["yes", "no"].map((val) => (
+              <label key={val}>
+                <input
+                  type="radio"
+                  name="is_driver"
+                  value={val}
+                  checked={formData.is_driver === val}
+                  onChange={handleChange}
+                />
+                {t(`event.form.driver.${val}`)}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        {formData.is_driver === "no" && (
+          <fieldset className={styles.inputGroup}>
+            <legend>{t("event.form.legend.accompagnantIsDriver")}</legend>
+            <div className={styles.checkboxGroup}>
+              {["yes", "no"].map((val) => (
+                <label key={val}>
+                  <input
+                    type="radio"
+                    name="accompagnant_is_driver"
+                    value={val}
+                    checked={formData.accompagnant_is_driver === val}
+                    onChange={handleChange}
+                  />
+                  {t(`event.form.driver.${val}`)}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        )}
+
+        {(isDriverYes || accompagnantDriverYes) && (
+          <>
+            <fieldset className={styles.inputGroup}>
+              <legend>{t("event.form.legend.hasSpace")}</legend>
+              <div className={styles.checkboxGroup}>
+                {["yes", "no"].map((val) => (
+                  <label key={val}>
+                    <input
+                      type="radio"
+                      name="has_space"
+                      value={val}
+                      checked={formData.has_space === val}
+                      onChange={handleChange}
+                    />
+                    {t(`event.form.driver.${val}`)}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            {hasSpaceYes && (
+              <>
+                <label className={styles.inputGroup}>
+                  {t("event.form.label.capacity")}
+                  <input
+                    type="number"
+                    name="capacity"
+                    min="0"
+                    value={formData.capacity || ""}
+                    onChange={handleChange}
+                    placeholder={t("event.form.placeholder.capacity")}
+                  />
+                </label>
+
+                <label className={styles.inputGroup}>
+                  {t("event.form.label.vehicle")}
+                  <input
+                    type="text"
+                    name="vehicle"
+                    value={formData.vehicle || ""}
+                    onChange={handleChange}
+                    placeholder={t("event.form.placeholder.vehicle")}
+                  />
+                </label>
+              </>
+            )}
+
+            <label className={styles.inputGroup}>
+              {t("event.form.label.phone")}
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone || ""}
+                onChange={handleChange}
+                placeholder={t("event.form.placeholder.phone")}
+              />
+            </label>
+          </>
+        )}
+      </div>
+
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>
+          {t("event.form.section.accompagnants")}
+        </h3>
+
+        {formData.accompagnants.map((acc, index) => (
+          <AccompagnantForm
+            key={index}
+            index={index}
+            data={{
+              firstName: acc.first_name,
+              lastName: acc.last_name,
+              ageCategory: acc.age_category,
+              contribution: acc.contribution,
+              allergies: acc.allergies,
+              medicalDetails: acc.medical_details,
+            }}
+            onChange={(idx, key, value) =>
+              handleAccompagnantChange(idx, {
+                target: {
+                  name:
+                    key === "firstName"
+                      ? "first_name"
+                      : key === "lastName"
+                      ? "last_name"
+                      : key === "ageCategory"
+                      ? "age_category"
+                      : key === "medicalDetails"
+                      ? "medical_details"
+                      : key,
+                  value,
+                },
+              })
+            }
+            onRemove={removeAccompagnant}
+            t={t}
+          />
+        ))}
+
+        <div>
+          <button
+            type="button"
+            className={styles.addAccompagnant}
+            onClick={addAccompagnant}
+          >
+            {t("event.form.button.addAccompagnant")}
+          </button>
+        </div>
+      </div>
 
       <div className={styles.modalFooter}>
         <button type="submit">{t("event.display.save")}</button>
