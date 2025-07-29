@@ -384,15 +384,15 @@ const SafariConfirmationList = () => {
             )}
             <p>
               <strong>{t("event.display.driver")}:</strong>{" "}
-              {selectedEntry.is_driver === "yes"
+              {selectedEntry.is_driver
                 ? t("event.display.yes")
                 : t("event.display.no")}
             </p>
-            {(selectedEntry.is_driver === "yes" ||
-              selectedEntry.accompagnant_is_driver === "yes") && (
+            {(selectedEntry.is_driver ||
+              selectedEntry.accompagnant_is_driver) && (
               <p>
                 <strong>{t("event.display.hasSpace")}:</strong>{" "}
-                {selectedEntry.has_space === "yes"
+                {selectedEntry.has_space
                   ? t("event.display.yes")
                   : t("event.display.no")}
               </p>
@@ -427,10 +427,10 @@ const SafariConfirmationList = () => {
               {t("event.display.accompagnants")}
             </h4>
 
-            {selectedEntry.is_driver === "no" && (
+            {!selectedEntry.is_driver && (
               <p>
                 🚗 {t("event.display.accompagnantDriver")}:{" "}
-                {selectedEntry.accompagnant_is_driver === "yes"
+                {selectedEntry.accompagnant_is_driver
                   ? t("event.display.yes")
                   : t("event.display.no")}
               </p>

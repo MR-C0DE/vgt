@@ -106,6 +106,6 @@
   "event.display.invalidCapacity": "Invalid capacity. Enter a number greater than 0.",
   "event.display._accompagnant": "Accompanist",
   "event.display.missingRequiredFields": "Missing required fields",
-  "accompagnantDriver": "A driver among the accompanying persons"
+  "event.display.accompagnantDriver": "A driver among the accompanying persons"
 
 }

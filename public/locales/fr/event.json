@@ -109,6 +109,6 @@
   "event.display.invalidCapacity": "Capacité invalide. Entrez un nombre supérieur à 0.",
   "event.display._accompagnant": "Accompagnant",
   "event.display.missingRequiredFields": "Champs obligatoires manquants",
-  "accompagnantDriver": "Un conducteur parmi les accompagnants"
+  "event.display.accompagnantDriver": "Un conducteur parmi les accompagnants"
 
 }
