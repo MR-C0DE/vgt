@@ -3,6 +3,25 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import styles from "./stylesheets/SafariConfirmationList.module.css";
 import SafariEditForm from "./SafariEditForm";
+
+const FEE_TABLE = {
+  adult: 42.49,
+  child: 29.74,
+  toddler: 16.99,
+  baby: 0,
+};
+
+const TAX_RATE = 0.15;
+
+const calculateFee = (ageCategory) => {
+  const amount = FEE_TABLE[ageCategory.toLowerCase()] || 0;
+  const withTax = amount + amount * TAX_RATE;
+  return {
+    beforeTax: amount.toFixed(2),
+    afterTax: withTax.toFixed(2),
+  };
+};
+
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
   return (
@@ -416,6 +435,21 @@ const SafariConfirmationList = () => {
               </p>
             )}
 
+            {(() => {
+              const fees = calculateFee(selectedEntry.age_category);
+              return (
+                <p
+                  style={{
+                    fontWeight: "600",
+                    color: "#444",
+                    marginTop: "0.25rem",
+                  }}
+                >
+                  <strong>{t("event.display.fees")}</strong>: ${fees.beforeTax}{" "}
+                  + tax = ${fees.afterTax}
+                </p>
+              );
+            })()}
             {/* Accompagnants */}
             <h4
               style={{
@@ -439,24 +473,37 @@ const SafariConfirmationList = () => {
             {selectedEntry.accompagnants &&
             selectedEntry.accompagnants.length > 0 ? (
               <ul style={{ paddingLeft: "1rem" }}>
-                {selectedEntry.accompagnants.map((acc, i) => (
-                  <li
-                    key={i}
-                    style={{ marginBottom: "0.75rem", lineHeight: 1.4 }}
-                  >
-                    <strong>
-                      {acc.first_name} {acc.last_name}
-                    </strong>{" "}
-                    – {t("event.form.age." + acc.age_category)}
-                    {acc.contribution && ` – ${acc.contribution}`}
-                    {acc.allergies === "yes" && acc.medical_details ? (
-                      <div style={{ fontSize: "0.9rem", color: "#666" }}>
-                        ⚠️ {t("event.form.label.medicalDetails")}:{" "}
-                        {acc.medical_details}
+                {selectedEntry.accompagnants.map((acc, i) => {
+                  const fees = calculateFee(acc.age_category);
+                  return (
+                    <li
+                      key={i}
+                      style={{ marginBottom: "0.75rem", lineHeight: 1.4 }}
+                    >
+                      <strong>
+                        {acc.first_name} {acc.last_name}
+                      </strong>{" "}
+                      – {t("event.form.age." + acc.age_category)}
+                      {acc.contribution && ` – ${acc.contribution}`}
+                      <div
+                        style={{
+                          fontSize: "0.9rem",
+                          color: "#009944",
+                          marginTop: "0.25rem",
+                        }}
+                      >
+                        💲 {t("event.display.price")}: ${fees.beforeTax} + tax ={" "}
+                        <strong>${fees.afterTax}</strong>
                       </div>
-                    ) : null}
-                  </li>
-                ))}
+                      {acc.allergies === "yes" && acc.medical_details ? (
+                        <div style={{ fontSize: "0.9rem", color: "#666" }}>
+                          ⚠️ {t("event.form.label.medicalDetails")}:{" "}
+                          {acc.medical_details}
+                        </div>
+                      ) : null}
+                    </li>
+                  );
+                })}
               </ul>
             ) : (
               <p>{t("event.display.noAccompagnants")}</p>
