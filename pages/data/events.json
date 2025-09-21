@@ -1,154 +1,297 @@
 [{
-  "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479d3a1bcf4",
-  "datetime": "2025-08-02T07:30:00",
-  "data": {
-    "fr": {
-      "title": "Sortie fraternelle au Parc Safari – Voice of God Tabernacle – Samedi 2 août 2025",
-      "sections": [{
-          "type": "paragraph",
-          "content": "Bien-aimés dans le Seigneur,"
-        },
-        {
-          "type": "paragraph",
-          "content": "Nous avons le plaisir de vous inviter à une journée spéciale de communion fraternelle qui se déroulera au Parc Safari à Hemmingford, le samedi 2 août 2025. Cette activité est ouverte à tous les frères et sœurs de Voice of God Tabernacle, dans un esprit de partage, de détente, et de renforcement des liens au sein du corps de Christ."
-        },
-        {
-          "type": "heading",
-          "content": "Ce qui vous attend"
-        },
-        {
-          "type": "list",
-          "items": [
-            "Découverte de plusieurs espèces d’animaux dans un cadre naturel",
-            "Zone de rafraîchissement avec des jeux d’eau pour les enfants",
-            "Temps de détente et de partage en groupe",
-            "Espace boutique pour ceux qui souhaitent rapporter un souvenir"
-          ]
-        },
-        {
-          "type": "heading",
-          "content": "Informations pratiques"
-        },
-        {
-          "type": "list",
-          "items": [
-            "Heure de rencontre pour partir en groupe : 7h30 am",
-            "Lieu de rencontre : à l’église VGT (2285 Boul. St-Laurent, Ottawa)",
-            "Lieu : Parc Safari, Hemmingford (environ 2h30 de route depuis Ottawa)",
-            "Participants : Membres de l’église de tout âge (familles, jeunes, enfants, etc.)",
-            "Frais : Les frais d’entrée seront à la charge de chaque famille ou individu (un tarif de groupe sera appliqué)",
-            "Taxes applicables : environ 15 % du montant total",
-            "Poussette d’enfants : 11,50 $ (qu’on tire) ou 13,50 $ (qu’on pousse)",
-            "Moyen de transport : Chaque personne prend son véhicule (en bonne condition)",
-            "Paiement : Prévoir de l’argent comptant. Toutefois, veuillez également apporter une carte de crédit ou de débit au cas où."
-          ]
-        },
-        {
-          "type": "heading",
-          "content": "Confirmation de présence"
-        },
-        {
-          "type": "paragraph",
-          "content": "Nous vous encourageons à retenir cette date dès maintenant, afin de prendre les dispositions nécessaires, notamment si vous travaillez les fins de semaine."
-        },
-        {
-          "type": "paragraph",
-          "content": "Un formulaire sera bientôt disponible pour :"
-        },
-        {
-          "type": "list",
-          "items": [
-            "Confirmer votre présence",
-            "Indiquer ce que vous pourrez apporter pour le repas collectif (jus, fruits, couverts, etc.)"
-          ]
-        },
-        {
-          "type": "paragraph",
-          "content": "Que cette journée soit, si le Seigneur le permet, une bénédiction pour chacun, dans la joie, l’unité et l’amour fraternel."
-        },
-        {
-          "type": "paragraph",
-          "content": "Au plaisir de vivre ensemble ces précieux moments !"
-        },
-        {
-          "type": "paragraph",
-          "content": "Que Dieu vous bénisse abondamment. — L’équipe de coordination"
-        }
-      ]
-    },
-    "en": {
-      "title": "Fellowship Outing to Parc Safari – Voice of God Tabernacle – Saturday, August 2, 2025",
-      "sections": [{
-          "type": "paragraph",
-          "content": "Beloved in the Lord,"
-        },
-        {
-          "type": "paragraph",
-          "content": "We are pleased to invite you to a special day of fellowship at Parc Safari in Hemmingford, scheduled for Saturday, August 2, 2025. This event is open to all brothers and sisters of Voice of God Tabernacle, as a time of joyful connection, rest, and strengthening of our spiritual bonds."
-        },
-        {
-          "type": "heading",
-          "content": "What to Expect"
-        },
-        {
-          "type": "list",
-          "items": [
-            "Discover various animal species in a natural setting",
-            "Water play area for children",
-            "Time of group sharing and relaxation",
-            "Gift shop for those who wish to bring back a souvenir"
-          ]
-        },
-        {
-          "type": "heading",
-          "content": "Practical Information"
-        },
-        {
-          "type": "list",
-          "items": [
-            "Meeting time for group departure: 7:30 a.m.",
-            "Meeting place: at the VGT Church (2285 St. Laurent Blvd., Ottawa)",
-            "Location: Parc Safari, Hemmingford (about 2.5 hours from Ottawa)",
-            "Participants: Church members of all ages (families, youth, children, etc.)",
-            "Fees: Entry fees will be paid by each family or individual (group rates will apply)",
-            "Applicable taxes: approximately 15% on the total amount",
-            "Kids stroller: $11.50 (pulled) or $13.50 (pushed)",
-            "Transportation: Each person brings their own vehicle (in good condition)",
-            "Payment: Bring cash if possible. However, we also recommend bringing a credit or debit card just in case."
-          ]
-        },
-        {
-          "type": "heading",
-          "content": "Confirmation of Attendance"
-        },
-        {
-          "type": "paragraph",
-          "content": "We encourage you to save the date now, especially those who work on weekends, so that you can make the necessary arrangements."
-        },
-        {
-          "type": "paragraph",
-          "content": "A registration form will be available soon to:"
-        },
-        {
-          "type": "list",
-          "items": [
-            "Confirm your attendance",
-            "Indicate what you can bring for the shared meal (juice, fruits, utensils, etc.)"
-          ]
-        },
-        {
-          "type": "paragraph",
-          "content": "May this day, if the Lord wills, be a blessing for each one of us, filled with joy, unity, and brotherly love."
-        },
-        {
-          "type": "paragraph",
-          "content": "We look forward to sharing this precious time together!"
-        },
-        {
-          "type": "paragraph",
-          "content": "May God bless you abundantly. — The coordination team"
-        }
-      ]
+    "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479d3a1bcf4",
+    "datetime": "2025-08-02T07:30:00",
+    "image_path": "/images/bsp.jpg",
+    "data": {
+      "fr": {
+        "title": "Sortie fraternelle au Parc Safari – Voice of God Tabernacle – Samedi 2 août 2025",
+        "sections": [{
+            "type": "paragraph",
+            "content": "Bien-aimés dans le Seigneur,"
+          },
+          {
+            "type": "paragraph",
+            "content": "Nous avons le plaisir de vous inviter à une journée spéciale de communion fraternelle qui se déroulera au Parc Safari à Hemmingford, le samedi 2 août 2025. Cette activité est ouverte à tous les frères et sœurs de Voice of God Tabernacle, dans un esprit de partage, de détente, et de renforcement des liens au sein du corps de Christ."
+          },
+          {
+            "type": "heading",
+            "content": "Ce qui vous attend"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Découverte de plusieurs espèces d’animaux dans un cadre naturel",
+              "Zone de rafraîchissement avec des jeux d’eau pour les enfants",
+              "Temps de détente et de partage en groupe",
+              "Espace boutique pour ceux qui souhaitent rapporter un souvenir"
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Informations pratiques"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Heure de rencontre pour partir en groupe : 7h30 am",
+              "Lieu de rencontre : à l’église VGT (2285 Boul. St-Laurent, Ottawa)",
+              "Lieu : Parc Safari, Hemmingford (environ 2h30 de route depuis Ottawa)",
+              "Participants : Membres de l’église de tout âge (familles, jeunes, enfants, etc.)",
+              "Frais : Les frais d’entrée seront à la charge de chaque famille ou individu (un tarif de groupe sera appliqué)",
+              "Taxes applicables : environ 15 % du montant total",
+              "Poussette d’enfants : 11,50 $ (qu’on tire) ou 13,50 $ (qu’on pousse)",
+              "Moyen de transport : Chaque personne prend son véhicule (en bonne condition)",
+              "Paiement : Prévoir de l’argent comptant. Toutefois, veuillez également apporter une carte de crédit ou de débit au cas où."
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Confirmation de présence"
+          },
+          {
+            "type": "paragraph",
+            "content": "Nous vous encourageons à retenir cette date dès maintenant, afin de prendre les dispositions nécessaires, notamment si vous travaillez les fins de semaine."
+          },
+          {
+            "type": "paragraph",
+            "content": "Un formulaire sera bientôt disponible pour :"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Confirmer votre présence",
+              "Indiquer ce que vous pourrez apporter pour le repas collectif (jus, fruits, couverts, etc.)"
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": "Que cette journée soit, si le Seigneur le permet, une bénédiction pour chacun, dans la joie, l’unité et l’amour fraternel."
+          },
+          {
+            "type": "paragraph",
+            "content": "Au plaisir de vivre ensemble ces précieux moments !"
+          },
+          {
+            "type": "paragraph",
+            "content": "Que Dieu vous bénisse abondamment. — L’équipe de coordination"
+          }
+        ]
+      },
+      "en": {
+        "title": "Fellowship Outing to Parc Safari – Voice of God Tabernacle – Saturday, August 2, 2025",
+        "sections": [{
+            "type": "paragraph",
+            "content": "Beloved in the Lord,"
+          },
+          {
+            "type": "paragraph",
+            "content": "We are pleased to invite you to a special day of fellowship at Parc Safari in Hemmingford, scheduled for Saturday, August 2, 2025. This event is open to all brothers and sisters of Voice of God Tabernacle, as a time of joyful connection, rest, and strengthening of our spiritual bonds."
+          },
+          {
+            "type": "heading",
+            "content": "What to Expect"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Discover various animal species in a natural setting",
+              "Water play area for children",
+              "Time of group sharing and relaxation",
+              "Gift shop for those who wish to bring back a souvenir"
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Practical Information"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Meeting time for group departure: 7:30 a.m.",
+              "Meeting place: at the VGT Church (2285 St. Laurent Blvd., Ottawa)",
+              "Location: Parc Safari, Hemmingford (about 2.5 hours from Ottawa)",
+              "Participants: Church members of all ages (families, youth, children, etc.)",
+              "Fees: Entry fees will be paid by each family or individual (group rates will apply)",
+              "Applicable taxes: approximately 15% on the total amount",
+              "Kids stroller: $11.50 (pulled) or $13.50 (pushed)",
+              "Transportation: Each person brings their own vehicle (in good condition)",
+              "Payment: Bring cash if possible. However, we also recommend bringing a credit or debit card just in case."
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Confirmation of Attendance"
+          },
+          {
+            "type": "paragraph",
+            "content": "We encourage you to save the date now, especially those who work on weekends, so that you can make the necessary arrangements."
+          },
+          {
+            "type": "paragraph",
+            "content": "A registration form will be available soon to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Confirm your attendance",
+              "Indicate what you can bring for the shared meal (juice, fruits, utensils, etc.)"
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": "May this day, if the Lord wills, be a blessing for each one of us, filled with joy, unity, and brotherly love."
+          },
+          {
+            "type": "paragraph",
+            "content": "We look forward to sharing this precious time together!"
+          },
+          {
+            "type": "paragraph",
+            "content": "May God bless you abundantly. — The coordination team"
+          }
+        ]
+      }
+    }
+  },
+
+  {
+    "id": "a13be217-9f22-44b6-aec9-7d9f72d1d882",
+    "datetime": "2025-10-11T17:00:00",
+    "image_path": "/images/th2.jpg",
+    "data": {
+      "fr": {
+        "title": "Fraternité de l’Action de Grâce 2025 – Voice of God Tabernacle – Samedi 11 octobre 2025",
+        "sections": [{
+            "type": "paragraph",
+            "content": "Chers frères et sœurs,"
+          },
+          {
+            "type": "paragraph",
+            "content": "C’est avec une immense joie que nous vous invitons à la Fraternité de l’Action de Grâce 2025, organisée par Voice of God Tabernacle. Cet événement est une occasion précieuse de nous rassembler afin d’exprimer notre reconnaissance au Seigneur Jésus-Christ pour son amour et ses bienfaits, et de renforcer nos liens fraternels dans Sa présence."
+          },
+          {
+            "type": "heading",
+            "content": "Informations principales"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Date : Samedi 11 octobre 2025",
+              "Heure : de 17h00 à 21h30",
+              "Lieu : Sous-sol de l’église Pleasant Park Baptist Church",
+              "Adresse : 414 Pleasant Park Rd, Ottawa"
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Programme de la soirée"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Temps de louange et d’adoration",
+              "Moments de partage et de témoignages",
+              "Repas fraternel sous forme de dîner-partage",
+              "Moments de communion et d’édification dans la joie et l’unité"
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Participation"
+          },
+          {
+            "type": "paragraph",
+            "content": "Afin de faciliter l’organisation, un formulaire sera mis à disposition pour :"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Confirmer votre présence (et le nombre de personnes qui vous accompagneront)",
+              "Indiquer votre contribution au dîner-partage (plat principal, dessert, accompagnement, etc.)",
+              "Préciser si vous souhaitez partager un témoignage"
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": "Votre implication est précieuse pour faire de cette fraternité un moment béni et mémorable. Nous vous remercions d’avance pour votre collaboration et votre esprit de service."
+          },
+          {
+            "type": "paragraph",
+            "content": "Que cette soirée soit pour chacun une source de joie, de reconnaissance et de communion fraternelle dans la présence de notre Seigneur."
+          },
+          {
+            "type": "paragraph",
+            "content": "Avec amour chrétien, — Voice of God Tabernacle"
+          }
+        ]
+      },
+      "en": {
+        "title": "Thanksgiving Fellowship 2025 – Voice of God Tabernacle – Saturday, October 11, 2025",
+        "sections": [{
+            "type": "paragraph",
+            "content": "Dear brothers and sisters,"
+          },
+          {
+            "type": "paragraph",
+            "content": "It is with great joy that we invite you to the Thanksgiving Fellowship 2025, organized by Voice of God Tabernacle. This event is a precious opportunity to come together, give thanks to our Lord Jesus Christ for His love and blessings, and strengthen our bonds of fellowship in His presence."
+          },
+          {
+            "type": "heading",
+            "content": "Main Information"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Date: Saturday, October 11, 2025",
+              "Time: 5:00 p.m. – 9:30 p.m.",
+              "Venue: Basement of Pleasant Park Baptist Church",
+              "Address: 414 Pleasant Park Rd, Ottawa"
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Evening Program"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Time of praise and worship",
+              "Moments of sharing and testimonies",
+              "Fellowship dinner (potluck style)",
+              "Moments of communion and edification in joy and unity"
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Participation"
+          },
+          {
+            "type": "paragraph",
+            "content": "To help us with the organization, a form will soon be available for:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Confirming your attendance (and the number of guests with you)",
+              "Indicating your contribution to the fellowship dinner (main dish, dessert, side, etc.)",
+              "Sharing whether you would like to give a testimony"
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": "Your participation is valuable to make this fellowship a blessed and memorable evening. We thank you in advance for your collaboration and spirit of service."
+          },
+          {
+            "type": "paragraph",
+            "content": "May this evening be, for each one, a source of joy, thanksgiving, and fellowship in the presence of our Lord."
+          },
+          {
+            "type": "paragraph",
+            "content": "With Christian love, — Voice of God Tabernacle"
+          }
+        ]
+      }
     }
   }
-}]
+
+]

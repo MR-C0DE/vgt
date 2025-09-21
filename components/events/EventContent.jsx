@@ -9,8 +9,8 @@ const EventContent = ({ data, lang }) => {
     <div>
       <Countdown targetDate={data.datetime} />
       <EventDetail data={data} lang={lang} />
-      <EventActions />
-      <Photo />
+      {/*<EventActions />*/}
+      <Photo path={data.image_path} />
     </div>
   );
 };
