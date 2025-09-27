@@ -4,7 +4,7 @@ import styles from "./stylesheets/ThanksContributions.module.css";
 import { getBrowserId } from "./utils/browserId";
 
 const ThanksContributions = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [name, setName] = useState("");
   const [contribution, setContribution] = useState("");
   const [list, setList] = useState([]);
@@ -116,6 +116,44 @@ const ThanksContributions = () => {
   return (
     <div className={styles.container}>
       <h3>{t("event.display.contributionTitle")}</h3>
+
+      {/* Bloc suggestions */}
+      <div className={styles.suggestionsBox}>
+        {i18n.language === "fr" ? (
+          <>
+            <p>
+              <strong>Suggestions de mets :</strong> poulet, dinde, bœuf,
+              légumes, riz, salade de macaroni/ laitue/ pomme de terre, soupe,
+              plantains, etc.
+            </p>
+            <p>
+              <strong>Suggestions de desserts :</strong> gâteau, beignets,
+              biscuits, tarte, etc.
+            </p>
+            <p>
+              <strong>Autres suggestions :</strong> eau, jus, boissons
+              pétillantes, etc.
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              <strong>Meal suggestions:</strong> chicken, turkey, beef,
+              vegetables, rice, macaroni/ lettuce/ potato salad, soup,
+              plantains, etc.
+            </p>
+            <p>
+              <strong>Dessert suggestions:</strong> cake, donuts, cookies, pie,
+              etc.
+            </p>
+            <p>
+              <strong>Other suggestions:</strong> water, juice, sparkling
+              drinks, etc.
+            </p>
+          </>
+        )}
+      </div>
+
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
