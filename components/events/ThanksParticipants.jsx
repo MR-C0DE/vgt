@@ -74,7 +74,7 @@ const ThanksParticipants = () => {
       const newItem = await res.json();
 
       if (editingId) {
-        setList(list.map((item) => (item._id === editingId ? newItem : item)));
+        setList(list.map((item) => (item.id === editingId ? newItem : item)));
         setEditingId(null);
       } else {
         setList([newItem, ...list]);
@@ -100,7 +100,7 @@ const ThanksParticipants = () => {
         setError("You cannot delete this item from another browser");
         return;
       }
-      setList(list.filter((item) => item._id !== id));
+      setList(list.filter((item) => item.id !== id));
     } catch (err) {
       console.error(err);
       setError("Something went wrong while deleting.");
@@ -112,7 +112,7 @@ const ThanksParticipants = () => {
       setError("You cannot edit this item from another browser");
       return;
     }
-    setEditingId(item._id);
+    setEditingId(item.id);
     setName(item.name);
     setAdults(item.adults);
     setChildren(item.children);
@@ -201,7 +201,7 @@ const ThanksParticipants = () => {
               </thead>
               <tbody>
                 {list.map((item) => (
-                  <tr key={item._id}>
+                  <tr key={item.id}>
                     <td>{item.name}</td>
                     <td>{item.adults}</td>
                     <td>{item.children}</td>
@@ -215,7 +215,7 @@ const ThanksParticipants = () => {
                             {t("event.display.edit")}
                           </button>
                           <button
-                            onClick={() => handleDelete(item._id)}
+                            onClick={() => handleDelete(item.id)}
                             className={styles.delete}
                           >
                             {t("event.display.delete")}
