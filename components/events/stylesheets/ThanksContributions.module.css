@@ -1,0 +1,238 @@
+.container {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin: 0 auto;
+    width: 60%;
+    box-sizing: border-box;
+}
+
+.container h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #222;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.form div {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form label {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    display: block;
+    color: #333;
+}
+
+.form input,
+.form select {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.form input:focus,
+.form select:focus {
+    border-color: #0070f3;
+    outline: none;
+}
+
+/* Boutons du formulaire */
+.form button {
+    width: 100%;
+    padding: 0.8rem;
+    background: #0070f3;
+    /* bleu pour ajouter ou modifier */
+    color: #fff;
+    border: none;
+    border-radius: 0.6rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.form button:hover {
+    background: #005fcc;
+}
+
+/* Bouton annuler */
+.form .cancel {
+    background: #888;
+    /* gris différent */
+}
+
+.form .cancel:hover {
+    background: #666;
+}
+
+/* Boutons de toggle liste */
+.toggleListBtn {
+    display: block;
+    margin: 0 auto 1.5rem auto;
+    padding: 0.7rem 1.2rem;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.toggleListBtn:hover {
+    background: #eaeaea;
+}
+
+/* Tableau */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    overflow-x: auto;
+}
+
+.table th,
+.table td {
+    padding: 0.8rem;
+    border: 1px solid #e5e5e5;
+    text-align: left;
+}
+
+.table th {
+    background: #f0f0f0;
+    font-weight: 600;
+}
+
+.table tr:nth-child(even) {
+    background: #fafafa;
+}
+
+/* Boutons dans le tableau */
+.edit {
+    background: #0070f3;
+    /* bleu modification */
+    padding: 0.5rem;
+    /* bleu pour ajouter ou modifier */
+    color: #fff;
+    border: none;
+    border-radius: 0.1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-right: 0.2rem;
+}
+
+.edit:hover {
+    background: #005fcc;
+}
+
+.delete {
+    background: #ff4d4f;
+    /* rouge suppression */
+    padding: 0.5rem;
+    /* bleu pour ajouter ou modifier */
+    color: #fff;
+    border: none;
+    border-radius: 0.1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.delete:hover {
+    background: #d9363e;
+}
+
+.cancel {
+    background: #888;
+
+}
+
+.cancel:hover {
+    background: #666;
+}
+
+.container p {
+    text-align: center;
+    color: #666;
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+/* Responsive mobile : garder tableau lisible */
+@media (max-width: 1000px) {
+    .container {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        margin: 0 auto;
+        width: 90%;
+        box-sizing: border-box;
+    }
+
+
+}
+
+@media (max-width: 600px) {
+    .container {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .form {
+        gap: 0.8rem;
+
+    }
+
+    .form label {
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+        display: block;
+        color: #333;
+        font-size: 0.9rem;
+    }
+
+    .form input,
+    .form select {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+
+    .form button,
+    .toggleListBtn {
+        width: 100%;
+    }
+
+    .table {
+        font-size: 0.85rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.6rem;
+    }
+
+    .table th,
+    .table td {
+        white-space: nowrap;
+        /* éviter que le contenu se casse mal */
+    }
+}

@@ -1,51 +1,59 @@
 import { useTranslation } from "next-i18next";
 import React, { useState } from "react";
 import SafariConfirmationModal from "./SafariConfirmationForm";
-import SafariConfirmationList from "./SafariConfirmationList";
+import ThanksParticipants from "./ThanksParticipants";
+import ThanksContributions from "./ThanksContributions";
+import ThanksTestimonies from "./ThanksTestimonies";
 import styles from "./stylesheets/EventActions.module.css";
 
 const EventActions = () => {
   const { t } = useTranslation();
-  const [showParticipants, setShowParticipants] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [activeTab, setActiveTab] = useState(null);
 
-  const actionParticipants = () => {
-    setShowParticipants(!showParticipants);
-    setShowForm(false);
-  };
-
-  const actionForm = () => {
-    setShowForm(!showForm);
-    setShowParticipants(false);
+  const toggleTab = (tab) => {
+    setActiveTab(activeTab === tab ? null : tab);
   };
 
   return (
     <div className={styles.containerActions}>
       <div className={styles.containerButtons}>
+        {/* Participants */}
         <button
           className={styles.btnRevealParticipants}
-          onClick={actionParticipants}
+          onClick={() => toggleTab("participants")}
         >
-          {showParticipants
-            ? t("event.action.hideParticipants")
-            : t("event.action.showParticipants")}
+          {activeTab === "participants"
+            ? t("event.display.hideParticipants")
+            : t("event.display.showParticipants")}
         </button>
 
-        <button className={styles.btnConfirmPresence} onClick={actionForm}>
-          {showForm
-            ? t("event.action.closeForm")
-            : t("event.action.confirmPresence")}
+        {/* Témoignages */}
+        <button
+          className={styles.btnRevealParticipants}
+          onClick={() => toggleTab("testimonies")}
+        >
+          {activeTab === "testimonies"
+            ? t("event.display.hideTestimonies")
+            : t("event.display.showTestimonies")}
+        </button>
+
+        {/* Contributions */}
+        <button
+          className={styles.btnRevealParticipants}
+          onClick={() => toggleTab("contributions")}
+        >
+          {activeTab === "contributions"
+            ? t("event.display.hideContributions")
+            : t("event.display.showContributions")}
         </button>
       </div>
 
-      {showParticipants && <SafariConfirmationList />}
+      {/* Contenu affiché selon l’onglet actif */}
+      {activeTab === "participants" && <ThanksParticipants />}
 
-      {showForm && (
-        <SafariConfirmationModal
-          isOpen={showForm}
-          onClose={() => setShowForm(false)}
-        />
-      )}
+      {activeTab === "testimonies" && <ThanksTestimonies />}
+
+      {activeTab === "contributions" && <ThanksContributions />}
     </div>
   );
 };

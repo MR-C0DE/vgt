@@ -111,6 +111,58 @@
   "event.display.missingRequiredFields": "Champs obligatoires manquants",
   "event.display.accompagnantDriver": "Un conducteur parmi les accompagnants",
   "event.display.fees": "Frais",
-  "event.display.price": "Prix"
+  "event.display.price": "Prix",
+  "event.display.showParticipants": "Voir les participants",
+  "event.display.hideParticipants": "Masquer les participants",
+
+  "event.display.showTestimonies": "Voir les témoignages",
+  "event.display.hideTestimonies": "Masquer les témoignages",
+  "event.display.testimoniesContent": "Ici, les témoignages des participants seront affichés.",
+
+  "event.display.showContributions": "Voir les contributions",
+  "event.display.hideContributions": "Masquer les contributions",
+  "event.display.contributionTitle": "Formulaire de contributions",
+  "event.display.nameLabel": "Nom",
+  "event.display.namePlaceholder": "Entrez votre nom",
+  "event.display.contributionLabel": "Contribution",
+  "event.display.contributionPlaceholder": "Entrez votre contribution",
+  "event.display.addContribution": "Ajouter une contribution",
+
+  "event.display.showContributionsList": "Voir la liste des contributions",
+  "event.display.hideContributionsList": "Masquer la liste des contributions",
+  "event.display.noContributions": "Aucune contribution pour le moment.",
+
+  "event.display.nameColumn": "Nom",
+  "event.display.contributionColumn": "Contribution",
+  "event.display.actionColumn": "Action",
+
+  "event.display.testimonyTitle": "Remerciements et témoignages",
+  "event.display.testimonyOrSong": "Avez-vous un témoignage ou un chant ?",
+  "event.display.chooseOption": "Choisissez une option",
+  "event.display.testimony": "Témoignage",
+  "event.display.song": "Chant",
+  "event.display.addTestimony": "Ajouter",
+  "event.display.showTestimoniesList": "Voir les témoignages/chants",
+  "event.display.hideTestimoniesList": "Masquer la liste",
+  "event.display.typeColumn": "Type",
+  "event.display.noTestimonies": "Aucun témoignage/chant ajouté",
+
+  "event.display.participantsTitle": "Inscription des participants",
+  "event.display.adultsLabel": "Nombre d'adultes",
+  "event.display.adultsPlaceholder": "Entrez le nombre d'adultes",
+  "event.display.childrenLabel": "Nombre d'enfants",
+  "event.display.childrenPlaceholder": "Entrez le nombre d'enfants",
+  "event.display.addParticipant": "Ajouter",
+  "event.display.showParticipantsList": "Voir la liste des participants",
+  "event.display.hideParticipantsList": "Masquer la liste",
+  "event.display.adultsColumn": "Adultes",
+  "event.display.childrenColumn": "Enfants",
+  "event.display.noParticipants": "Aucun participant ajouté",
+
+  "event.display.updateContribution": "Mettre à jour la contribution",
+
+  "event.display.updateParticipant": "Mettre à jour le participant",
+
+  "event.display.updateTestimony": "Mettre à jour le témoignage"
 
 }

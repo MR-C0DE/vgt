@@ -108,7 +108,57 @@
   "event.display.missingRequiredFields": "Missing required fields",
   "event.display.accompagnantDriver": "A driver among the accompanying persons",
   "event.display.fees": "Fees",
-  "event.display.price": "Price"
+  "event.display.price": "Price",
+  "event.display.showParticipants": "Show participants",
+  "event.display.hideParticipants": "Hide participants",
+
+  "event.display.showTestimonies": "Show testimonies",
+  "event.display.hideTestimonies": "Hide testimonies",
+  "event.display.testimoniesContent": "Here, participants' testimonies will be displayed.",
+
+  "event.display.showContributions": "Show contributions",
+  "event.display.hideContributions": "Hide contributions",
+  "event.display.contributionTitle": "Contribution Form",
+  "event.display.nameLabel": "Name",
+  "event.display.namePlaceholder": "Enter your name",
+  "event.display.contributionLabel": "Contribution",
+  "event.display.contributionPlaceholder": "Enter your contribution",
+  "event.display.addContribution": "Add contribution",
+
+  "event.display.showContributionsList": "Show contributions list",
+  "event.display.hideContributionsList": "Hide contributions list",
+  "event.display.noContributions": "No contributions yet.",
+
+  "event.display.nameColumn": "Name",
+  "event.display.contributionColumn": "Contribution",
+  "event.display.actionColumn": "Action",
+
+  "event.display.testimonyTitle": "Thanks and Testimonies",
+  "event.display.testimonyOrSong": "Do you have a testimony or a song?",
+  "event.display.chooseOption": "Choose an option",
+  "event.display.testimony": "Testimony",
+  "event.display.song": "Song",
+  "event.display.addTestimony": "Add",
+  "event.display.showTestimoniesList": "Show testimonies/songs",
+  "event.display.hideTestimoniesList": "Hide list",
+  "event.display.typeColumn": "Type",
+  "event.display.noTestimonies": "No testimony/song added",
+
+  "event.display.participantsTitle": "Participants Registration",
+  "event.display.adultsLabel": "Number of adults",
+  "event.display.adultsPlaceholder": "Enter number of adults",
+  "event.display.childrenLabel": "Number of children",
+  "event.display.childrenPlaceholder": "Enter number of children",
+  "event.display.addParticipant": "Add",
+  "event.display.showParticipantsList": "Show participants list",
+  "event.display.hideParticipantsList": "Hide list",
+  "event.display.adultsColumn": "Adults",
+  "event.display.childrenColumn": "Children",
+  "event.display.noParticipants": "No participant added",
+
+  "event.display.updateContribution": "Update contribution",
+  "event.display.updateParticipant": "Update participant",
+  "event.display.updateTestimony": "Update testimony"
 
 
 }
