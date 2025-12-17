@@ -164,3 +164,46 @@
         top: 24px;
     }
 }
+
+/* =========================
+   FULLCALENDAR – FIX iOS
+========================= */
+.card {
+    overflow-x: hidden;
+}
+
+/* Empêche FullCalendar de dépasser l’écran */
+.card :global(.fc) {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Tables internes responsables du débordement */
+.card :global(.fc-scrollgrid),
+.card :global(.fc-scrollgrid table) {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* Header responsive */
+.card :global(.fc-header-toolbar) {
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Boutons plus compacts sur mobile */
+@media (max-width: 480px) {
+    .card {
+        padding: 12px;
+    }
+
+    .card :global(.fc-toolbar-title) {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .card :global(.fc-button) {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+}
