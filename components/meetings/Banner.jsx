@@ -8,7 +8,6 @@ const Banner = () => {
     <div className={styles.Banner}>
       <div>
         <h2>{"Calendrier des réunions des sœurs"}</h2>
-        <p>{"Dates officielles, horaires et informations importantes"}</p>
       </div>
     </div>
   );
