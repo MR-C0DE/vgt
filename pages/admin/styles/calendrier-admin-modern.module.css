@@ -1,0 +1,223 @@
+/* === Container global === */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: "Inter", system-ui, sans-serif;
+    background: #f4f5f7;
+    color: #1f2937;
+    padding: 0;
+    margin: 0;
+}
+
+/* === Header === */
+.header {
+    background-color: #0ea5e9;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* === Main content === */
+.main {
+    flex: 1;
+    max-width: 800px;
+    margin: 20px auto 20px;
+    /* overlap header */
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    box-sizing: border-box;
+}
+
+/* === Formulaire === */
+.formCard {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.formCard h2 {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Inputs, textarea, select */
+.form input,
+.form textarea,
+.form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    outline: none;
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 4px rgba(14, 165, 233, 0.3);
+}
+
+/* Row inputs (start / end datetime) */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.row input {
+    flex: 1 1 100%;
+    /* flexible, mais ne dépasse jamais */
+    min-width: 0;
+}
+
+/* Checkbox aligné */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+/* Submit button */
+.submit {
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background-color: #0ea5e9;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.submit:hover {
+    background-color: #0284c7;
+}
+
+/* === Liste des événements === */
+.list h2 {
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+.item {
+    background: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
+}
+
+.itemInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-width: 70%;
+}
+
+.itemInfo strong {
+    font-size: 15px;
+}
+
+.itemInfo span {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Tags catégorie */
+.itemCategory {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 11px;
+    border-radius: 6px;
+    font-weight: 500;
+    color: white;
+    margin-top: 4px;
+}
+
+.itemCategory.réunion {
+    background: #3b82f6;
+}
+
+.itemCategory.formation {
+    background: #10b981;
+}
+
+.itemCategory.culte {
+    background: #f59e0b;
+}
+
+.itemCategory.autre {
+    background: #6b7280;
+}
+
+/* Action buttons */
+.itemActions button {
+    margin-left: 6px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 16px;
+    background: #e5e7eb;
+    font-size: 13px;
+    color: #6b7280;
+    border-top: 1px solid #d1d5db;
+}
+
+/* === Mobile responsive === */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+
+    .formCard {
+        padding: 16px;
+    }
+
+    .submit {
+        font-size: 14px;
+    }
+
+    .item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .itemActions {
+        align-self: flex-end;
+    }
+
+    .itemInfo {
+        max-width: 100%;
+    }
+}
