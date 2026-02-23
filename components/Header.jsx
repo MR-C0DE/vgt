@@ -7,44 +7,44 @@ import Link from "next/link";
 import { useScreenSize } from "./contexts/ScreenSizeContext";
 import Menu from "./Menu";
 
+import Image from "next/image";
+
 const Header = () => {
   const { t } = useTranslation();
   const { width } = useScreenSize();
   return (
     <div className={styles.Header}>
-      <Link className={styles.title}  href={"/"}>
-        <h1 >Voice of God <br /> Tabernacle</h1>
+      <Link className={styles.title} href={"/"}>
+        <img src="/logos.png" alt="Voice of God Tabernacle Logo" />
       </Link>
       {width > 900 && (
         <>
-        <nav>
-          <ul>
-            <li>
-              <Link href={"/"}>{t("Home")}</Link>
-            </li>
-            <li>
-              {" "}
-              <Link href={"/services"}>{t("Services")}</Link>
-            </li>
-            <li>
-              <Link href={"/history"}>{t("History")}</Link>
-            </li>
-            <li>
-              <Link href={"/contact"}>{t("Contact Us")}</Link>
-            </li>
-          </ul>
-        </nav>
-        <Languages />
+          <nav>
+            <ul>
+              <li>
+                <Link href={"/"}>{t("Home")}</Link>
+              </li>
+              <li>
+                {" "}
+                <Link href={"/services"}>{t("Services")}</Link>
+              </li>
+              <li>
+                <Link href={"/history"}>{t("History")}</Link>
+              </li>
+              <li>
+                <Link href={"/contact"}>{t("Contact Us")}</Link>
+              </li>
+            </ul>
+          </nav>
+          <Languages />
         </>
       )}
 
-      
-
       {width <= 900 && (
-      <div className={styles.Mini}>
-      <Languages />
-        <Menu />
-      </div>
+        <div className={styles.Mini}>
+          <Languages />
+          <Menu />
+        </div>
       )}
     </div>
   );
