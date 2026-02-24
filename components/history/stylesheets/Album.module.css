@@ -1,7 +1,8 @@
 .container {
   max-width: 60rem;
   margin: 1rem auto;
-  padding: 0 1rem; /* Ajoute du padding pour éviter que le contenu touche les bords de l'écran sur des petits écrans */
+  padding: 0 1rem;
+  /* Ajoute du padding pour éviter que le contenu touche les bords de l'écran sur des petits écrans */
 }
 
 .container p {
@@ -15,8 +16,10 @@
   grid-auto-rows: 200px;
   grid-auto-flow: dense;
   margin: 0 auto;
-  width: 100%; /* Passe à 100% pour la réactivité */
-  max-width: 60rem; /* Conserve la largeur maximale pour les grands écrans */
+  width: 100%;
+  /* Passe à 100% pour la réactivité */
+  max-width: 60rem;
+  /* Conserve la largeur maximale pour les grands écrans */
 }
 
 .photo {
@@ -44,12 +47,14 @@
 /* Media Queries pour la réactivité */
 @media (max-width: 768px) {
   .album {
-    grid-template-columns: repeat(2, 1fr); /* 2 colonnes pour les tablettes et les petits écrans */
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 colonnes pour les tablettes et les petits écrans */
   }
 }
 
 @media (max-width: 480px) {
   .album {
-    grid-template-columns: 1fr; /* 1 colonne pour les téléphones */
+    grid-template-columns: 1fr;
+    /* 1 colonne pour les téléphones */
   }
 }

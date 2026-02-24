@@ -10,8 +10,6 @@ const Banner = () => {
         <h2>{t("cal")}</h2>
         <p>{t("calDetail")}</p>
       </div>
-
-
     </div>
   );
 };

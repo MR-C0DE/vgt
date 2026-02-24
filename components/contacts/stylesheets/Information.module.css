@@ -1,66 +1,157 @@
 .Information {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #413500;
-    padding: 8rem 20px;
-  }
-  
-  .Information > div {
-    flex: 1;
-    margin: 0 10px;
-    text-align: center;
-  }
-  
-  .svg_content {
-    margin-bottom: 10px;
-  }
-  
-  .info_title {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #fff;
-    text-transform: uppercase;
-  }
-  
-  .info_detail {
-    font-size: 1.1em;
-    color: rgb(209, 209, 209);
-    font-weight: 600;
-  }
-  
-  .info_description {
-    font-size: 0.9em;
-    color: #888;
-  }
-  
-  .Information > div:hover {
-    transform: translateY(-5px);
-  }
-  
-  .svg_content svg {
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .svg_content:hover svg {
-    transform: scale(1.1);
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  background-color: #272727;
+  padding: 10rem 2rem;
+  gap: 2rem;
+  position: relative;
+  overflow: hidden;
+}
 
-  @media screen and (max-width: 1200px) {
-    .Information {
-      padding: 6rem 10px;
-    }
+.Information::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ffc107, transparent);
+}
+
+.Information>div {
+  flex: 1;
+  max-width: 400px;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.Information>div:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 193, 7, 0.3);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+.svg_content {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.svg_content img {
+  width: 50px;
+  height: 50px;
+  filter: brightness(0) invert(1);
+  transition: transform 0.3s ease;
+  opacity: 0.9;
+}
+
+.Information>div:hover .svg_content img {
+  transform: scale(1.1);
+  filter: brightness(0) invert(1) sepia(1) hue-rotate(0deg) saturate(5);
+}
+
+.info_title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #ffc107;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+.info_title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 1px;
+  background: rgba(255, 193, 7, 0.3);
+}
+
+.info_detail {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.info_description {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* Responsive */
+@media screen and (max-width: 1200px) {
+  .Information {
+    padding: 4rem 1.5rem;
+    gap: 1.5rem;
   }
-  
-  @media screen and (max-width: 900px) {
-    .Information {
-      flex-direction: column;
-      gap: 4rem;
-    }
-  
-    .Information > div {
-      margin: 10px 0;
-    }
+}
+
+@media screen and (max-width: 900px) {
+  .Information {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 3rem 1.5rem;
   }
+
+  .Information>div {
+    width: 100%;
+    max-width: 400px;
+    margin: 0;
+    padding: 1.8rem 1.5rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .Information {
+    padding: 2.5rem 1rem;
+  }
+
+  .Information>div {
+    padding: 1.5rem 1rem;
+  }
+
+  .svg_content img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .info_title {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .info_detail {
+    font-size: 0.9rem;
+  }
+
+  .info_description {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .Information {
+    padding: 2rem 0.8rem;
+  }
+
+  .Information>div {
+    padding: 1.2rem 0.8rem;
+  }
+}

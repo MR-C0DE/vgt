@@ -1,19 +1,264 @@
-.dds__blockquote {
-  padding: 1rem;
-  background-color: #f3f3f3;
-  text-align: center;
-  color: #6e6e6e;
-  margin-top: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  border-radius: .1rem;
-  border-left: 7px solid #6e6e6e;
+.container {
+  position: relative;
+  max-width: 100%;
+  margin: 0rem auto;
+  padding: 0 1rem;
+  background-color: #f6f6f7;
+  padding: 2rem;
 }
 
-.dds__blockquote p {
-  font-size: 1.2em;
-  color: #323232;
-  line-height: 1.4;
-  margin-bottom: 7px;
+.blockquote {
+  position: relative;
+  background-color: #fff;
+  padding: 4rem 2.5rem;
+  border-radius: 3px;
+  border: 1px solid #eaeaea;
+
+  text-align: center;
+  margin: 0;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.blockquote:hover {
+  transform: translateY(-5px);
+}
+
+/* Éléments décoratifs */
+.decorTop {
+  position: absolute;
+  top: -20px;
+  left: 10%;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255, 193, 7, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.decorBottom {
+  position: absolute;
+  bottom: -20px;
+  right: 10%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 193, 7, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Icônes de citation */
+.quoteIcon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #ffc107;
+  opacity: 0.3;
+  transform: rotate(180deg);
+  transition: all 0.3s ease;
+}
+
+.quoteIconEnd {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: #ffc107;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+.blockquote:hover .quoteIcon,
+.blockquote:hover .quoteIconEnd {
+  opacity: 0.6;
+  transform: scale(1.1) rotate(180deg);
+}
+
+.blockquote:hover .quoteIconEnd {
+  transform: scale(1.1);
+}
+
+/* Texte de la citation */
+.quoteText {
+  font-size: 1.4rem;
+  color: #272727;
+  line-height: 1.8;
+  margin: 1.5rem 0 1rem;
   font-style: italic;
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Figcaption (auteur) */
+.figcaption {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  color: #666;
+  position: relative;
+  z-index: 1;
+}
+
+.dash {
+  color: #ffc107;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.cite {
+  font-style: normal;
+  font-weight: 600;
+  color: #ffc107;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.cite::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #ffc107;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: right;
+}
+
+.blockquote:hover .cite::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Animation d'entrée */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.blockquote {
+  animation: fadeInScale 0.6s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    margin: 0rem auto;
+  }
+
+  .blockquote {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .quoteText {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .quoteIcon {
+    top: 15px;
+    left: 15px;
+  }
+
+  .quoteIcon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .quoteIconEnd {
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .quoteIconEnd svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .figcaption {
+    font-size: 1rem;
+    margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin: 0rem auto;
+  }
+
+  .blockquote {
+    padding: 2rem 1rem;
+    border-radius: 2px;
+  }
+
+  .quoteText {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  .quoteIcon {
+    top: 10px;
+    left: 10px;
+  }
+
+  .quoteIcon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .quoteIconEnd {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .quoteIconEnd svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .figcaption {
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
+
+  .dash {
+    font-size: 1.2rem;
+  }
+
+  .decorTop,
+  .decorBottom {
+    display: none;
+  }
+}
+
+/* Style pour écrans très petits */
+@media (max-width: 360px) {
+  .quoteText {
+    font-size: 1rem;
+  }
+
+  .figcaption {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .dash {
+    display: none;
+  }
 }

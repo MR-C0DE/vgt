@@ -1,13 +1,13 @@
 import React from "react";
 import { useLanguage } from "./contexts/LanguageContext";
-import Link from "next/link";  // Utilisation de Link pour une meilleure gestion des routes dans Next.js
+import Link from "next/link";
 import styles from "./stylesheets/Footer.module.css";
+import { Heart } from "lucide-react";
 
 const Footer = () => {
   const { language } = useLanguage();
   const date = new Date();
 
-  // Dictionnaire des liens pour la page "Confidentialité"
   const link = {
     fr: "Confidentialité",
     en: "Privacy",
@@ -16,8 +16,9 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <p>
-        {date.getFullYear()} &copy; Voice of God Tabernacle - Ottawa | {" "}
-        <Link href="/privacy">{link[language]}</Link>  {/* Supprimez <a> ici */}
+        <span>{date.getFullYear()} © Voice of God Tabernacle - Ottawa</span>
+        <span className={styles.separator}>|</span>
+        <Link href="/privacy">{link[language]}</Link>
       </p>
     </footer>
   );

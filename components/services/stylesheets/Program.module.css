@@ -1,99 +1,200 @@
 .container {
+  padding: 4rem 2rem;
+  background: #fafafa;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 2rem 0;
-  background-color: #f3f3ea;
-  background: linear-gradient(135deg, #ffffff 0%, #e6e6e6 100%);
   align-items: center;
-  animation: fadeIn 1s ease-in-out;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.mainTitle {
+  font-size: 2.5rem;
+  color: #272727;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.underline {
+  width: 80px;
+  height: 4px;
+  background: #ffc107;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.programsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  width: 100%;
 }
 
 .info {
-  padding: 30px;
-  border-radius: 15px;
-  max-width: 800px;
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 2px;
+  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.info:hover {
-  transform: translateY(-10px);
+.info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accent-color);
+}
+
+.iconWrapper {
+  width: 70px;
+  height: 70px;
+  background: #fafafa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
 }
 
 .title {
-  font-size: 24px;
-  margin-bottom: 15px;
-  color: #333333;
-  font-weight: bold;
-  transition: color 0.3s ease;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #272727;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  position: relative;
+  display: inline-block;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 2px;
+  background: var(--accent-color);
+}
+
+.timeWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  background: #fafafa;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.clockIcon {
+  opacity: 0.7;
+  color: #272727;
 }
 
 .time {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #666666;
-  font-weight: 500;
-  transition: color 0.3s ease;
+  font-size: 1.1rem;
+  color: #272727;
+  font-weight: 600;
+  margin: 0;
 }
 
 .description {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #555555;
-  transition: color 0.3s ease;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #272727;
+  opacity: 0.8;
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.cardFooter {
+  margin-top: auto;
+}
+
+.joinButton {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: #ffc107;
+  color: #272727;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+  cursor: pointer;
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .programsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
-    padding: 6rem 0;
-    gap: 2rem;
+    padding: 3rem 1rem;
+  }
+
+  .mainTitle {
+    font-size: 2rem;
+  }
+
+  .programsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .info {
-    padding: 20px;
-    max-width: 90%;
+    padding: 2rem;
   }
 
   .title {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 
-  .time {
-    font-size: 16px;
-  }
-
-  .description {
-    font-size: 14px;
+  .timeWrapper {
+    padding: 0.5rem 1rem;
   }
 }
 
 @media (max-width: 480px) {
+  .mainTitle {
+    font-size: 1.75rem;
+  }
+
   .info {
-    padding: 15px;
+    padding: 1.5rem;
+  }
+
+  .iconWrapper {
+    width: 60px;
+    height: 60px;
   }
 
   .title {
-    font-size: 18px;
-  }
-
-  .time {
-    font-size: 14px;
+    font-size: 1.3rem;
   }
 
   .description {
-    font-size: 14px;
+    font-size: 0.95rem;
   }
 }

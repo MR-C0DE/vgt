@@ -18,7 +18,6 @@ const photos = [
     src: "./images/ajust/4.jpg",
     alt: "Photo 6",
   },
-  
 ];
 
 const Album = ({ series, setSeries, setIsOpenSeries }) => {
@@ -35,13 +34,10 @@ const Album = ({ series, setSeries, setIsOpenSeries }) => {
     setIsOpenSeries(false);
   };
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className={styles.container}>
-      
-
       <div className={styles.album}>
         {photos.map((photo, index) => (
           <div className={styles.photo} key={index}>
@@ -53,8 +49,6 @@ const Album = ({ series, setSeries, setIsOpenSeries }) => {
           </div>
         ))}
       </div>
-
- 
     </div>
   );
 };

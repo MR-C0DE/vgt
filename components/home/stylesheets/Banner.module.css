@@ -1,8 +1,8 @@
 .Banner {
   background-image: url("/images/x.jpg");
   color: #fff;
-  padding: 4rem 2rem;
-  height: 85vh;
+  height: 100vh;
+  min-height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,12 +10,10 @@
   position: relative;
   overflow: hidden;
   background-size: cover;
-  background-position: left;
-  position: relative;
-  transition: height 5s ease, font-size 5s ease, max-width 5s ease;
-  /* Ajout des transitions sur la hauteur, la taille de la police et la largeur maximale */
+  background-position: center;
 }
 
+/* Overlay élégant avec dégradé */
 .Banner::before {
   content: "";
   position: absolute;
@@ -23,108 +21,203 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: -1;
-}
-
-.Banner h2 {
-  font-size: 5em;
-  text-shadow: 3px 3px 6px #000000cc;
-  transition: font-size 0.5s ease;
-  /* Ajout de la transition pour la taille de la police */
-}
-
-.Banner p {
-  font-size: 1.5em;
-  line-height: 1.8;
-  transition: font-size 5s ease;
-  /* Ajout de la transition pour la taille de la police */
+  background: linear-gradient(135deg, rgba(39, 39, 39, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+  z-index: 1;
 }
 
 .Banner div {
-  transition: max-width 5s ease;
-  /* Ajout de la transition pour la largeur maximale */
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 2rem;
+  animation: fadeIn 1.2s ease-out;
 }
 
+.Banner h2 {
+  font-size: 4.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 1rem;
+}
 
+.Banner h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: #ffc107;
+}
+
+.Banner p {
+  font-size: 1.4rem;
+  line-height: 1.8;
+  max-width: 600px;
+  margin: 0 auto;
+  opacity: 0.95;
+  font-weight: 300;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Animation d'entrée */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
 @media screen and (max-width: 1200px) {
   .Banner {
-    height: 50vh;
+    height: 60vh;
+    min-height: 450px;
   }
 
   .Banner h2 {
-    font-size: 4em;
+    font-size: 3.8rem;
   }
 
   .Banner p {
-    font-size: 1.2em;
-    line-height: 1.8;
-  }
-
-  .Banner div {
-    max-width: 500px;
-
+    font-size: 1.3rem;
   }
 }
 
 @media screen and (max-width: 900px) {
   .Banner {
-    height: 35vh;
-
+    height: 50vh;
+    min-height: 400px;
+    background-attachment: scroll;
   }
 
   .Banner h2 {
-    font-size: 2em;
-    /*-webkit-text-stroke: 1.2px #ffc107;*/
+    font-size: 3rem;
   }
 
+  .Banner p {
+    font-size: 1.2rem;
+  }
+
+  .Banner h2::after {
+    width: 70px;
+  }
 }
 
 @media screen and (max-width: 700px) {
   .Banner {
-    height: 30vh;
-
+    height: 45vh;
+    min-height: 350px;
   }
 
   .Banner h2 {
-    font-size: 2em;
+    font-size: 2.5rem;
   }
 
+  .Banner p {
+    font-size: 1.1rem;
+  }
 }
 
 @media screen and (max-width: 600px) {
   .Banner {
-    height: 25vh;
-
+    height: 40vh;
+    min-height: 300px;
   }
 
   .Banner h2 {
-    font-size: 1.7em;
+    font-size: 2rem;
   }
 
   .Banner p {
-    font-size: .7em;
-    line-height: 1.8;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .Banner h2::after {
+    width: 60px;
+    height: 2px;
   }
 }
 
 @media screen and (max-width: 500px) {
   .Banner {
-    height: 20vh;
+    height: 35vh;
+    min-height: 280px;
   }
 
+  .Banner h2 {
+    font-size: 1.7rem;
+  }
+
+  .Banner p {
+    font-size: 0.9rem;
+  }
+
+  .Banner div {
+    padding: 1.5rem;
+  }
 }
 
 @media screen and (max-width: 400px) {
   .Banner {
-    height: 15vh;
+    height: 30vh;
+    min-height: 250px;
   }
 
+  .Banner h2 {
+    font-size: 1.4rem;
+  }
+
+  .Banner p {
+    font-size: 0.8rem;
+  }
+
+  .Banner h2::after {
+    width: 50px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .Banner {
+    height: 25vh;
+    min-height: 200px;
+  }
+
+  .Banner h2 {
+    font-size: 1.2rem;
+  }
+
+  .Banner p {
+    font-size: 0.75rem;
+  }
 }
 
 @media screen and (max-width: 300px) {
   .Banner {
-    height: 10vh;
+    height: 20vh;
+    min-height: 150px;
   }
 
+  .Banner h2 {
+    font-size: 1rem;
+  }
+
+  .Banner p {
+    font-size: 0.7rem;
+  }
+
+  .Banner h2::after {
+    display: none;
+  }
 }

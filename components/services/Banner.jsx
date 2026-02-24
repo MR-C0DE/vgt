@@ -6,11 +6,9 @@ const Banner = () => {
   const { t } = useTranslation();
   return (
     <div className={styles.Banner}>
-        <div>
+      <div>
         <h2>{t("service_meetings")}</h2>
-            
-        </div>
-
+      </div>
     </div>
   );
 };

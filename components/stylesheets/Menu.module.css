@@ -5,46 +5,130 @@
 .MenuIcon {
   display: flex;
   justify-content: center;
-  text-align: center;
-  font-size: 2rem;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
   cursor: pointer;
   color: #fff;
+  background-color: #272727;
+  border-radius: 4px;
+  transition: all 0.3s ease;
   z-index: 999;
+}
+
+.MenuIcon:hover {
+  background-color: #ffc107;
+  color: #272727;
 }
 
 .MenuNav {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 10px);
   right: 0;
-
-  width: 13rem;
-  background-color: #1e1e1ee6;
-  padding: 1rem;
+  width: 250px;
+  background-color: #272727;
+  padding: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 998;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #000;
+  animation: slideDown 0.3s ease-out;
+}
 
-  border-radius: 4px;
+.MenuNav::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 15px;
+  width: 12px;
+  height: 12px;
+  background-color: #272727;
+  transform: rotate(45deg);
+  border-top: 1px solid #eaeaea;
+  border-left: 1px solid #eaeaea;
 }
 
 .MenuList {
   list-style: none;
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 
 .MenuItem {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 0.8rem;
+}
+
+.MenuItem:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .MenuItem a {
-  font-size: 1.5rem;
-  color: #fff;
+  font-size: 1.1rem;
+  color: #272727;
   text-decoration: none;
   transition: all 0.3s ease;
+  display: block;
+  padding: 0.3rem 0;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 .MenuItem a:hover {
-  color: #ff0000;
+  color: #ffc107;
+  transform: translateX(5px);
+}
+
+/* Animation d'entrée */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media screen and (max-width: 480px) {
+  .MenuNav {
+    width: 220px;
+    right: -10px;
+  }
+
+  .MenuNav::before {
+    right: 20px;
+  }
+
+  .MenuItem a {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .MenuNav {
+    width: 200px;
+    padding: 1.2rem;
+  }
+
+  .MenuItem {
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .MenuItem a {
+    font-size: 0.95rem;
+  }
 }

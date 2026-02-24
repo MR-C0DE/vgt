@@ -1,44 +1,125 @@
-.dds__blockquote {
-  padding: 2rem;
+.blockquote {
+  padding: 2.5rem;
   background-color: #fafafa;
   text-align: left;
-  color: #505050;
+  color: #4a4a4a;
   margin: 4rem auto;
-  width: 95%;
+  width: 90%;
   max-width: 60rem;
-  border-left: 8px solid #8a6d3b;
-  border-radius: .3rem;
+  border-left: 4px solid #ffc107;
+  border-radius: 4px;
   box-sizing: border-box;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  position: relative;
 }
 
-.dds__blockquote p {
-  font-size: 1.2em;
+/* Guillemet décoratif */
+.blockquote::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-size: 5rem;
+  color: rgba(255, 193, 7, 0.2);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.blockquote p {
+  font-size: 1.2rem;
   color: #2c2c2c;
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
   font-weight: 400;
+  font-style: italic;
+  position: relative;
+  z-index: 1;
 }
 
-/* Media query for smaller screens */
+.blockquote p:last-of-type {
+  margin-bottom: 0;
+}
+
+.blockquote figcaption {
+  margin-top: 2rem;
+  text-align: right;
+  font-size: 1rem;
+  color: #666;
+  border-top: 1px solid #eaeaea;
+  padding-top: 1rem;
+  font-style: normal;
+}
+
+.blockquote cite {
+  font-style: normal;
+  font-weight: 500;
+  color: #ffc107;
+  letter-spacing: 0.3px;
+}
+
+/* Séparateur entre les deux parties de la citation */
+.blockquote p br {
+  display: none;
+  /* On gère l'espacement différemment */
+}
+
+.blockquote p+p {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #e0e0e0;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .dds__blockquote {
-    padding: 1.5rem;
-    margin: 2rem 1rem;
+  .blockquote {
+    padding: 2rem 1.5rem;
+    margin: 3rem auto;
+    width: 95%;
   }
 
-  .dds__blockquote p {
-    font-size: 1.1em;
+  .blockquote p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .blockquote::before {
+    font-size: 4rem;
+    top: -5px;
+    left: 15px;
   }
 }
 
-/* Media query for very small screens */
 @media (max-width: 480px) {
-  .dds__blockquote {
-    padding: 1rem;
+  .blockquote {
+    padding: 1.5rem 1rem;
     margin: 2rem 0.5rem;
+    width: auto;
   }
 
-  .dds__blockquote p {
-    font-size: 1.2em;
+  .blockquote p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .blockquote::before {
+    font-size: 3rem;
+    top: 0;
+    left: 10px;
+  }
+
+  .blockquote figcaption {
+    margin-top: 1.5rem;
+    padding-top: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .blockquote {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .blockquote p {
+    font-size: 0.95rem;
   }
 }

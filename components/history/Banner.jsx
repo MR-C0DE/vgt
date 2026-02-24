@@ -9,8 +9,6 @@ const Banner = () => {
       <div>
         <h2>{t("bannerHistory")}</h2>
       </div>
-
-
     </div>
   );
 };

@@ -19,6 +19,7 @@
     "framer-motion": "^12.5.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.575.0",
     "mongodb": "^6.20.0",
     "mongoose": "^8.18.2",
     "mysql": "^2.18.1",
