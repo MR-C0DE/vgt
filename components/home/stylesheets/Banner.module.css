@@ -1,8 +1,9 @@
 .Banner {
   background-image: url("/images/x.jpg");
   color: #fff;
-  height: 100vh;
+  /* height est maintenant géré par JavaScript */
   min-height: 500px;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,6 +12,8 @@
   overflow: hidden;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
 }
 
 /* Overlay élégant avec dégradé */
@@ -78,10 +81,18 @@
   }
 }
 
+/* Solution alternative pure CSS */
+@supports (-webkit-touch-callout: none) {
+  .Banner {
+    height: -webkit-fill-available;
+    background-position: left;
+
+  }
+}
+
 /* Responsive */
 @media screen and (max-width: 1200px) {
   .Banner {
-    height: 60vh;
     min-height: 450px;
   }
 
@@ -96,9 +107,7 @@
 
 @media screen and (max-width: 900px) {
   .Banner {
-    height: 50vh;
     min-height: 400px;
-    background-attachment: scroll;
   }
 
   .Banner h2 {
@@ -116,7 +125,6 @@
 
 @media screen and (max-width: 700px) {
   .Banner {
-    height: 45vh;
     min-height: 350px;
   }
 
@@ -131,7 +139,6 @@
 
 @media screen and (max-width: 600px) {
   .Banner {
-    height: 40vh;
     min-height: 300px;
   }
 
@@ -152,7 +159,6 @@
 
 @media screen and (max-width: 500px) {
   .Banner {
-    height: 35vh;
     min-height: 280px;
   }
 
@@ -171,7 +177,6 @@
 
 @media screen and (max-width: 400px) {
   .Banner {
-    height: 30vh;
     min-height: 250px;
   }
 
@@ -190,7 +195,6 @@
 
 @media screen and (max-width: 350px) {
   .Banner {
-    height: 25vh;
     min-height: 200px;
   }
 
@@ -205,7 +209,6 @@
 
 @media screen and (max-width: 300px) {
   .Banner {
-    height: 20vh;
     min-height: 150px;
   }
 
