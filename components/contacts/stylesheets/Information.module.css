@@ -7,6 +7,8 @@
   gap: 2rem;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .Information::before {
@@ -22,12 +24,16 @@
 .Information>div {
   flex: 1;
   max-width: 400px;
+  width: 100%;
+  /* Ajouté pour s'assurer que la div ne dépasse pas */
   text-align: center;
   padding: 3rem 1.5rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 2px;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+  /* Important pour que le padding soit inclus dans la largeur */
 }
 
 .Information>div:hover {
@@ -50,6 +56,9 @@
   filter: brightness(0) invert(1);
   transition: transform 0.3s ease;
   opacity: 0.9;
+  max-width: 100%;
+  /* Empêche l'image de dépasser */
+  height: auto;
 }
 
 .Information>div:hover .svg_content img {
@@ -67,6 +76,8 @@
   position: relative;
   display: inline-block;
   padding-bottom: 0.5rem;
+  word-wrap: break-word;
+  /* Coupe les mots trop longs */
 }
 
 .info_title::after {
@@ -85,6 +96,7 @@
   font-weight: 500;
   margin-bottom: 0.5rem;
   line-height: 1.5;
+  word-wrap: break-word;
 }
 
 .info_description {
@@ -92,12 +104,13 @@
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.5;
   font-style: italic;
+  word-wrap: break-word;
 }
 
 /* Responsive */
 @media screen and (max-width: 1200px) {
   .Information {
-    padding: 4rem 1.5rem;
+    padding: 6rem 2rem;
     gap: 1.5rem;
   }
 }
@@ -107,24 +120,55 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    padding: 3rem 1.5rem;
+    padding: 4rem 1.5rem;
   }
 
   .Information>div {
     width: 100%;
-    max-width: 400px;
-    margin: 0;
-    padding: 1.8rem 1.5rem;
+    max-width: 500px;
+    /* Un peu plus large sur tablette */
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
   }
 }
 
 @media screen and (max-width: 600px) {
   .Information {
-    padding: 2.5rem 1rem;
+    padding: 3rem 1rem;
   }
 
   .Information>div {
+    max-width: 100%;
+    /* Prend toute la largeur disponible */
     padding: 1.5rem 1rem;
+  }
+
+  .svg_content img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .info_title {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .info_detail {
+    font-size: 0.95rem;
+  }
+
+  .info_description {
+    font-size: 0.85rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Information {
+    padding: 2.5rem 0.8rem;
+  }
+
+  .Information>div {
+    padding: 1.2rem 0.8rem;
   }
 
   .svg_content img {
@@ -133,8 +177,7 @@
   }
 
   .info_title {
-    font-size: 1rem;
-    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
   }
 
   .info_detail {
@@ -146,12 +189,30 @@
   }
 }
 
-@media screen and (max-width: 400px) {
+/* Pour les très petits écrans */
+@media screen and (max-width: 360px) {
   .Information {
-    padding: 2rem 0.8rem;
+    padding: 2rem 0.5rem;
   }
 
   .Information>div {
-    padding: 1.2rem 0.8rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .svg_content img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .info_title {
+    font-size: 0.9rem;
+  }
+
+  .info_detail {
+    font-size: 0.85rem;
+  }
+
+  .info_description {
+    font-size: 0.75rem;
   }
 }
