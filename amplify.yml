@@ -1,0 +1,33 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        # Écrire TOUTES les variables d'env dans .env.production
+        - echo "MONGODB_URI=${MONGODB_URI}" >> .env.production
+        - echo "GMAIL_USER=${GMAIL_USER}" >> .env.production
+        - echo "GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD}" >> .env.production
+        - echo "DB_HOST=${DB_HOST}" >> .env.production
+        - echo "DB_USER=${DB_USER}" >> .env.production
+        - echo "DB_PASSWORD=${DB_PASSWORD}" >> .env.production
+        - echo "DB_NAME=${DB_NAME}" >> .env.production
+        - echo "NOTIFICATION_EMAILS=${NOTIFICATION_EMAILS}" >> .env.production
+        - echo "CHURCH_PHONE=${CHURCH_PHONE}" >> .env.production
+        - echo "CHURCH_ADDRESS=${CHURCH_ADDRESS}" >> .env.production
+        - echo "CHURCH_EMAIL=${CHURCH_EMAIL}" >> .env.production
+        # Les variables NEXT_PUBLIC_ sont déjà incluses automatiquement
+        - echo "NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}" >> .env.production
+        - echo "NEXT_PUBLIC_SITE_NAME=${NEXT_PUBLIC_SITE_NAME}" >> .env.production
+        # Build
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
