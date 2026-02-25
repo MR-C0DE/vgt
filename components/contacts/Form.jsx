@@ -3,9 +3,11 @@ import { useTranslation } from "next-i18next";
 import axios from "axios"; // Importer Axios
 import styles from "./stylesheets/Form.module.css";
 import { useScreenSize } from "../contexts/ScreenSizeContext";
+import { useLanguage } from "../contexts/LanguageContext"; // IMPORTER useLanguage
 
 const Form = () => {
   const { t } = useTranslation();
+  const { language } = useLanguage(); // AJOUTER cette ligne
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -50,7 +52,13 @@ const Form = () => {
       setErrors(validationErrors);
     } else {
       try {
-        const response = await axios.post("/api/message", formData);
+        // Ajouter la langue au formData
+        const dataToSend = {
+          ...formData,
+          language: language, // Maintenant language est défini
+        };
+
+        const response = await axios.post("/api/message", dataToSend);
         setSuccessMessage(t("formSuccess"));
         setErrors({});
         setFormData({
