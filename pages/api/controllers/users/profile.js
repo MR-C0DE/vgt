@@ -1,4 +1,4 @@
-import User from '../../models/User';
+import User from '../../models/user';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'voiceofgodtabernacle_secret_key_2026';
