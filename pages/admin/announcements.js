@@ -35,7 +35,7 @@ const EMPTY_ANNOUNCEMENT = {
 
 export default function Announcements() {
   return (
-    <CheckLogin>
+    <>
         <RoleGuard allowedRoles={PERMISSIONS.USERS}>
       <Head>
         <title>Gestion des annonces | Voice of God Tabernacle</title>
@@ -44,7 +44,7 @@ export default function Announcements() {
       <HeaderAdmin />
       <AnnouncementsContent />
       </RoleGuard>
-    </CheckLogin>
+    </>
   );
 }
 

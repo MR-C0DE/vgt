@@ -74,13 +74,13 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <CheckLogin>
+      <>
         <HeaderAdmin />
         <div className={styles.loadingContainer}>
           <div className={styles.loader}></div>
           <p>Chargement du tableau de bord...</p>
         </div>
-      </CheckLogin>
+      </>
     );
   }
 

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 const RoleContext = createContext();
@@ -15,8 +15,13 @@ export const RoleProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const initialized = useRef(false);
 
   useEffect(() => {
+    // Éviter les exécutions multiples
+    if (initialized.current) return;
+    initialized.current = true;
+    
     loadUserFromToken();
   }, []);
 
@@ -37,12 +42,11 @@ export const RoleProvider = ({ children }) => {
       setUser({
         id: payload.id,
         username: payload.username,
-        role: payload.role || 'viewer', // Par défaut viewer si pas de rôle
+        role: payload.role || 'viewer',
         firstName: payload.first_name,
         lastName: payload.last_name,
         email: payload.email,
-
-      phone: payload.phone || '',  // ← AJOUTEZ CETTE LIGNE
+        phone: payload.phone || '',
       });
     } catch (error) {
       console.error('Error decoding token:', error);
@@ -62,12 +66,13 @@ export const RoleProvider = ({ children }) => {
 
   const isAdmin = () => user?.role === 'admin';
   const isEditor = () => user?.role === 'editor' || user?.role === 'admin';
-  const isViewer = () => true; // Tout le monde peut voir
 
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
-    router.push('/admin/login');
+    
+    // Utiliser window.location pour éviter les boucles
+    window.location.href = '/admin/login';
   };
 
   const value = {
@@ -76,7 +81,6 @@ export const RoleProvider = ({ children }) => {
     hasRole,
     isAdmin,
     isEditor,
-    isViewer,
     logout,
     refresh: loadUserFromToken
   };

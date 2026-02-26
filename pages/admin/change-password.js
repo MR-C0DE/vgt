@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export default function ChangePassword() {
   return (
-    <CheckLogin>
+    <>
       <RoleGuard allowedRoles={PERMISSIONS.DASHBOARD}>
         <Head>
           <title>Changer mot de passe | Voice of God Tabernacle</title>
@@ -21,7 +21,7 @@ export default function ChangePassword() {
         <HeaderAdmin />
         <ChangePasswordContent />
       </RoleGuard>
-    </CheckLogin>
+    </>
   );
 }
 

@@ -7,7 +7,7 @@ import CheckLogin from "@/components/CheckLogin";
 
 export default function Messages() {
   return (
-    <CheckLogin>
+    <>
       <RoleGuard allowedRoles={PERMISSIONS.MESSAGES}>
       <Head>
         <title>Message - Admin | Voice of God Tabernacle</title>
@@ -19,6 +19,6 @@ export default function Messages() {
       <HeaderAdmin />
       <MessageList />
       </RoleGuard>
-    </CheckLogin>
+    </>
   );
 }

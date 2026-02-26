@@ -20,7 +20,7 @@ import Link from "next/link";
 
 export default function Profile() {
   return (
-    <CheckLogin>
+    <>
       <RoleGuard allowedRoles={PERMISSIONS.DASHBOARD}>
         <Head>
           <title>Mon Profil | Voice of God Tabernacle</title>
@@ -29,7 +29,7 @@ export default function Profile() {
         <HeaderAdmin />
         <ProfileContent />
       </RoleGuard>
-    </CheckLogin>
+    </>
   );
 }
 

@@ -41,7 +41,7 @@ const EMPTY_USER = {
 
 export default function Users() {
   return (
-    <CheckLogin>
+    <>
       <RoleGuard allowedRoles={PERMISSIONS.USERS}>
         <Head>
           <title>Gestion des utilisateurs | Voice of God Tabernacle</title>
@@ -50,7 +50,7 @@ export default function Users() {
         <HeaderAdmin />
         <UsersContent />
       </RoleGuard>
-    </CheckLogin>
+    </>
   );
 }
 
