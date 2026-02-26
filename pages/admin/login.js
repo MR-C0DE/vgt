@@ -4,7 +4,7 @@ import Head from "next/head";
 import axios from "axios";
 import styles from "./styles/Login.module.css";
 import { FiLock, FiUser, FiLogIn } from "react-icons/fi";
-
+const currentYear = new Date().getFullYear();
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -123,7 +123,7 @@ export default function Login() {
           </button>
 
           <div className={styles.loginFooter}>
-            <p>Utilisateurs de test : admin / admin123</p>
+            <p> © {currentYear} Voice of God Tabernacle.</p>
           </div>
         </form>
       </div>
