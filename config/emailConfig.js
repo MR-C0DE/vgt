@@ -25,6 +25,8 @@ const emailConfig = {
     notificationEmails: [
       "mulajaandre@gmail.com",
       "andremulaja@yahoo.com",
+      "vgt@live.ca",
+      "pierreb010@hotmail.com",
      // "vgt@live.ca", // ajoutez l'email de l'église
     ],
   };
