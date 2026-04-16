@@ -36,7 +36,7 @@ const EMPTY_ANNOUNCEMENT = {
 export default function Announcements() {
   return (
     <>
-        <RoleGuard allowedRoles={PERMISSIONS.USERS}>
+        <RoleGuard allowedRoles={PERMISSIONS.ANNOUNCEMENTS}>
       <Head>
         <title>Gestion des annonces | Voice of God Tabernacle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />

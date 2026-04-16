@@ -5,9 +5,9 @@ import Head from "next/head";
 
 import { LanguageProvider, useLanguage } from "@/components/contexts/LanguageContext";
 import UsefulLinks from "@/components/UsefulLinks";
-import EventError from "@/components/events/EventError";
-import Banner from "@/components/events/Banner";
-import EventContent from "@/components/events/EventContent";
+import EventError from "@/components/events_/EventError";
+import Banner from "@/components/events_/Banner";
+import EventContent from "@/components/events_/EventContent";
 
 import events from './data/events.json';
 import { useTranslation } from "next-i18next";

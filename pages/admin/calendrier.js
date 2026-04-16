@@ -54,7 +54,7 @@ function getBrowserId() {
 export default function CalendrierAdmin() {
   return (
     <>
-      <RoleGuard allowedRoles={PERMISSIONS.USERS}>
+      <RoleGuard allowedRoles={PERMISSIONS.CALENDAR}>
       <Head>
         <title>Calendrier Admin | Voice of God Tabernacle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
