@@ -13,7 +13,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showLoader, setShowLoader] = useState(false); // ← État pour le loader
   const router = useRouter();
 
   useEffect(() => {
@@ -40,10 +39,6 @@ export default function Login() {
           localStorage.setItem("user", JSON.stringify(response.data.user));
         }
         
-        // Afficher le loader avant la redirection
-        setShowLoader(true);
-        
-        // Petite pause pour que le loader soit visible
         setTimeout(() => {
           router.replace("/admin");
         }, 500);
@@ -56,7 +51,6 @@ export default function Login() {
         err.response?.data?.error || 
         "Erreur de connexion. Vérifiez vos identifiants."
       );
-      setShowLoader(false);
     } finally {
       setLoading(false);
     }

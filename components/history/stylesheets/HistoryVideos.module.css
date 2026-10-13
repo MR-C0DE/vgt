@@ -1,0 +1,45 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 5rem 0;
+  padding: 8rem 2rem;
+  background: #272727;
+  color: #fff;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ffc107, transparent);
+}
+
+.inner { max-width: 72rem; margin: 0 auto; }
+.heading { max-width: 48rem; margin: 0 auto 3.25rem; text-align: center; }
+.heading span { display: inline-block; color: #ffc107; font-size: .82rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.heading h2 { margin: .8rem 0 .9rem; color: #fff; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 600; line-height: 1.15; letter-spacing: .02em; }
+.rule { width: 60px; height: 2px; margin: 1.2rem auto; background: #ffc107; }
+.heading p { margin: 0; color: rgba(255,255,255,.68); font-size: 1rem; font-weight: 300; line-height: 1.8; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+.card { overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 2px; background: rgba(255,255,255,.05); box-shadow: none; transition: transform .3s ease, background-color .3s ease, border-color .3s ease, box-shadow .3s ease; }
+.card:hover { transform: translateY(-5px); border-color: rgba(255,193,7,.3); background: rgba(255,255,255,.08); box-shadow: 0 10px 30px -10px rgba(0,0,0,.3); }
+.media { position: relative; overflow: hidden; background: #0d0d0d; }
+.media::after { content: ""; position: absolute; inset: auto 0 0; height: 30%; background: linear-gradient(transparent, rgba(0,0,0,.42)); pointer-events: none; }
+.media video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #111; object-fit: cover; }
+.number { position: absolute; right: 1rem; bottom: .75rem; z-index: 1; color: rgba(255,255,255,.9); font-size: .78rem; font-weight: 800; letter-spacing: .14em; }
+.cardBody { min-height: 120px; padding: 1.7rem 1.6rem 1.8rem; text-align: center; }
+.cardBody h3 { display: inline-block; position: relative; margin: 0 0 1rem; padding-bottom: .55rem; color: #ffc107; font-size: 1.1rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.cardBody h3::after { content: ""; position: absolute; bottom: 0; left: 25%; width: 50%; height: 1px; background: rgba(255,193,7,.3); }
+.cardBody p { margin: 0; color: rgba(255,255,255,.62); font-size: .9rem; font-style: italic; line-height: 1.6; }
+
+@media (max-width: 720px) {
+  .section { margin: 3rem 0; padding: 4rem 1rem; }
+  .heading { margin-bottom: 2.25rem; }
+  .grid { grid-template-columns: 1fr; }
+  .card:hover { transform: none; }
+}

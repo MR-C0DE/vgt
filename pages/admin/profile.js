@@ -68,9 +68,15 @@ function ProfileContent() {
 
     try {
       const token = localStorage.getItem("token");
+      const payload = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+      };
       const response = await axios.put(
         `/api/controllers/users/profile`,
-        formData,
+        payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

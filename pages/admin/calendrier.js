@@ -5,19 +5,22 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import styles from "./styles/calendrier-admin.module.css";
 import { HeaderAdmin } from "@/components/HeaderAdmin";
-import CheckLogin from "@/components/CheckLogin";
+import { AdminConfirmDialog, AdminNotice } from "@/components/AdminFeedback";
 import RoleGuard from "@/components/RoleGuard";
 import { PERMISSIONS } from "@/constants/roles";
-import { 
-  FiCalendar, FiClock, FiMapPin, FiUser, FiUsers, 
-  FiEdit2, FiTrash2, FiPlus, FiSave, FiX, FiFilter 
+import { usePermissions } from "@/hooks/usePermissions";
+import Link from "next/link";
+import {
+  FiCalendar, FiClock, FiMapPin, FiUser, FiUsers,
+  FiEdit2, FiTrash2, FiPlus, FiSave, FiX, FiFilter,
+  FiHeart, FiArrowRight
 } from "react-icons/fi";
 
 /* =======================
    CONSTANTES
 ======================= */
 const EMPTY_EVENT = {
-  id: null,
+  _id: null,
   title: "",
   start: "",
   end: "",
@@ -55,12 +58,12 @@ export default function CalendrierAdmin() {
   return (
     <>
       <RoleGuard allowedRoles={PERMISSIONS.CALENDAR}>
-      <Head>
-        <title>Calendrier Admin | Voice of God Tabernacle</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <HeaderAdmin />
-      <CalendrierAdminContent />
+        <Head>
+          <title>Calendrier Admin | Voice of God Tabernacle</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        <HeaderAdmin />
+        <CalendrierAdminContent />
       </RoleGuard>
     </>
   );
@@ -71,12 +74,16 @@ export default function CalendrierAdmin() {
 ======================= */
 function CalendrierAdminContent() {
   const router = useRouter();
+  const { can } = usePermissions();
   const [events, setEvents] = useState([]);
   const [form, setForm] = useState(EMPTY_EVENT);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [showForm, setShowForm] = useState(false);
+  const [notice, setNotice] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     loadEvents();
@@ -87,17 +94,17 @@ function CalendrierAdminContent() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch("/api/events", {
-        headers: { 
+        headers: {
           "x-browser-id": getBrowserId(),
           "Authorization": `Bearer ${token}`
         },
       });
-      
+
       if (res.status === 401) {
         router.push("/admin/login");
         return;
       }
-      
+
       const data = await res.json();
       setEvents(Array.isArray(data) ? data : data.events || []);
     } catch (err) {
@@ -114,15 +121,15 @@ function CalendrierAdminContent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const method = editing ? "PUT" : "POST";
     const eventData = { ...form };
-    
-    // Ajouter l'ID dans le body pour PUT
-    if (editing && form.id) {
-      eventData.id = form.id;
+
+    // Supprimer _id du body pour la création
+    if (!editing) {
+      delete eventData._id;
     }
-    
+
     try {
       const token = localStorage.getItem("token");
       const res = await fetch("/api/events", {
@@ -134,27 +141,28 @@ function CalendrierAdminContent() {
         },
         body: JSON.stringify(eventData),
       });
-  
+
       const responseData = await res.json();
-  
+
       if (!res.ok) {
         console.error("Erreur API:", responseData);
-        alert("Erreur: " + (responseData.error || "Une erreur est survenue"));
+        setNotice({ type: "error", text: responseData.error || "Une erreur est survenue" });
         return;
       }
-  
+
       await loadEvents();
       resetForm();
       setShowForm(false);
+      setNotice({ type: "success", text: editing ? "Événement mis à jour." : "Événement créé." });
     } catch (err) {
       console.error("Erreur sauvegarde:", err);
-      alert("Erreur de connexion: " + err.message);
+      setNotice({ type: "error", text: "Erreur de connexion : " + err.message });
     }
   };
-  
-  const deleteEvent = async (id) => {
-    if (!confirm("Êtes-vous sûr de vouloir supprimer cet événement ?")) return;
-  
+
+  const deleteEvent = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
     try {
       const token = localStorage.getItem("token");
       const res = await fetch("/api/events", {
@@ -164,20 +172,24 @@ function CalendrierAdminContent() {
           "x-browser-id": getBrowserId(),
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ id: deleteTarget._id }),
       });
-  
+
       if (!res.ok) {
         const errorData = await res.json();
         console.error("Erreur suppression:", errorData);
-        alert("Erreur: " + (errorData.error || "Impossible de supprimer"));
+        setNotice({ type: "error", text: errorData.error || "Impossible de supprimer" });
         return;
       }
-  
-      setEvents(events.filter((e) => e.id !== id));
+
+      setEvents(events.filter((e) => e._id !== deleteTarget._id));
+      setDeleteTarget(null);
+      setNotice({ type: "success", text: "Événement supprimé." });
     } catch (err) {
       console.error("Erreur suppression:", err);
-      alert("Erreur de connexion: " + err.message);
+      setNotice({ type: "error", text: "Erreur de connexion : " + err.message });
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -189,7 +201,6 @@ function CalendrierAdminContent() {
   const handleAddClick = () => {
     resetForm();
     setShowForm(true);
-    // Scroll vers le formulaire
     setTimeout(() => {
       document.getElementById('formSection')?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
@@ -203,22 +214,15 @@ function CalendrierAdminContent() {
   const editEvent = (event) => {
     setForm({
       ...event,
-      start: event.start
-        ? new Date(event.start).toISOString().slice(0, 16)
-        : "",
-      end: event.end
-        ? new Date(event.end).toISOString().slice(0, 16)
-        : "",
+      start: event.start ? new Date(event.start).toISOString().slice(0, 16) : "",
+      end: event.end ? new Date(event.end).toISOString().slice(0, 16) : "",
     });
     setEditing(true);
     setShowForm(true);
-    // Scroll vers le formulaire
     setTimeout(() => {
       document.getElementById('formSection')?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   };
-
- 
 
   const getCategoryColor = (category) => {
     const cat = CATEGORIES.find(c => c.value === category);
@@ -252,36 +256,41 @@ function CalendrierAdminContent() {
 
   return (
     <div className={styles.container}>
+      <AdminNotice notice={notice} onClose={() => setNotice(null)} />
       <div className={styles.header}>
         <div className={styles.headerTop}>
           <h1>
             <FiCalendar className={styles.headerIcon} />
-            Calendrier Administratif
+            Calendrier
           </h1>
-          <button 
-            className={styles.addButton}
-            onClick={handleAddClick}
-          >
-            <FiPlus /> Nouvel événement
-          </button>
+          <div className={styles.headerActions}>
+            <Link href="/admin/sisters-calendar" className={styles.sistersLink}>
+              <FiHeart className={styles.sistersIcon} />
+              <span>Activités des sœurs</span>
+              <FiArrowRight className={styles.arrowIcon} />
+            </Link>
+            <button className={styles.addButton} onClick={handleAddClick}>
+              <FiPlus /> Nouvel événement
+            </button>
+          </div>
         </div>
-        <p>Gérez les événements et réunions de l'église</p>
+        <p className={styles.headerSubtitle}>Gérez les événements et réunions de l'église</p>
       </div>
 
       <main className={styles.main}>
-        {/* FORMULAIRE (caché par défaut) */}
+        {/* FORMULAIRE */}
         {showForm && (
           <div id="formSection" className={styles.formSection}>
             <div className={styles.formCard}>
               <div className={styles.formHeader}>
                 <h2>
                   {editing ? (
-                    <>✏️ Modifier l'événement</>
+                    <>Modifier l'événement</>
                   ) : (
-                    <>➕ Créer un nouvel événement</>
+                    <>Créer un nouvel événement</>
                   )}
                 </h2>
-                <button 
+                <button
                   className={styles.closeFormButton}
                   onClick={handleCancelForm}
                   title="Fermer"
@@ -339,9 +348,9 @@ function CalendrierAdminContent() {
 
                 <div className={styles.formGroup}>
                   <label>Catégorie</label>
-                  <select 
-                    name="category" 
-                    value={form.category} 
+                  <select
+                    name="category"
+                    value={form.category}
                     onChange={handleChange}
                     style={{ borderLeft: `4px solid ${getCategoryColor(form.category)}` }}
                   >
@@ -356,52 +365,52 @@ function CalendrierAdminContent() {
                 <div className={styles.row}>
                   <div className={styles.formGroup}>
                     <label>Lieu</label>
-                    <input 
-                      name="location" 
-                      placeholder="Salle principale, en ligne..." 
-                      value={form.location} 
-                      onChange={handleChange} 
+                    <input
+                      name="location"
+                      placeholder="Salle principale, en ligne..."
+                      value={form.location}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className={styles.formGroup}>
                     <label>Responsable</label>
-                    <input 
-                      name="leader" 
-                      placeholder="Pasteur Jean" 
-                      value={form.leader} 
-                      onChange={handleChange} 
+                    <input
+                      name="leader"
+                      placeholder="Pasteur Jean"
+                      value={form.leader}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
 
                 <div className={styles.formGroup}>
                   <label>Public concerné</label>
-                  <input 
-                    name="audience" 
-                    placeholder="Tous, Diacres, Jeunes..." 
-                    value={form.audience} 
-                    onChange={handleChange} 
+                  <input
+                    name="audience"
+                    placeholder="Tous, Diacres, Jeunes..."
+                    value={form.audience}
+                    onChange={handleChange}
                   />
                 </div>
 
                 <div className={styles.formGroup}>
                   <label>Notes</label>
-                  <textarea 
-                    name="notes" 
+                  <textarea
+                    name="notes"
                     placeholder="Informations supplémentaires..."
-                    value={form.notes} 
-                    onChange={handleChange} 
+                    value={form.notes}
+                    onChange={handleChange}
                     rows="4"
                   />
                 </div>
 
                 <div className={styles.formActions}>
                   <button type="submit" className={styles.submitButton}>
-                    {editing ? <><FiSave /> Mettre à jour</> : <><FiPlus /> Ajouter</>}
+                    {editing ? <><FiSave /> Mettre à jour</> : <><FiPlus /> Créer</>}
                   </button>
-                  <button 
-                    type="button" 
-                    onClick={handleCancelForm} 
+                  <button
+                    type="button"
+                    onClick={handleCancelForm}
                     className={styles.cancelButton}
                   >
                     Annuler
@@ -423,7 +432,7 @@ function CalendrierAdminContent() {
             </span>
           </div>
           <div className={styles.filterButtons}>
-            <button 
+            <button
               className={`${styles.filterButton} ${filter === 'all' ? styles.activeFilter : ''}`}
               onClick={() => setFilter('all')}
             >
@@ -444,18 +453,20 @@ function CalendrierAdminContent() {
 
         {/* LISTE DES ÉVÉNEMENTS */}
         <section className={styles.listSection}>
-          <h2>
-            <FiCalendar />
-            Liste des événements
-          </h2>
+          <div className={styles.sectionHeader}>
+            <h2>
+              <FiCalendar />
+              Tous les événements
+            </h2>
+          </div>
 
           {filteredEvents.length > 0 ? (
             <div className={styles.eventsList}>
               {filteredEvents.map((event) => (
-                <div key={event.id} className={styles.eventCard}>
+                <div key={event._id} className={styles.eventCard}>
                   <div className={styles.eventHeader}>
                     <h3>{event.title}</h3>
-                    <span 
+                    <span
                       className={styles.eventCategory}
                       style={{ backgroundColor: getCategoryColor(event.category) }}
                     >
@@ -495,27 +506,29 @@ function CalendrierAdminContent() {
 
                     {event.notes && (
                       <div className={styles.eventNotes}>
-                        <strong>Notes:</strong>
+                        <strong>Notes :</strong>
                         <p>{event.notes}</p>
                       </div>
                     )}
                   </div>
 
                   <div className={styles.eventActions}>
-                    <button 
+                    <button
                       onClick={() => editEvent(event)}
                       className={styles.editButton}
                       title="Modifier"
                     >
                       <FiEdit2 />
                     </button>
-                    <button 
-                      onClick={() => deleteEvent(event.id)}
-                      className={styles.deleteButton}
-                      title="Supprimer"
-                    >
-                      <FiTrash2 />
-                    </button>
+                      {can("CALENDAR_DELETE") && (
+                        <button
+                          onClick={() => setDeleteTarget(event)}
+                          className={styles.deleteButton}
+                          title="Supprimer"
+                        >
+                          <FiTrash2 />
+                        </button>
+                      )}
                   </div>
                 </div>
               ))}
@@ -524,7 +537,7 @@ function CalendrierAdminContent() {
             <div className={styles.emptyState}>
               <FiCalendar size={48} />
               <p>Aucun événement trouvé</p>
-              <button 
+              <button
                 onClick={handleAddClick}
                 className={styles.emptyStateButton}
               >
@@ -534,6 +547,7 @@ function CalendrierAdminContent() {
           )}
         </section>
       </main>
+      <AdminConfirmDialog open={Boolean(deleteTarget)} title="Supprimer cet événement ?" message={deleteTarget ? `L’événement « ${deleteTarget.title} » sera supprimé définitivement.` : ""} busy={deleting} onCancel={() => setDeleteTarget(null)} onConfirm={deleteEvent} />
     </div>
   );
 }

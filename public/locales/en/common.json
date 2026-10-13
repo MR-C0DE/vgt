@@ -1,4 +1,13 @@
 {
-    "welcome": "Welcome to my website!",
-    "letter_archive": "Letters from Brother Joseph."
+  "welcome": "Welcome to my website!",
+  "letter_archive": "Letters from Brother Joseph.",
+  "gallery_title": "Photo gallery",
+  "gallery_description": "Photos and memories from the life of Voice of God Tabernacle.",
+  "gallery_heading": "Our photo gallery",
+  "gallery_loading": "Loading albums...",
+  "gallery_empty": "No albums are available yet.",
+  "gallery_grid": "Grid",
+  "gallery_masonry": "Masonry",
+  "gallery_photo_count": "photos",
+  "gallery_back_to_albums": "Back to albums"
 }

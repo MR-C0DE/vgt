@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from "next/link";
 import { FaBars, FaTimes } from 'react-icons/fa'; // Importation des icônes de la bibliothèque react-icons
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 import styles from "./stylesheets/Menu.module.css";
 
 const Menu = () => {

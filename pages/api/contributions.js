@@ -1,6 +1,8 @@
-import Contribution from "./models/Contribution";
+import Contribution from '@/lib/models/Contribution';
+import { enforceRateLimit } from '@/utils/rateLimit';
 
 export default async function handler(req, res) {
+  if (req.method !== 'GET' && !enforceRateLimit(req, res, { name: 'contributions', limit: 15, windowMs: 10 * 60_000 })) return;
   const { method } = req;
   const browserId = req.headers["x-browser-id"];
   if (!browserId) return res.status(400).json({ error: "Browser ID missing" });

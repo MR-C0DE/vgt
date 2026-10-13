@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "next/head";
 import { LanguageProvider } from "@/components/contexts/LanguageContext";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 import UsefulLinks from "@/components/UsefulLinks";
 import styles from "@/styles/privacy.module.css"; // Import du CSS module
 

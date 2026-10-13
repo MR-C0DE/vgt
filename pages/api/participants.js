@@ -1,6 +1,8 @@
-import Participant from "./models/Participant";
+import Participant from '@/lib/models/Participant';
+import { enforceRateLimit } from '@/utils/rateLimit';
 
 export default async function handler(req, res) {
+  if (req.method !== 'GET' && !enforceRateLimit(req, res, { name: 'participants', limit: 15, windowMs: 10 * 60_000 })) return;
   const { method } = req;
   const browserId = req.headers["x-browser-id"];
   if (!browserId) return res.status(400).json({ error: "Browser ID missing" });

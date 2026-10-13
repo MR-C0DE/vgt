@@ -7,8 +7,9 @@ import UsefulLinks from "@/components/UsefulLinks";
 import Banner from "@/components/history/Banner";
 import Blockquote from "@/components/history/Blockquote";
 import Story from "@/components/history/Story";
+import HistoryVideos from "@/components/history/HistoryVideos";
 import Album from "@/components/history/Album";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 
 export default function History() {
 
@@ -52,6 +53,7 @@ export default function History() {
         <Banner />
         <Blockquote />
         <Story />
+        <HistoryVideos />
         <Album />
         <UsefulLinks />
       </main>

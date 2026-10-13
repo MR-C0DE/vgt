@@ -1,6 +1,13 @@
-
-
-  {
-    "welcome": "Bienvenue sur mon site web !",
-    "letter_archive": "Les lettres de frère Joseph"
-  }
+{
+  "welcome": "Bienvenue sur mon site web !",
+  "letter_archive": "Les lettres de frère Joseph",
+  "gallery_title": "Galerie photo",
+  "gallery_description": "Photos et souvenirs de la vie de l'église Voice of God Tabernacle.",
+  "gallery_heading": "Notre galerie photo",
+  "gallery_loading": "Chargement des albums...",
+  "gallery_empty": "Aucun album disponible pour le moment.",
+  "gallery_grid": "Grille",
+  "gallery_masonry": "Masonry",
+  "gallery_photo_count": "photos",
+  "gallery_back_to_albums": "Retour aux albums"
+}

@@ -16,6 +16,8 @@ import {
   FiUser,
   FiKey,
   FiChevronDown,
+  FiUserPlus,
+  FiImage,
 } from "react-icons/fi";
 
 const HeaderAdmin = () => {
@@ -26,7 +28,6 @@ const HeaderAdmin = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileRef = useRef(null);
 
-  // Fermer le menu profil quand on clique ailleurs
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -36,6 +37,16 @@ const HeaderAdmin = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    const closeMenus = () => {
+      setMobileMenuOpen(false);
+      setProfileMenuOpen(false);
+    };
+
+    router.events.on("routeChangeComplete", closeMenus);
+    return () => router.events.off("routeChangeComplete", closeMenus);
+  }, [router.events]);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -49,17 +60,17 @@ const HeaderAdmin = () => {
     return router.pathname === path;
   };
 
-  const getRoleIcon = () => {
-    if (user?.role === "admin") return "👑";
-    if (user?.role === "editor") return "✏️";
-    return "👁️";
-  };
-
   const getInitials = () => {
     if (!user) return "U";
     const first = user.firstName?.charAt(0) || "";
     const last = user.lastName?.charAt(0) || "";
     return (first + last).toUpperCase() || "U";
+  };
+
+  const getRoleLabel = () => {
+    if (user?.role === "admin") return "Administrateur";
+    if (user?.role === "editor") return "Éditeur";
+    return "Lecteur";
   };
 
   return (
@@ -69,35 +80,37 @@ const HeaderAdmin = () => {
           <h1>VGT ADMIN</h1>
         </div>
 
-        <button className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
+        <button
+          type="button"
+          className={styles.mobileMenuButton}
+          onClick={toggleMobileMenu}
+          aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="admin-navigation"
+        >
           {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
 
         <nav
+          id="admin-navigation"
           className={`${styles.nav} ${mobileMenuOpen ? styles.navOpen : ""}`}
         >
           <ul className={styles.navList}>
-            {/* Dashboard - tout le monde */}
             <li className={styles.navItem}>
               <Link
                 href="/admin"
-                className={`${styles.navLink} ${
-                  isActive("/admin") ? styles.active : ""
-                }`}
+                className={`${styles.navLink} ${isActive("/admin") ? styles.active : ""}`}
               >
                 <FiHome className={styles.icon} />
                 <span>Dashboard</span>
               </Link>
             </li>
 
-            {/* Messages - admin et editor */}
             {can("MESSAGES") && (
               <li className={styles.navItem}>
                 <Link
                   href="/admin/messages"
-                  className={`${styles.navLink} ${
-                    isActive("/admin/messages") ? styles.active : ""
-                  }`}
+                  className={`${styles.navLink} ${isActive("/admin/messages") ? styles.active : ""}`}
                 >
                   <FiMail className={styles.icon} />
                   <span>Messages</span>
@@ -105,29 +118,23 @@ const HeaderAdmin = () => {
               </li>
             )}
 
-            {/* Calendrier - admin et editor */}
             {can("CALENDAR") && (
               <li className={styles.navItem}>
                 <Link
                   href="/admin/calendrier"
-                  className={`${styles.navLink} ${
-                    isActive("/admin/calendrier") ? styles.active : ""
-                  }`}
+                  className={`${styles.navLink} ${isActive("/admin/calendrier") ? styles.active : ""}`}
                 >
                   <FiCalendar className={styles.icon} />
-                  <span>Calendrier</span>
+                  <span>Événements</span>
                 </Link>
               </li>
             )}
 
-            {/* Annonces - admin et editor */}
             {can("ANNOUNCEMENTS") && (
               <li className={styles.navItem}>
                 <Link
                   href="/admin/announcements"
-                  className={`${styles.navLink} ${
-                    isActive("/admin/announcements") ? styles.active : ""
-                  }`}
+                  className={`${styles.navLink} ${isActive("/admin/announcements") ? styles.active : ""}`}
                 >
                   <FiBell className={styles.icon} />
                   <span>Annonces</span>
@@ -135,14 +142,23 @@ const HeaderAdmin = () => {
               </li>
             )}
 
-            {/* Utilisateurs - admin seulement */}
+            {can("GALLERY") && (
+              <li className={styles.navItem}>
+                <Link
+                  href="/admin/gallery"
+                  className={`${styles.navLink} ${isActive("/admin/gallery") ? styles.active : ""}`}
+                >
+                  <FiImage className={styles.icon} />
+                  <span>Galerie</span>
+                </Link>
+              </li>
+            )}
+
             {can("USERS") && (
               <li className={styles.navItem}>
                 <Link
                   href="/admin/users"
-                  className={`${styles.navLink} ${
-                    isActive("/admin/users") ? styles.active : ""
-                  }`}
+                  className={`${styles.navLink} ${isActive("/admin/users") ? styles.active : ""}`}
                 >
                   <FiUsers className={styles.icon} />
                   <span>Utilisateurs</span>
@@ -150,21 +166,34 @@ const HeaderAdmin = () => {
               </li>
             )}
 
-            {/* Profil utilisateur */}
+            {/* Gestion des sœurs */}
+            {can("CALENDAR") && (
+              <li className={styles.navItem}>
+                <Link
+                  href="/admin/sisters-calendar"
+                  className={`${styles.navLink} ${router.pathname === "/admin/sisters-calendar" ? styles.active : ""}`}
+                >
+                  <FiUserPlus className={styles.icon} />
+                  <span>Activités des sœurs</span>
+                </Link>
+              </li>
+            )}
+
             {user && (
               <li className={styles.navItem} ref={profileRef}>
                 <button
+                  type="button"
                   onClick={toggleProfileMenu}
                   className={styles.profileButton}
+                  aria-expanded={profileMenuOpen}
+                  aria-haspopup="menu"
                 >
                   <div className={styles.profileAvatar}>{getInitials()}</div>
                   <span className={styles.profileName}>
                     {user.firstName || user.username}
                   </span>
                   <FiChevronDown
-                    className={`${styles.chevron} ${
-                      profileMenuOpen ? styles.chevronOpen : ""
-                    }`}
+                    className={`${styles.chevron} ${profileMenuOpen ? styles.chevronOpen : ""}`}
                   />
                 </button>
 
@@ -180,11 +209,7 @@ const HeaderAdmin = () => {
                         </strong>
                         <span>@{user.username}</span>
                         <span className={styles.profileRole}>
-                          {user.role === "admin"
-                            ? "Administrateur"
-                            : user.role === "editor"
-                            ? "Éditeur"
-                            : "Lecteur"}
+                          {getRoleLabel()}
                         </span>
                       </div>
                     </div>
@@ -206,6 +231,7 @@ const HeaderAdmin = () => {
                       </Link>
                       <div className={styles.profileDivider}></div>
                       <button
+                        type="button"
                         onClick={() => {
                           setProfileMenuOpen(false);
                           logout();

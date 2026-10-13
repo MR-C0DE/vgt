@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
 import { HeaderAdmin } from "@/components/HeaderAdmin";
+import { AdminConfirmDialog, AdminNotice } from "@/components/AdminFeedback";
 import CheckLogin from "@/components/CheckLogin";
 import RoleGuard from "@/components/RoleGuard";
 import { PERMISSIONS } from "@/constants/roles";
@@ -64,6 +65,9 @@ function UsersContent() {
   const [isEditing, setIsEditing] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [currentUserRole, setCurrentUserRole] = useState("");
+  const [notice, setNotice] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     // Récupérer le rôle de l'utilisateur connecté
@@ -99,7 +103,6 @@ function UsersContent() {
         localStorage.removeItem("token");
         router.push("/admin/login");
       } else if (error.response?.status === 403) {
-        alert("Vous n'avez pas les droits pour accéder à cette page");
         router.push("/admin");
       }
     } finally {
@@ -120,12 +123,11 @@ function UsersContent() {
   };
 
   const handleEditClick = (user) => {
-    // Mapper les noms de champs snake_case → camelCase
     setEditingUser({
-      id: user.id,
+      id: user._id || user.id,
       username: user.username,
-      firstName: user.first_name || "",  // ← important !
-      lastName: user.last_name || "",    // ← important !
+      firstName: user.first_name || "",
+      lastName: user.last_name || "",
       email: user.email || "",
       phone: user.phone || "",
       role: user.role || "editor",
@@ -152,11 +154,10 @@ function UsersContent() {
     try {
       const token = localStorage.getItem("token");
   
-      // Préparer les données pour l'API (camelCase → snake_case)
       const userData = {
         username: editingUser.username,
-        firstName: editingUser.firstName,
-        lastName: editingUser.lastName,
+        first_name: editingUser.firstName,
+        last_name: editingUser.lastName,
         email: editingUser.email,
         phone: editingUser.phone,
         role: editingUser.role,
@@ -178,7 +179,7 @@ function UsersContent() {
       } else {
         // Pour la création, le mot de passe est requis
         if (!editingUser.password) {
-          alert("Le mot de passe est requis");
+          setNotice({ type: "error", text: "Le mot de passe est requis" });
           return;
         }
         await axios.post("/api/controllers/users", userData, {
@@ -188,30 +189,30 @@ function UsersContent() {
   
       await fetchUsers();
       handleCancelForm();
+      setNotice({ type: "success", text: isEditing ? "Utilisateur mis à jour." : "Utilisateur créé." });
     } catch (error) {
       console.error("Error saving user:", error);
-      alert(error.response?.data?.error || "Erreur lors de l'enregistrement");
+      setNotice({ type: "error", text: error.response?.data?.error || "Erreur lors de l'enregistrement" });
     }
   };
 
-  const handleDeleteUser = async (userId, username) => {
-    if (
-      !confirm(
-        `Êtes-vous sûr de vouloir supprimer l'utilisateur "${username}" ?`
-      )
-    )
-      return;
-
+  const handleDeleteUser = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
     try {
       const token = localStorage.getItem("token");
       // CORRECTION: enlever "/user" du chemin
-      await axios.delete(`/api/controllers/users?id=${userId}`, {
+      await axios.delete(`/api/controllers/users?id=${deleteTarget.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchUsers();
+      setDeleteTarget(null);
+      setNotice({ type: "success", text: "Utilisateur supprimé." });
     } catch (error) {
       console.error("Error deleting user:", error);
-      alert(error.response?.data?.error || "Erreur lors de la suppression");
+      setNotice({ type: "error", text: error.response?.data?.error || "Erreur lors de la suppression" });
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -246,6 +247,7 @@ function UsersContent() {
 
   return (
     <div className={styles.container}>
+      <AdminNotice notice={notice} onClose={() => setNotice(null)} />
       <div className={styles.header}>
         <div className={styles.headerTop}>
           <h1>
@@ -422,7 +424,7 @@ function UsersContent() {
       <div className={styles.userGrid}>
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (
-            <div key={user.id} className={styles.userCard}>
+            <div key={user._id || user.id} className={styles.userCard}>
               <div className={styles.userCardHeader}>
                 <div className={styles.userAvatar}>
                   <FiUser />
@@ -472,7 +474,7 @@ function UsersContent() {
                   </button>
                   <button
                     className={styles.deleteButton}
-                    onClick={() => handleDeleteUser(user.id, user.username)}
+                    onClick={() => setDeleteTarget({ id: user._id || user.id, username: user.username })}
                     title="Supprimer"
                   >
                     <FiTrash2 />
@@ -496,6 +498,7 @@ function UsersContent() {
           </div>
         )}
       </div>
+      <AdminConfirmDialog open={Boolean(deleteTarget)} title="Supprimer cet utilisateur ?" message={deleteTarget ? `Le compte « ${deleteTarget.username} » sera supprimé définitivement.` : ""} busy={deleting} onCancel={() => setDeleteTarget(null)} onConfirm={handleDeleteUser} />
     </div>
   );
 }

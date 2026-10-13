@@ -615,3 +615,76 @@
         align-self: flex-start;
     }
 }
+
+/* Header actions */
+.headerTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.headerSubtitle {
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+/* Lien vers activités des sœurs */
+.sistersLink {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 8px;
+    color: #ffc107;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.sistersLink:hover {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: #ffc107;
+    transform: translateY(-1px);
+}
+
+.sistersIcon {
+    font-size: 1rem;
+}
+
+.arrowIcon {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+}
+
+.sistersLink:hover .arrowIcon {
+    transform: translateX(3px);
+}
+
+/* Section header */
+.sectionHeader {
+    margin-bottom: 1.5rem;
+}
+
+.sectionHeader h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #272727;
+    margin: 0;
+}

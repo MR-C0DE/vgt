@@ -1,144 +1,108 @@
-import User from '../../models/user';
-import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'voiceofgodtabernacle_secret_key_2026';
+import { connectToDatabase } from '@/lib/mongodb';
+import User from '@/lib/models/UserModel';
+import bcrypt from 'bcryptjs';
+import { ObjectId } from 'mongodb';
+import { authenticateRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
-  // Vérifier l'authentification
-  const token = req.headers.authorization?.split(' ')[1];
-  
-  if (!token) {
-    return res.status(401).json({ error: "Non autorisé" });
-  }
+  await connectToDatabase();
 
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    
-    // Vérifier que l'utilisateur est admin (sauf pour GET qui peut être accessible aux admins et editors)
-    if (req.method !== 'GET' && decoded.role !== 'admin') {
-      return res.status(403).json({ error: "Accès interdit - Réservé aux administrateurs" });
-    }
+  const decoded = authenticateRequest(req, res, ['admin']);
+  if (!decoded) return;
 
-    switch (req.method) {
-      case 'GET':
-        return await handleGet(req, res);
-      case 'POST':
-        return await handlePost(req, res);
-      case 'PUT':
-        return await handlePut(req, res);
-      case 'DELETE':
-        return await handleDelete(req, res);
-      default:
-        return res.status(405).json({ error: "Méthode non autorisée" });
-    }
-  } catch (error) {
-    console.error("Auth error:", error);
-    return res.status(401).json({ error: "Token invalide" });
-  }
-}
-
-// GET - Récupérer tous les utilisateurs ou un seul
-async function handleGet(req, res) {
-  try {
-    const { id } = req.query;
-    
-    if (id) {
-      const user = await User.getUserById(id);
-      if (!user) {
-        return res.status(404).json({ error: "Utilisateur non trouvé" });
+  switch (req.method) {
+    case 'GET': {
+      const { id } = req.query;
+      if (id) {
+        if (!ObjectId.isValid(id)) return res.status(400).json({ error: "ID invalide" });
+        const user = await User.findById(id).select('-password');
+        if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
+        return res.status(200).json(user);
+      } else {
+        const users = await User.find().select('-password').sort({ created_at: -1 });
+        return res.status(200).json(users);
       }
-      // Ne pas renvoyer le mot de passe
-      const { password, ...userWithoutPassword } = user;
-      return res.status(200).json(userWithoutPassword);
-    } else {
-      const users = await User.getAllUsers();
-      return res.status(200).json(users);
-    }
-  } catch (error) {
-    console.error("Error in GET users:", error);
-    return res.status(500).json({ error: "Erreur serveur" });
-  }
-}
-
-// POST - Créer un nouvel utilisateur
-async function handlePost(req, res) {
-  try {
-    const { username, password, firstName, lastName, email, phone, role } = req.body;
-
-    // Validation
-    if (!username || !password || !firstName || !lastName || !email) {
-      return res.status(400).json({ error: "Tous les champs requis ne sont pas remplis" });
     }
 
-    // Vérifier si l'utilisateur existe déjà
-    const existingUser = await User.getUserByUsername(username);
-    if (existingUser) {
-      return res.status(400).json({ error: "Ce nom d'utilisateur existe déjà" });
+    case 'POST': {
+      const {
+        username,
+        password,
+        email,
+        phone,
+        role,
+        first_name = req.body.firstName,
+        last_name = req.body.lastName,
+      } = req.body;
+
+      if (!username || !password || !first_name || !last_name || !email) {
+        return res.status(400).json({ error: "Tous les champs requis ne sont pas remplis" });
+      }
+
+      const existing = await User.findOne({ $or: [{ username }, { email }] });
+      if (existing) {
+        return res.status(400).json({ error: "Nom d'utilisateur ou email déjà utilisé" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await User.create({
+        username, password: hashedPassword, first_name, last_name, email, phone, role
+      });
+
+      const { password: _, ...userWithoutPassword } = user.toObject();
+      return res.status(201).json(userWithoutPassword);
     }
 
-    const newUser = await User.createUser(username, password, firstName, lastName, email, phone, role || 'editor');
-    
-    return res.status(201).json({ 
-      message: "Utilisateur créé avec succès",
-      user: newUser 
-    });
-  } catch (error) {
-    console.error("Error in POST users:", error);
-    return res.status(500).json({ error: "Erreur serveur" });
-  }
-}
+    case 'PUT': {
+      const { id } = req.query;
+      const {
+        username,
+        email,
+        phone,
+        role,
+        password,
+        first_name = req.body.firstName,
+        last_name = req.body.lastName,
+      } = req.body;
 
-// PUT - Mettre à jour un utilisateur
-async function handlePut(req, res) {
-  try {
-    const { id } = req.query;
-    const userData = req.body;
+      if (!id) return res.status(400).json({ error: "ID requis" });
+      if (!ObjectId.isValid(id)) return res.status(400).json({ error: "ID invalide" });
 
-    if (!id) {
-      return res.status(400).json({ error: "ID requis" });
+      if (!username || !first_name || !last_name || !email) {
+        return res.status(400).json({ error: "Tous les champs requis ne sont pas remplis" });
+      }
+
+      const duplicate = await User.findOne({
+        _id: { $ne: id },
+        $or: [{ username }, { email }],
+      });
+      if (duplicate) {
+        return res.status(400).json({ error: "Nom d'utilisateur ou email déjà utilisé" });
+      }
+
+      const updateData = { username, first_name, last_name, email, phone, role, updated_at: new Date() };
+      if (password) {
+        updateData.password = await bcrypt.hash(password, 10);
+      }
+
+      const user = await User.findByIdAndUpdate(id, updateData, { new: true }).select('-password');
+      if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
+      return res.status(200).json(user);
     }
 
-    const existingUser = await User.getUserById(id);
-    if (!existingUser) {
-      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    case 'DELETE': {
+      const { id } = req.query;
+      if (!id) return res.status(400).json({ error: "ID requis" });
+      if (!ObjectId.isValid(id)) return res.status(400).json({ error: "ID invalide" });
+      if (decoded.id === id) {
+        return res.status(400).json({ error: "Vous ne pouvez pas supprimer votre propre compte" });
+      }
+      const user = await User.findByIdAndDelete(id);
+      if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
+      return res.status(200).json({ success: true });
     }
 
-    await User.updateUser(id, userData);
-    
-    return res.status(200).json({ message: "Utilisateur mis à jour avec succès" });
-  } catch (error) {
-    console.error("Error in PUT users:", error);
-    return res.status(500).json({ error: "Erreur serveur" });
-  }
-}
-
-// DELETE - Supprimer un utilisateur
-async function handleDelete(req, res) {
-  try {
-    const { id } = req.query;
-
-    if (!id) {
-      return res.status(400).json({ error: "ID requis" });
-    }
-
-    // Empêcher la suppression de son propre compte
-    const token = req.headers.authorization?.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
-    
-    if (decoded.id === parseInt(id)) {
-      return res.status(400).json({ error: "Vous ne pouvez pas supprimer votre propre compte" });
-    }
-
-    const existingUser = await User.getUserById(id);
-    if (!existingUser) {
-      return res.status(404).json({ error: "Utilisateur non trouvé" });
-    }
-
-    await User.deleteUser(id);
-    
-    return res.status(200).json({ message: "Utilisateur supprimé avec succès" });
-  } catch (error) {
-    console.error("Error in DELETE users:", error);
-    return res.status(500).json({ error: "Erreur serveur" });
+    default:
+      return res.status(405).json({ error: "Méthode non autorisée" });
   }
 }

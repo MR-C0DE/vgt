@@ -71,8 +71,7 @@ export const RoleProvider = ({ children }) => {
     localStorage.removeItem('token');
     setUser(null);
     
-    // Utiliser window.location pour éviter les boucles
-    window.location.href = '/admin/login';
+    router.replace('/admin/login');
   };
 
   const value = {

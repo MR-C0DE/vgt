@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
 import SafariConfirmationModal from "./SafariConfirmationForm";
 import ThanksParticipants from "./ThanksParticipants";

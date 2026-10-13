@@ -1,16 +1,24 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { Messages } from "./models/message";
+import { connectToDatabase } from '@/lib/mongodb';
+import Message from '@/lib/models/MessageModel';
 import emailService from "../../utils/emailService";
+import { enforceRateLimit } from '@/utils/rateLimit';
 
 export default async function handler(req, res) {
+  if (!enforceRateLimit(req, res, { name: 'contact', limit: 5, windowMs: 10 * 60_000 })) return;
   // Vérifie si la méthode est un POST
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
   try {
+    await connectToDatabase();
+
     // Valider et nettoyer les données
     const { firstname, lastname, email, telephone, object, message, language = 'fr' } = req.body;
+
+    if ([firstname, lastname, email, telephone, object, message].some((value) => typeof value === 'string' && value.length > 5000)) {
+      return res.status(400).json({ message: 'Payload too large' });
+    }
 
     if (!firstname || typeof firstname !== 'string') {
       return res.status(400).json({ message: 'Invalid firstname' });
@@ -32,16 +40,16 @@ export default async function handler(req, res) {
     }
 
     // Sauvegarder dans la base de données
-    const insertResult = await Messages.insertMessage(
-      firstname, 
-      lastname, 
-      email, 
-      telephone || "000-000-000", 
-      object, 
-      message, 
-      new Date(), 
-      "no-read"
-    );
+    const insertResult = await Message.create({
+      firstname,
+      lastname,
+      email,
+      telephone: telephone || "000-000-000",
+      objet: object,
+      message,
+      date: new Date(),
+      state: "no-read",
+    });
 
     // Envoyer les notifications par email
     const emailResult = await emailService.sendNewMessageNotifications(

@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import styles from "./stylesheets/SafariConfirmationList.module.css";

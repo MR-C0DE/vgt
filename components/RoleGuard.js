@@ -14,14 +14,14 @@ const RoleGuard = ({ children, allowedRoles, fallback = '/admin' }) => {
     
     if (!loading) {
       if (!user) {
-        window.location.href = '/admin/login'; // ← Redirection directe
+        router.replace('/admin/login');
       } else if (!hasRole(allowedRoles)) {
-        window.location.href = fallback; // ← Redirection directe
+        router.replace(fallback);
       } else {
         setChecked(true);
       }
     }
-  }, [loading, user, hasRole, allowedRoles, fallback, checked]);
+  }, [loading, user, hasRole, allowedRoles, fallback, checked, router]);
 
   if (loading || !checked) {
     return (

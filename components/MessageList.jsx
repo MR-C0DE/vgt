@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { AdminConfirmDialog, AdminNotice } from "./AdminFeedback";
+import { usePermissions } from "@/hooks/usePermissions";
 import styles from "./stylesheets/MessageList.module.css";
 import {
   FiMail,
@@ -21,6 +23,7 @@ import {
 
 const MessageList = () => {
   const router = useRouter();
+  const { can } = usePermissions();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,8 +32,10 @@ const MessageList = () => {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
+  const [notice, setNotice] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
-  // Détecter la taille de l'écran
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -83,14 +88,16 @@ const MessageList = () => {
       await axios.put(
         `/api/controllers/messages?id=${id}`,
         { state: "read" },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       setMessages(
-        messages.map((msg) => (msg.id === id ? { ...msg, state: "read" } : msg))
+        messages.map((msg) =>
+          msg._id === id ? { ...msg, state: "read" } : msg,
+        ),
       );
 
-      if (selectedMessage?.id === id) {
+      if (selectedMessage?._id === id) {
         setSelectedMessage({ ...selectedMessage, state: "read" });
       }
     } catch (error) {
@@ -102,27 +109,33 @@ const MessageList = () => {
     }
   };
 
-  const deleteMessage = async (id) => {
-    if (!confirm("Êtes-vous sûr de vouloir supprimer ce message ?")) return;
-
+  const deleteMessage = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`/api/controllers/messages?id=${id}`, {
+      await axios.delete(`/api/controllers/messages?id=${deleteTarget}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setMessages(messages.filter((msg) => msg.id !== id));
+      setMessages(messages.filter((msg) => msg._id !== deleteTarget));
 
-      if (selectedMessage?.id === id) {
+      if (selectedMessage?._id === deleteTarget) {
         setSelectedMessage(null);
         setShowDetail(false);
       }
+      setDeleteTarget(null);
+      setNotice({ type: "success", text: "Message supprimé." });
     } catch (error) {
       console.error("Error deleting message:", error);
       if (error.response?.status === 401) {
         localStorage.removeItem("token");
         router.push("/admin/login");
+      } else {
+        setNotice({ type: "error", text: error.response?.data?.error || "Suppression impossible" });
       }
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -131,10 +144,9 @@ const MessageList = () => {
     setShowDetail(true);
 
     if (message.state === "no-read") {
-      markAsRead(message.id);
+      markAsRead(message._id);
     }
 
-    // Sur mobile, on désactive le scroll du body
     if (isMobile) {
       document.body.style.overflow = "hidden";
     }
@@ -142,7 +154,6 @@ const MessageList = () => {
 
   const handleBackToList = () => {
     setShowDetail(false);
-    // Réactiver le scroll
     document.body.style.overflow = "auto";
   };
 
@@ -191,7 +202,7 @@ const MessageList = () => {
 
   return (
     <div className={styles.container}>
-      {/* Header toujours visible */}
+      <AdminNotice notice={notice} onClose={() => setNotice(null)} />
       <div className={styles.header}>
         <div className={styles.headerTop}>
           <h1>
@@ -215,7 +226,6 @@ const MessageList = () => {
           )}
         </div>
 
-        {/* Filtres et recherche - cachés quand on lit un message sur mobile */}
         {(!isMobile || !showDetail) && (
           <>
             <div className={styles.filters}>
@@ -262,9 +272,7 @@ const MessageList = () => {
         )}
       </div>
 
-      {/* Corps de la boîte mail */}
       <div className={styles.mailbox}>
-        {/* Liste des messages - cachée sur mobile quand on lit un message */}
         <div
           className={`${styles.messageList} ${
             isMobile && showDetail ? styles.hideOnMobile : ""
@@ -273,11 +281,11 @@ const MessageList = () => {
           {filteredMessages.length > 0 ? (
             filteredMessages.map((msg) => (
               <div
-                key={msg.id}
+                key={msg._id}
                 className={`${styles.messageListItem} ${
                   msg.state === "no-read" ? styles.unread : ""
                 } ${
-                  selectedMessage?.id === msg.id && !isMobile
+                  selectedMessage?._id === msg._id && !isMobile
                     ? styles.selected
                     : ""
                 }`}
@@ -330,7 +338,6 @@ const MessageList = () => {
           )}
         </div>
 
-        {/* Détail du message - plein écran sur mobile */}
         <div
           className={`${styles.messageDetail} ${
             isMobile && showDetail ? styles.showOnMobile : ""
@@ -341,13 +348,15 @@ const MessageList = () => {
               <div className={styles.detailHeader}>
                 <h2>{selectedMessage.objet}</h2>
                 <div className={styles.detailActions}>
-                  <button
-                    onClick={() => deleteMessage(selectedMessage.id)}
-                    className={styles.detailDeleteButton}
-                    title="Supprimer"
-                  >
-                    <FiTrash2 />
-                  </button>
+                  {can("MESSAGES_DELETE") && (
+                    <button
+                      onClick={() => setDeleteTarget(selectedMessage._id)}
+                      className={styles.detailDeleteButton}
+                      title="Supprimer"
+                    >
+                      <FiTrash2 />
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -386,7 +395,7 @@ const MessageList = () => {
                         year: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
-                      }
+                      },
                     )}
                   </span>
                 </div>
@@ -407,6 +416,7 @@ const MessageList = () => {
           )}
         </div>
       </div>
+      <AdminConfirmDialog open={Boolean(deleteTarget)} title="Supprimer ce message ?" message="Ce message sera supprimé définitivement." busy={deleting} onCancel={() => setDeleteTarget(null)} onConfirm={deleteMessage} />
     </div>
   );
 };

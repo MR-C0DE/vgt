@@ -7,7 +7,7 @@ import Banner from "@/components/contacts/Banner";
 import Form from "@/components/contacts/Form";
 import UsefulLinks from "@/components/UsefulLinks";
 import Information from "@/components/contacts/Information";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 export default function Contact() {
   const { t } = useTranslation();
   return (

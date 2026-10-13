@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./stylesheets/Schedule.module.css";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 import Link from "next/link";
 const Schedule = () => {
   const { t } = useTranslation();

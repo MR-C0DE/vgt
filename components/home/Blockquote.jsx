@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./stylesheets/Blockquote.module.css";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 import { Quote } from "lucide-react";
 
 const Blockquote = () => {

@@ -1,180 +1,105 @@
 .Banner {
-  background-image: url("/images/t1.jpg");
-  color: #fff;
-  height: 70vh;
-  min-height: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  min-height: 350px;
+  color: #fff;
+  text-align: center;
+  background-image: url("/images/t1.jpg");
+  background-position: top center;
   background-size: cover;
-  background-position: top;
 }
 
-/* Overlay plus élégant avec dégradé */
 .Banner::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(39, 39, 39, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+  inset: 0;
   z-index: 1;
+  background: linear-gradient(135deg, rgba(39, 39, 39, .8) 0%, rgba(0, 0, 0, .6) 100%);
 }
 
 .Banner div {
   position: relative;
   z-index: 2;
-  max-width: 800px;
-  padding: 2rem;
-  animation: fadeIn 1.2s ease-out;
+  max-width: 700px;
+  margin: 0 1rem;
+  padding: 2rem 2.5rem;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, .05);
+  backdrop-filter: blur(5px);
+  animation: fadeIn 1s ease-out;
 }
 
 .Banner h2 {
-  font-size: 4rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: 1px;
   position: relative;
   display: inline-block;
-  padding-bottom: 1rem;
+  margin: 0 0 1rem;
+  padding-bottom: .5rem;
+  font-size: 3.5rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, .3);
 }
 
 .Banner h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
+  width: 60px;
+  height: 2px;
   background: #ffc107;
+  transform: translateX(-50%);
 }
 
-/* Animation d'entrée */
+.Banner p {
+  max-width: 500px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.8;
+  opacity: .9;
+}
+
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive */
 @media screen and (max-width: 1200px) {
-  .Banner {
-    height: 55vh;
-    min-height: 350px;
-  }
-
-  .Banner h2 {
-    font-size: 3.5rem;
-  }
+  .Banner { height: 45vh; min-height: 300px; }
+  .Banner h2 { font-size: 3rem; }
+  .Banner p { font-size: 1.1rem; }
 }
 
 @media screen and (max-width: 900px) {
-  .Banner {
-    height: 45vh;
-    min-height: 300px;
-    background-attachment: scroll;
-  }
-
-  .Banner h2 {
-    font-size: 2.8rem;
-  }
-
-  .Banner h2::after {
-    width: 60px;
-  }
+  .Banner { height: 40vh; min-height: 280px; }
+  .Banner div { padding: 1.5rem 2rem; }
+  .Banner h2 { font-size: 2.5rem; }
+  .Banner p { font-size: 1rem; }
 }
 
 @media screen and (max-width: 700px) {
-  .Banner {
-    height: 40vh;
-    min-height: 280px;
-  }
-
-  .Banner h2 {
-    font-size: 2.2rem;
-  }
+  .Banner { height: 35vh; min-height: 250px; }
+  .Banner div { padding: 1.2rem 1.5rem; }
+  .Banner h2 { font-size: 2rem; }
+  .Banner p { font-size: .95rem; line-height: 1.6; }
 }
 
-@media screen and (max-width: 600px) {
-  .Banner {
-    height: 35vh;
-    min-height: 250px;
-  }
-
-  .Banner h2 {
-    font-size: 1.8rem;
-  }
-
-  .Banner h2::after {
-    width: 50px;
-    height: 2px;
-  }
+@media screen and (max-width: 480px) {
+  .Banner { height: 30vh; min-height: 220px; }
+  .Banner div { padding: 1rem 1.2rem; }
+  .Banner h2 { font-size: 1.6rem; }
+  .Banner h2::after { width: 40px; }
+  .Banner p { font-size: .9rem; }
 }
 
-@media screen and (max-width: 500px) {
-  .Banner {
-    height: 30vh;
-    min-height: 220px;
-  }
-
-  .Banner h2 {
-    font-size: 1.6rem;
-  }
-
-  .Banner div {
-    padding: 1.5rem;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .Banner {
-    height: 25vh;
-    min-height: 180px;
-  }
-
-  .Banner h2 {
-    font-size: 1.3rem;
-  }
-
-  .Banner h2::after {
-    width: 40px;
-  }
-}
-
-@media screen and (max-width: 350px) {
-  .Banner {
-    height: 22vh;
-    min-height: 150px;
-  }
-
-  .Banner h2 {
-    font-size: 1.1rem;
-  }
-}
-
-@media screen and (max-width: 300px) {
-  .Banner {
-    height: 20vh;
-    min-height: 130px;
-  }
-
-  .Banner h2 {
-    font-size: 1rem;
-  }
-
-  .Banner h2::after {
-    display: none;
-  }
+@media screen and (max-width: 360px) {
+  .Banner { height: 25vh; min-height: 180px; }
+  .Banner h2 { font-size: 1.3rem; }
+  .Banner p { font-size: .8rem; }
 }

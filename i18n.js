@@ -3,31 +3,33 @@ import i18n from "i18next";
 import {
   initReactI18next
 } from "react-i18next";
-import enTranslation from "/public/locales/en/common.json";
-import frTranslation from "/public/locales/fr/common.json";
-import enMenu from "/public/locales/en/menu.json";
-import frMenu from "/public/locales/fr/menu.json";
-import enContact from "/public/locales/en/contact.json";
-import frContact from "/public/locales/fr/contact.json";
-import enHome from "/public/locales/en/home.json";
-import frHome from "/public/locales/fr/home.json";
-import enService from "/public/locales/en/services.json";
-import frService from "/public/locales/fr/services.json";
-import enHistory from "/public/locales/en/history.json";
-import frHistory from "/public/locales/fr/history.json";
-import enPrivacy from "/public/locales/en/privacy.json";
-import frPrivacy from "/public/locales/fr/privacy.json";
-import enEvent from "/public/locales/en/event_.json";
-import frEvent from "/public/locales/fr/event_.json";
+import enTranslation from "./public/locales/en/common.json";
+import frTranslation from "./public/locales/fr/common.json";
+import enMenu from "./public/locales/en/menu.json";
+import frMenu from "./public/locales/fr/menu.json";
+import enContact from "./public/locales/en/contact.json";
+import frContact from "./public/locales/fr/contact.json";
+import enHome from "./public/locales/en/home.json";
+import frHome from "./public/locales/fr/home.json";
+import enService from "./public/locales/en/services.json";
+import frService from "./public/locales/fr/services.json";
+import enHistory from "./public/locales/en/history.json";
+import frHistory from "./public/locales/fr/history.json";
+import enPrivacy from "./public/locales/en/privacy.json";
+import frPrivacy from "./public/locales/fr/privacy.json";
+import enSister from "./public/locales/en/sisters.json";
+import frSister from "./public/locales/fr/sisters.json";
+import enEvent from "./public/locales/en/event_.json";
+import frEvent from "./public/locales/fr/event_.json";
 
-import frHeadHome from '/public/locales/fr/header/FRHome.json'
-import enHeadHome from '/public/locales/en/header/ENHome.json'
-import frHeadContact from '/public/locales/fr/header/FRContact.json'
-import enHeadContact from '/public/locales/en/header/ENContact.json'
-import frHeadServices from '/public/locales/fr/header/FRServices.json'
-import enHeadServices from '/public/locales/en/header/ENServices.json'
-import frHeadHistory from '/public/locales/fr/header/FRHistory.json'
-import enHeadHistory from '/public/locales/en/header/ENHistory.json'
+import frHeadHome from './public/locales/fr/header/FRHome.json'
+import enHeadHome from './public/locales/en/header/ENHome.json'
+import frHeadContact from './public/locales/fr/header/FRContact.json'
+import enHeadContact from './public/locales/en/header/ENContact.json'
+import frHeadServices from './public/locales/fr/header/FRServices.json'
+import enHeadServices from './public/locales/en/header/ENServices.json'
+import frHeadHistory from './public/locales/fr/header/FRHistory.json'
+import enHeadHistory from './public/locales/en/header/ENHistory.json'
 
 const english = {
   ...enTranslation,
@@ -41,7 +43,8 @@ const english = {
   ...enHeadContact,
   ...enHeadServices,
   ...enHeadHistory,
-  ...enEvent
+  ...enEvent,
+  ...enSister,
 };
 const francais = {
   ...frTranslation,
@@ -55,7 +58,8 @@ const francais = {
   ...frHeadContact,
   ...frHeadServices,
   ...frHeadHistory,
-  ...frEvent
+  ...frEvent,
+  ...frSister,
 };
 
 

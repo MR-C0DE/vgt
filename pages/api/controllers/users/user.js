@@ -1,16 +1,28 @@
-import User from '../../models/user'; // Assurez-vous que le chemin est correct
-import bcrypt from 'bcrypt';
+import { connectToDatabase } from '@/lib/mongodb';
+import User from '@/lib/models/UserModel';
+import bcrypt from 'bcryptjs';
+import { authenticateRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
+  if (!authenticateRequest(req, res, ['admin'])) return;
   const { method } = req;
 
   try {
+    await connectToDatabase();
+
     switch (method) {
       case 'GET':
-        // Récupérer tous les utilisateurs ou rechercher par mot-clé
         const { keyword } = req.query;
         if (keyword) {
-          const users = await User.searchUsersByKeyword(keyword);
+          const regex = new RegExp(keyword, 'i');
+          const users = await User.find({
+            $or: [
+              { username: regex },
+              { first_name: regex },
+              { last_name: regex },
+              { email: regex },
+            ],
+          }).select('-password');
           res.status(200).json(users);
         } else {
           res.status(400).json({ message: 'Keyword is required' });
@@ -18,12 +30,19 @@ export default async function handler(req, res) {
         break;
 
       case 'POST':
-        // Créer un nouvel utilisateur
         const { username, password, firstName, lastName, email, phone } = req.body;
-        const saltRounds = 10; // Nombre de tours de salage
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = await User.createUser(username, hashedPassword, firstName, lastName, email, phone);
+        const newUser = await User.create({
+          username,
+          password: hashedPassword,
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone,
+          role: 'editor',
+        });
+        newUser.password = undefined;
         res.status(201).json(newUser);
         break;
 

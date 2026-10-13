@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "./stylesheets/UsefulLinks.module.css";
 import { useLanguage } from "./contexts/LanguageContext";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 
 const UsefulLinks = () => {
   const { t } = useTranslation();

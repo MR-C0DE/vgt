@@ -1,0 +1,361 @@
+/* Banner */
+.banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url("/images/sisters-banner.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 40vh;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.bannerContent {
+    color: white;
+}
+
+.bannerContent h2 {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.bannerContent p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Container */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+/* Grille d'événements */
+.eventsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Carte d'événement */
+.eventCard {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #eef2f6;
+}
+
+.eventCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Date */
+.eventDate {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    text-align: center;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid #eef2f6;
+}
+
+.eventDay {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    line-height: 1;
+}
+
+.eventMonth {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+/* Contenu */
+.eventContent {
+    flex: 1;
+    padding: 1.5rem;
+}
+
+.eventContent h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0 0 1rem 0;
+}
+
+.eventDetails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.detailItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.detailIcon {
+    font-size: 0.9rem;
+}
+
+.eventDescription {
+    color: #495057;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 1rem 0;
+}
+
+.eventFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eef2f6;
+}
+
+.spotsLeft {
+    font-size: 0.8rem;
+    color: #28a745;
+    background: #e8f5e9;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+
+.registerButton {
+    background: transparent;
+    border: 1px solid #c8a05e;
+    color: #c8a05e;
+    padding: 0.5rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.registerButton:hover {
+    background: #c8a05e;
+    color: white;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 2rem;
+}
+
+.modalClose {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+}
+
+.modalClose:hover {
+    color: #333;
+}
+
+.modal h2 {
+    font-size: 1.5rem;
+    color: #1a1a2e;
+    margin: 0 0 1rem 0;
+    padding-right: 1.5rem;
+}
+
+.modalInfo {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.modalInfo p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.modalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.formGroup label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.formGroup input {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: #c8a05e;
+}
+
+.submitButton {
+    background: #c8a05e;
+    color: white;
+    border: none;
+    padding: 0.85rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.submitButton:hover {
+    background: #b08a4a;
+}
+
+.formLoading,
+.formSuccess,
+.formError {
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.formLoading {
+    background: #fff3e0;
+    color: #c8a05e;
+}
+
+.formSuccess {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.formError {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* Loader */
+.loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #eef2f6;
+    border-top-color: #c8a05e;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.emptyState {
+    text-align: center;
+    padding: 3rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .bannerContent h2 {
+        font-size: 2rem;
+    }
+
+    .container {
+        padding: 2rem 1rem;
+    }
+
+    .eventCard {
+        flex-direction: column;
+    }
+
+    .eventDate {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-right: none;
+        border-bottom: 1px solid #eef2f6;
+    }
+
+    .eventDay {
+        font-size: 1.2rem;
+    }
+
+    .eventMonth {
+        margin-top: 0;
+    }
+
+    .eventFooter {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .registerButton {
+        text-align: center;
+    }
+}

@@ -10,7 +10,7 @@ import Banner from "@/components/events_/Banner";
 import EventContent from "@/components/events_/EventContent";
 
 import events from './data/events.json';
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 
 export default function Events() {
     const router = useRouter();

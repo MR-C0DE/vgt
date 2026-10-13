@@ -1,7 +1,15 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { Messages } from "../../models/message";
+import { connectToDatabase } from '@/lib/mongodb';
+import Message from '@/lib/models/MessageModel';
+import { ObjectId } from 'mongodb';
+import { authenticateRequest } from '@/utils/authMiddleware';
+import { enforceRateLimit } from '@/utils/rateLimit';
 
 export default async function handler(req, res) {
+  if (req.method === 'POST' && !enforceRateLimit(req, res, { name: 'contact-legacy', limit: 5, windowMs: 10 * 60_000 })) return;
+  const allowedRoles = req.method === 'DELETE' ? ['admin'] : ['admin', 'editor'];
+  if (req.method !== 'POST' && !authenticateRequest(req, res, allowedRoles)) return;
+  await connectToDatabase();
+
   // Gestion des différentes méthodes HTTP
   switch (req.method) {
     case 'POST':
@@ -41,9 +49,18 @@ async function handlePost(req, res) {
       return res.status(400).json({ message: 'Invalid message' });
     }
 
-    const newMessage = await Messages.insertMessage(firstname, lastname, email, telephone ? telephone : "000-000-000", object, message, new Date(), "no-read");
+    const newMessage = await Message.create({
+      firstname,
+      lastname,
+      email,
+      telephone: telephone ? telephone : "000-000-000",
+      objet: object,
+      message,
+      date: new Date(),
+      state: "no-read",
+    });
 
-    return res.status(200).json({ message: 'Form submission successful', data: req.body, message: newMessage });
+    return res.status(201).json({ message: 'Form submission successful', data: newMessage });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal Server Error' });
@@ -56,13 +73,16 @@ async function handleGet(req, res) {
     const { id } = req.query;
 
     if (id) {
-      const message = await Messages.selectMessageById(id);
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'Invalid message ID' });
+      }
+      const message = await Message.findById(id);
       if (!message) {
         return res.status(404).json({ message: 'Message not found' });
       }
       return res.status(200).json({ message: 'Message retrieved successfully', data: message });
     } else {
-      const messages = await Messages.selectMessages();
+      const messages = await Message.find().sort({ date: -1 });
       return res.status(200).json({ message: 'Messages retrieved successfully', data: messages });
     }
   } catch (error) {
@@ -80,8 +100,12 @@ async function handleDelete(req, res) {
       return res.status(400).json({ message: 'Message ID is required' });
     }
 
-    const deletedMessage = await Messages.deleteMessage(id);
-    if (deletedMessage.affectedRows === 0) {
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid message ID' });
+    }
+
+    const deletedMessage = await Message.findByIdAndDelete(id);
+    if (!deletedMessage) {
       return res.status(404).json({ message: 'Message not found' });
     }
 
@@ -98,9 +122,17 @@ async function handlePut(req, res) {
     
     const { id } = req.query;
     const { firstname, lastname, email, telephone, objet, message , date, state} = req.body;
-    const updatedMessage = await Messages.updateMessage(id, firstname, lastname, email, telephone, objet, message, date, state);
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid message ID' });
+    }
+
+    const updatedMessage = await Message.findByIdAndUpdate(
+      id,
+      { firstname, lastname, email, telephone, objet, message, date, state },
+      { new: true }
+    );
     
-    if (updatedMessage.affectedRows === 0) {
+    if (!updatedMessage) {
       return res.status(404).json({ message: 'Message not found' });
     }
 

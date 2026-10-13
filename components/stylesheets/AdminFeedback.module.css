@@ -1,0 +1,18 @@
+.notice { display: flex; align-items: center; gap: 10px; max-width: 1200px; margin: 18px auto; padding: 13px 16px; border: 1px solid; border-radius: 10px; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+.notice span { flex: 1; }
+.notice button { display: grid; place-items: center; padding: 5px; border: 0; border-radius: 6px; color: inherit; background: transparent; cursor: pointer; }
+.success { color: #176b35; background: #eaf8ef; border-color: #9dd7b1; }
+.error { color: #9f2929; background: #fff0f0; border-color: #efb1b1; }
+.info { color: #185a7d; background: #eef8fd; border-color: #abd6ea; }
+.backdrop { position: fixed; inset: 0; z-index: 3000; display: grid; place-items: center; padding: 20px; background: rgba(0,0,0,.62); backdrop-filter: blur(3px); }
+.dialog { width: min(430px, 100%); padding: 28px; border-radius: 16px; background: #fff; color: #272727; text-align: center; box-shadow: 0 24px 70px rgba(0,0,0,.35); }
+.dialogIcon { display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto 14px; border-radius: 50%; color: #a62b2b; background: #fff0f0; font-size: 25px; }
+.dialog h2 { margin: 0 0 10px; font-size: 22px; }
+.dialog p { margin: 0; color: #666; line-height: 1.55; }
+.actions { display: flex; justify-content: center; gap: 12px; margin-top: 24px; }
+.actions button { min-width: 120px; padding: 11px 18px; border-radius: 9px; font-weight: 700; cursor: pointer; }
+.cancel { border: 1px solid #ccc; color: #333; background: #fff; }
+.confirm { border: 1px solid #a62b2b; color: #fff; background: #a62b2b; }
+.actions button:disabled { opacity: .6; cursor: wait; }
+.actions button:focus-visible, .notice button:focus-visible { outline: 3px solid #ffc107; outline-offset: 2px; }
+@media (max-width: 480px) { .actions { flex-direction: column-reverse; } .actions button { width: 100%; } }

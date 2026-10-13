@@ -1,28 +1,42 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'voiceofgodtabernacle_secret_key_2026';
+export const getJwtSecret = () => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret || secret.length < 32) {
+    throw new Error('JWT_SECRET must be configured with at least 32 characters');
+  }
+  return secret;
+};
+
+export const authenticateRequest = (req, res, allowedRoles = ['admin', 'editor', 'viewer']) => {
+  const authorization = req.headers.authorization;
+  if (!authorization?.startsWith('Bearer ')) {
+    res.status(401).json({ error: 'Non autorisé' });
+    return null;
+  }
+
+  try {
+    const decoded = jwt.verify(authorization.slice(7), getJwtSecret(), {
+      algorithms: ['HS256'],
+    });
+    if (!allowedRoles.includes(decoded.role)) {
+      res.status(403).json({ error: 'Accès interdit' });
+      return null;
+    }
+    return decoded;
+  } catch (error) {
+    console.error('Auth error:', error.message);
+    res.status(401).json({ error: 'Token invalide' });
+    return null;
+  }
+};
 
 export const withAuth = (handler, allowedRoles = ['admin', 'editor', 'viewer']) => {
   return async (req, res) => {
     try {
-      const token = req.headers.authorization?.split(' ')[1];
-      
-      if (!token) {
-        return res.status(401).json({ error: 'Non autorisé - Token manquant' });
-      }
-
-      const decoded = jwt.verify(token, JWT_SECRET);
-      
-      // Ajouter l'utilisateur à la requête
+      const decoded = authenticateRequest(req, res, allowedRoles);
+      if (!decoded) return;
       req.user = decoded;
-
-      // Vérifier le rôle
-      if (!allowedRoles.includes(decoded.role)) {
-        return res.status(403).json({ 
-          error: 'Accès interdit - Vous n\'avez pas les droits nécessaires' 
-        });
-      }
-
       return handler(req, res);
     } catch (error) {
       console.error('Auth error:', error);

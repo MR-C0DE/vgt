@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "next/head";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 import UsefulLinks from "@/components/UsefulLinks";
 import Banner from "@/components/home/Banner";
 import Blockquote from "@/components/home/Blockquote";

@@ -1,47 +1,51 @@
-import User from '../../models/user'; // Assurez-vous que le chemin est correct
-import bcrypt from 'bcrypt'; // Assurez-vous que bcrypt est installé
-import jwt from 'jsonwebtoken'; // Assurez-vous que jsonwebtoken est installé
+import { connectToDatabase } from '@/lib/mongodb';
+import User from '@/lib/models/UserModel';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { enforceRateLimit } from '@/utils/rateLimit';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'voiceofgodtabernacle_secret_key_2026';
+const JWT_SECRET = process.env.JWT_SECRET;
+
 export default async function handler(req, res) {
-  const { method } = req;
-
-  try {
-    switch (method) {
-      case 'POST':
-        // Créer un nouvel utilisateur
-        const { username, password } = req.body;
-
-        // Vérifier si l'utilisateur existe
-        const user = await User.getUserByUsername(username);
-        if (!user) {
-          return res.status(401).json({ error: 'Utilisateur non trouvé' });
-        }
-
-
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-          return res.status(401).json({ error: 'Mot de passe incorrect' });
-        }
-
-        
-        
-        delete user.password;
-        
-        const token = jwt.sign({ id: user.id, username: user.username, first_name: user.first_name, last_name: user.last_name, email: user.email, phone: user.phone, role: user.role  }, JWT_SECRET, { expiresIn: '1h' });
-
-
-        res.status(200).json({ token });
-
-        break;
-
-      default:
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Méthode ${method} non autorisée`);
-    }
-  } catch (error) {
-    console.error('Erreur lors de la gestion de la requête:', error);
-    res.status(500).json({ error: 'Erreur interne du serveur' });
+  if (!enforceRateLimit(req, res, { name: 'login', limit: 10, windowMs: 15 * 60_000 })) return;
+  if (!JWT_SECRET || JWT_SECRET.length < 32) {
+    return res.status(503).json({ error: 'Authentification non configurée' });
   }
+  await connectToDatabase();
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: "Méthode non autorisée" });
+  }
+
+  const { username, password } = req.body;
+
+  if (typeof username !== 'string' || typeof password !== 'string' || username.length > 100 || password.length > 256) {
+    return res.status(400).json({ error: 'Requête invalide' });
+  }
+
+  const user = await User.findOne({ username });
+  if (!user) {
+    return res.status(401).json({ error: 'Identifiants invalides' });
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(401).json({ error: 'Identifiants invalides' });
+  }
+
+  const token = jwt.sign(
+    {
+      id: user._id,
+      username: user.username,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      phone: user.phone,
+      role: user.role
+    },
+    JWT_SECRET,
+    { expiresIn: '7d' }
+  );
+
+  res.status(200).json({ token });
 }

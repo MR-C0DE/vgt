@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 import styles from "./stylesheets/Banner.module.css";
 
 const Banner = () => {
@@ -8,6 +8,7 @@ const Banner = () => {
     <div className={styles.Banner}>
       <div>
         <h2>{t("bannerHistory")}</h2>
+        <p>{t("bannerHistoryDescription")}</p>
       </div>
     </div>
   );

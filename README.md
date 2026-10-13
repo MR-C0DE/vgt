@@ -45,4 +45,5 @@ https://fonts.google.com/selection/embed
 
 https://source.unsplash.com/1600x900/?church
 
-client : vgtabernacleottawa@gmail.com : app : mfux asys fndd gjzy
+Les identifiants SMTP doivent être fournis uniquement avec les variables
+`GMAIL_USER` et `GMAIL_APP_PASSWORD` de l'environnement de déploiement.

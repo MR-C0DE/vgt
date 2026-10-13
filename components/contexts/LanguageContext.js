@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 
 const LanguageContext = createContext();
 const detectSubstring = (substring, mainString) => mainString.includes(substring) ? substring : "";

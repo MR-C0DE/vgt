@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Languages from "./Languages";
 import styles from "./stylesheets/Header.module.css";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 import { useLanguage } from "./contexts/LanguageContext";
 import Link from "next/link";
 import { useScreenSize } from "./contexts/ScreenSizeContext";

@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
 import { HeaderAdmin } from "@/components/HeaderAdmin";
+import { AdminConfirmDialog, AdminNotice } from "@/components/AdminFeedback";
 import CheckLogin from "@/components/CheckLogin";
 import RoleGuard from "@/components/RoleGuard";
 import { PERMISSIONS } from "@/constants/roles";
+import { usePermissions } from "@/hooks/usePermissions";
 import styles from "./styles/announcements.module.css";
 import {
   FiBell,
@@ -50,6 +52,7 @@ export default function Announcements() {
 
 function AnnouncementsContent() {
   const router = useRouter();
+  const { can } = usePermissions();
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,6 +61,9 @@ function AnnouncementsContent() {
   const [isEditing, setIsEditing] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [language, setLanguage] = useState("fr"); // Pour l'aperçu
+  const [notice, setNotice] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     fetchAnnouncements();
@@ -134,24 +140,29 @@ function AnnouncementsContent() {
 
       await fetchAnnouncements();
       handleCancelForm();
+      setNotice({ type: "success", text: isEditing ? "Annonce mise à jour." : "Annonce créée." });
     } catch (error) {
       console.error("Error saving announcement:", error);
-      alert(error.response?.data?.error || "Erreur lors de l'enregistrement");
+      setNotice({ type: "error", text: error.response?.data?.error || "Erreur lors de l'enregistrement" });
     }
   };
 
-  const handleDelete = async (id, title) => {
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer l'annonce "${title}" ?`)) return;
-
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`/api/controllers/announcements?id=${id}`, {
+      await axios.delete(`/api/controllers/announcements?id=${deleteTarget.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchAnnouncements();
+      setDeleteTarget(null);
+      setNotice({ type: "success", text: "Annonce supprimée." });
     } catch (error) {
       console.error("Error deleting announcement:", error);
-      alert(error.response?.data?.error || "Erreur lors de la suppression");
+      setNotice({ type: "error", text: error.response?.data?.error || "Erreur lors de la suppression" });
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -163,7 +174,7 @@ function AnnouncementsContent() {
       const announcement = announcements.find(a => a.id === id);
       
       if (!announcement) {
-        alert("Annonce non trouvée");
+        setNotice({ type: "error", text: "Annonce non trouvée" });
         return;
       }
   
@@ -183,9 +194,10 @@ function AnnouncementsContent() {
       
       // Recharger la liste
       await fetchAnnouncements();
+      setNotice({ type: "success", text: currentState ? "Annonce masquée." : "Annonce publiée." });
     } catch (error) {
       console.error("Error toggling announcement:", error);
-      alert("Erreur lors de la modification du statut");
+      setNotice({ type: "error", text: "Erreur lors de la modification du statut" });
     }
   };
 
@@ -217,6 +229,7 @@ function AnnouncementsContent() {
 
   return (
     <div className={styles.container}>
+      <AdminNotice notice={notice} onClose={() => setNotice(null)} />
       <div className={styles.header}>
         <div className={styles.headerTop}>
           <h1>
@@ -396,13 +409,15 @@ function AnnouncementsContent() {
                   >
                     <FiEdit2 />
                   </button>
-                  <button
-                    className={styles.deleteButton}
-                    onClick={() => handleDelete(ann.id, ann.title_fr)}
-                    title="Supprimer"
-                  >
-                    <FiTrash2 />
-                  </button>
+                  {can("ANNOUNCEMENTS_DELETE") && (
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => setDeleteTarget(ann)}
+                      title="Supprimer"
+                    >
+                      <FiTrash2 />
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -455,6 +470,7 @@ function AnnouncementsContent() {
           </div>
         )}
       </div>
+      <AdminConfirmDialog open={Boolean(deleteTarget)} title="Supprimer cette annonce ?" message={deleteTarget ? `L’annonce « ${deleteTarget.title_fr || deleteTarget.title_en} » sera supprimée définitivement.` : ""} busy={deleting} onCancel={() => setDeleteTarget(null)} onConfirm={handleDelete} />
     </div>
   );
 }

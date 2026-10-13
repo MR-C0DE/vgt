@@ -5,7 +5,7 @@ import { LanguageProvider } from "@/components/contexts/LanguageContext";
 import UsefulLinks from "@/components/UsefulLinks";
 import Banner from "@/components/services/Banner";
 import Program from "@/components/services/Program";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 
 export default function Services() {
   const { t } = useTranslation();
