@@ -8,7 +8,6 @@ const Banner = () => {
     <div className={styles.Banner}>
       <div>
         <h2>{t("bannerHistory")}</h2>
-        <p>{t("bannerHistoryDescription")}</p>
       </div>
     </div>
   );

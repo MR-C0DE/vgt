@@ -6,18 +6,52 @@ const content = {
     eyebrow: "Voice of God Tabernacle",
     title: "Our worship in images",
     intro: "A glimpse of the fellowship, the listening of the Message and the worship shared in our congregation.",
-    videos: [
-      { title: "Listening to the Message", description: "The congregation gathered around the recorded Word.", src: "/videos/history/listening-to-the-message.mp4", poster: "/videos/history/listening-to-the-message.jpg" },
-      { title: "A moment of worship", description: "The congregation united in worship during a service.", src: "/videos/history/worship-service.mp4", poster: "/videos/history/worship-service.jpg" },
+    messageLabel: "Message played during the service",
+    services: [
+      {
+        date: "Sunday, April 19, 2026",
+        dateTime: "2026-04-19",
+        message: "65-0429E — The Choosing Of A Bride",
+        videos: [
+          { title: "Listening to the Message", description: "The congregation gathered in reverence around the recorded Word.", src: "/videos/history/congregation-in-worship.mp4", poster: "/videos/history/congregation-in-worship.jpg" },
+          { title: "Closing worship", description: "The congregation singing together at the conclusion of the Message.", src: "/videos/history/praise-together.mp4", poster: "/videos/history/praise-together.jpg" },
+        ],
+      },
+      {
+        date: "Sunday, October 11, 2026",
+        dateTime: "2026-10-11",
+        message: "62-1014M — The Stature Of A Perfect Man",
+        videos: [
+          { title: "Listening to the Message", description: "The congregation gathered around the recorded Word.", src: "/videos/history/listening-to-the-message.mp4", poster: "/videos/history/listening-to-the-message.jpg" },
+          { title: "Closing worship", description: "The congregation singing together at the conclusion of the Message.", src: "/videos/history/worship-service.mp4", poster: "/videos/history/worship-service.jpg" },
+        ],
+      },
     ],
   },
   fr: {
     eyebrow: "Voice of God Tabernacle",
     title: "Notre culte en images",
     intro: "Un aperçu de la communion fraternelle, de l’écoute du Message et de l’adoration vécues dans notre assemblée.",
-    videos: [
-      { title: "À l’écoute du Message", description: "L’assemblée réunie autour de la Parole enregistrée.", src: "/videos/history/listening-to-the-message.mp4", poster: "/videos/history/listening-to-the-message.jpg" },
-      { title: "Un moment d’adoration", description: "L’assemblée unie dans l’adoration pendant un service.", src: "/videos/history/worship-service.mp4", poster: "/videos/history/worship-service.jpg" },
+    messageLabel: "Message diffusé pendant le service",
+    services: [
+      {
+        date: "Dimanche 19 avril 2026",
+        dateTime: "2026-04-19",
+        message: "65-0429E — Le choix d’une Épouse",
+        videos: [
+          { title: "À l’écoute du Message", description: "L’assemblée recueillie autour de la Parole enregistrée.", src: "/videos/history/congregation-in-worship.mp4", poster: "/videos/history/congregation-in-worship.jpg" },
+          { title: "Chant de clôture", description: "L’assemblée chantant ensemble à la fin du Message.", src: "/videos/history/praise-together.mp4", poster: "/videos/history/praise-together.jpg" },
+        ],
+      },
+      {
+        date: "Dimanche 11 octobre 2026",
+        dateTime: "2026-10-11",
+        message: "62-1014M — La stature d’un homme parfait",
+        videos: [
+          { title: "À l’écoute du Message", description: "L’assemblée réunie autour de la Parole enregistrée.", src: "/videos/history/listening-to-the-message.mp4", poster: "/videos/history/listening-to-the-message.jpg" },
+          { title: "Chant de clôture", description: "L’assemblée chantant ensemble à la fin du Message.", src: "/videos/history/worship-service.mp4", poster: "/videos/history/worship-service.jpg" },
+        ],
+      },
     ],
   },
 };
@@ -36,20 +70,34 @@ export default function HistoryVideos() {
           <p>{section.intro}</p>
         </div>
 
-        <div className={styles.grid}>
-          {section.videos.map((video, index) => (
-            <article className={styles.card} key={video.src}>
-              <div className={styles.media}>
-                <video controls playsInline preload="metadata" poster={video.poster}>
-                  <source src={video.src} type="video/mp4" />
-                </video>
-                <span className={styles.number}>0{index + 1}</span>
+        <div className={styles.services}>
+          {section.services.map((service, serviceIndex) => (
+            <section className={styles.service} key={service.dateTime}>
+              <header className={styles.serviceHeader}>
+                <time dateTime={service.dateTime}>{service.date}</time>
+                <div>
+                  <span>{section.messageLabel}</span>
+                  <h3>{service.message}</h3>
+                </div>
+              </header>
+
+              <div className={styles.grid}>
+                {service.videos.map((video, videoIndex) => (
+                  <article className={styles.card} key={video.src}>
+                    <div className={styles.media}>
+                      <video controls playsInline preload="metadata" poster={video.poster}>
+                        <source src={video.src} type="video/mp4" />
+                      </video>
+                      <span className={styles.number}>0{serviceIndex * 2 + videoIndex + 1}</span>
+                    </div>
+                    <div className={styles.cardBody}>
+                      <h4>{video.title}</h4>
+                      <p>{video.description}</p>
+                    </div>
+                  </article>
+                ))}
               </div>
-              <div className={styles.cardBody}>
-                <h3>{video.title}</h3>
-                <p>{video.description}</p>
-              </div>
-            </article>
+            </section>
           ))}
         </div>
       </div>

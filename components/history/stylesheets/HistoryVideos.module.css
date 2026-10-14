@@ -25,6 +25,14 @@
 .heading h2 { margin: .8rem 0 .9rem; color: #fff; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 600; line-height: 1.15; letter-spacing: .02em; }
 .rule { width: 60px; height: 2px; margin: 1.2rem auto; background: #ffc107; }
 .heading p { margin: 0; color: rgba(255,255,255,.68); font-size: 1rem; font-weight: 300; line-height: 1.8; }
+.services { display: grid; gap: 4.5rem; }
+.service { position: relative; }
+.service + .service { padding-top: 4.5rem; border-top: 1px solid rgba(255,255,255,.12); }
+.serviceHeader { display: grid; grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr); gap: 2rem; align-items: end; margin-bottom: 1.75rem; padding: 0 .15rem; }
+.serviceHeader time { color: #ffc107; font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 600; letter-spacing: .03em; }
+.serviceHeader div { padding-left: 2rem; border-left: 2px solid #ffc107; }
+.serviceHeader span { display: block; margin-bottom: .4rem; color: rgba(255,255,255,.5); font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.serviceHeader h3 { margin: 0; color: #fff; font-size: clamp(1rem, 2vw, 1.3rem); font-weight: 500; line-height: 1.45; }
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
 .card { overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 2px; background: rgba(255,255,255,.05); box-shadow: none; transition: transform .3s ease, background-color .3s ease, border-color .3s ease, box-shadow .3s ease; }
 .card:hover { transform: translateY(-5px); border-color: rgba(255,193,7,.3); background: rgba(255,255,255,.08); box-shadow: 0 10px 30px -10px rgba(0,0,0,.3); }
@@ -33,13 +41,17 @@
 .media video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #111; object-fit: cover; }
 .number { position: absolute; right: 1rem; bottom: .75rem; z-index: 1; color: rgba(255,255,255,.9); font-size: .78rem; font-weight: 800; letter-spacing: .14em; }
 .cardBody { min-height: 120px; padding: 1.7rem 1.6rem 1.8rem; text-align: center; }
-.cardBody h3 { display: inline-block; position: relative; margin: 0 0 1rem; padding-bottom: .55rem; color: #ffc107; font-size: 1.1rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
-.cardBody h3::after { content: ""; position: absolute; bottom: 0; left: 25%; width: 50%; height: 1px; background: rgba(255,193,7,.3); }
+.cardBody h4 { display: inline-block; position: relative; margin: 0 0 1rem; padding-bottom: .55rem; color: #ffc107; font-size: 1.1rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.cardBody h4::after { content: ""; position: absolute; bottom: 0; left: 25%; width: 50%; height: 1px; background: rgba(255,193,7,.3); }
 .cardBody p { margin: 0; color: rgba(255,255,255,.62); font-size: .9rem; font-style: italic; line-height: 1.6; }
 
 @media (max-width: 720px) {
   .section { margin: 3rem 0; padding: 4rem 1rem; }
   .heading { margin-bottom: 2.25rem; }
+  .services { gap: 3rem; }
+  .service + .service { padding-top: 3rem; }
+  .serviceHeader { grid-template-columns: 1fr; gap: .9rem; margin-bottom: 1.4rem; text-align: center; }
+  .serviceHeader div { padding: .9rem 0 0; border-top: 1px solid rgba(255,193,7,.45); border-left: 0; }
   .grid { grid-template-columns: 1fr; }
   .card:hover { transform: none; }
 }
