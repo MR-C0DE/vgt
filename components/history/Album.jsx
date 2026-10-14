@@ -1,56 +1,45 @@
-import React, { useEffect, useState } from "react";
-
+import { useLanguage } from "../contexts/LanguageContext";
 import styles from "./stylesheets/Album.module.css";
 
-const photos = [
-  {
-    src: "./images/ajust/0.jpg",
-    alt: "Photo 1",
+const photos = ["0.jpg", "1.jpg", "7.jpg", "10.jpg", "6.jpg", "4.jpg"];
+
+const content = {
+  en: {
+    title: "A few memories",
+    intro: "Precious moments of fellowship, worship and life shared together through the years.",
+    alt: "A memory from Voice of God Tabernacle",
   },
-  {
-    src: "./images/ajust/1.jpg",
-    alt: "Photo 2",
+  fr: {
+    title: "Quelques souvenirs",
+    intro: "De précieux moments de communion fraternelle, d’adoration et de vie partagés au fil des années.",
+    alt: "Un souvenir de Voice of God Tabernacle",
   },
-  { src: "./images/ajust/7.jpg", alt: "Photo 3" },
-  { src: "./images/ajust/10.jpg", alt: "Photo 4" },
-  { src: "./images/ajust/6.jpg", alt: "Photo 5" },
-  {
-    src: "./images/ajust/4.jpg",
-    alt: "Photo 6",
-  },
-];
-
-const Album = ({ series, setSeries, setIsOpenSeries }) => {
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = (index) => {
-    setSelectedPhotoIndex(index);
-    setIsModalOpen(true);
-  };
-
-  const closeSeries = () => {
-    setSeries(null);
-    setIsOpenSeries(false);
-  };
-
-  useEffect(() => {}, []);
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.album}>
-        {photos.map((photo, index) => (
-          <div className={styles.photo} key={index}>
-            <img
-              src={photo.src}
-              alt={photo.alt}
-              onClick={() => openModal(index)}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 };
 
-export default Album;
+export default function Album() {
+  const { language } = useLanguage();
+  const section = content[language] || content.en;
+
+  return (
+    <section className={styles.section} aria-labelledby="memories-title">
+      <div className={styles.heading}>
+        <h2 id="memories-title">{section.title}</h2>
+        <div className={styles.rule} aria-hidden="true" />
+        <p>{section.intro}</p>
+      </div>
+
+      <div className={styles.album}>
+        {photos.map((photo, index) => (
+          <figure className={styles.photo} key={photo}>
+            <img
+              src={`/images/ajust/${photo}`}
+              alt={`${section.alt} ${index + 1}`}
+              loading="lazy"
+            />
+            <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
