@@ -1,13 +1,13 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import Message from '@/lib/models/MessageModel';
 import { ObjectId } from 'mongodb';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
   await connectToDatabase();
 
   const allowedRoles = req.method === 'DELETE' ? ['admin'] : ['admin', 'editor'];
-  if (!authenticateRequest(req, res, allowedRoles)) return;
+  if (!await authenticateActiveRequest(req, res, allowedRoles)) return;
 
   switch (req.method) {
     case 'GET': {

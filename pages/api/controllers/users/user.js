@@ -1,10 +1,10 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import User from '@/lib/models/UserModel';
 import bcrypt from 'bcryptjs';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
-  if (!authenticateRequest(req, res, ['admin'])) return;
+  if (!await authenticateActiveRequest(req, res, ['admin'])) return;
   const { method } = req;
 
   try {

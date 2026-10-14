@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Requête invalide' });
   }
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username }).select('+auth_version');
   if (!user) {
     return res.status(401).json({ error: 'Identifiants invalides' });
   }
@@ -41,7 +41,8 @@ export default async function handler(req, res) {
       last_name: user.last_name,
       email: user.email,
       phone: user.phone,
-      role: user.role
+      role: user.role,
+      auth_version: user.auth_version || 0
     },
     JWT_SECRET,
     { expiresIn: '7d' }

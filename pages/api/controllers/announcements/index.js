@@ -1,7 +1,7 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import Announcement from '@/lib/models/Announcement';
 import { ObjectId } from 'mongodb';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
   await connectToDatabase();
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
   // Pour le reste, vérifier l'auth
   const allowedRoles = req.method === 'DELETE' ? ['admin'] : ['admin', 'editor'];
-  if (!authenticateRequest(req, res, allowedRoles)) return;
+  if (!await authenticateActiveRequest(req, res, allowedRoles)) return;
 
   switch (req.method) {
     case 'GET': {
@@ -46,16 +46,15 @@ export default async function handler(req, res) {
 
     case 'PUT': {
       const { id } = req.query;
-      const updateData = req.body;
-      delete updateData._id;
-      updateData.updated_at = new Date();
+      const { author, title_fr, title_en, content_fr, content_en, date, is_active, image_url } = req.body;
+      const updateData = { author, title_fr, title_en, content_fr, content_en, date, is_active, image_url };
 
       let announcement = null;
       if (ObjectId.isValid(id)) {
-        announcement = await Announcement.findByIdAndUpdate(id, updateData, { new: true });
+        announcement = await Announcement.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
       }
       if (!announcement && !isNaN(parseInt(id))) {
-        announcement = await Announcement.findOneAndUpdate({ id: parseInt(id) }, updateData, { new: true });
+        announcement = await Announcement.findOneAndUpdate({ id: parseInt(id) }, updateData, { new: true, runValidators: true });
       }
 
       if (!announcement) return res.status(404).json({ error: "Annonce non trouvée" });

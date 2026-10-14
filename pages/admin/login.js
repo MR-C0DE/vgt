@@ -5,6 +5,7 @@ import axios from "axios";
 import styles from "./styles/Login.module.css";
 import { FiLock, FiUser, FiLogIn } from "react-icons/fi";
 import LoginTransitionLoader from "@/components/LoginTransitionLoader"; // ← IMPORT
+import { useRole } from "@/contexts/RoleContext";
 
 const currentYear = new Date().getFullYear();
 
@@ -14,13 +15,13 @@ export default function Login() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { user, loading: roleLoading, refresh } = useRole();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    if (!roleLoading && user) {
       router.replace("/admin");
     }
-  }, [router]);
+  }, [roleLoading, router, user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,9 +36,7 @@ export default function Login() {
 
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        if (response.data.user) {
-          localStorage.setItem("user", JSON.stringify(response.data.user));
-        }
+        refresh();
         
         setTimeout(() => {
           router.replace("/admin");

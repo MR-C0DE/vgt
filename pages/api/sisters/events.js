@@ -1,28 +1,28 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import SisterEvent from '@/lib/models/SisterEvent';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
     await connectToDatabase();
 
+    const adminRequest = req.method === 'GET' && req.query.admin === 'true';
     const allowedRoles = req.method === 'DELETE' ? ['admin'] : ['admin', 'editor'];
-    if (req.method !== 'GET' && !authenticateRequest(req, res, allowedRoles)) {
+    if ((req.method !== 'GET' || adminRequest) && !await authenticateActiveRequest(req, res, allowedRoles)) {
         return;
     }
 
     // GET - Récupérer les événements
     if (req.method === 'GET') {
         try {
-            const { id, active } = req.query;
+            const { id } = req.query;
 
             if (id) {
-                const event = await SisterEvent.findById(id).select('-participants');
+                const event = await SisterEvent.findOne(adminRequest ? { _id: id } : { _id: id, is_active: true }).select('-participants');
                 if (!event) return res.status(404).json({ error: 'Événement non trouvé' });
                 return res.status(200).json(event);
             }
 
-            let query = {};
-            if (active === 'true') query.is_active = true;
+            const query = adminRequest ? {} : { is_active: true };
 
             const events = await SisterEvent.find(query).select('-participants')
                 .sort({ start: 1 });
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
             const { _id, participants, created_at, ...updateData } = req.body;
             updateData.updated_at = new Date();
 
-            const event = await SisterEvent.findByIdAndUpdate(id, updateData, { new: true });
+            const event = await SisterEvent.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
             if (!event) return res.status(404).json({ error: 'Événement non trouvé' });
 
             return res.status(200).json(event);

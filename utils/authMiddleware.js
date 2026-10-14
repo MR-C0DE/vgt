@@ -34,7 +34,7 @@ export const authenticateRequest = (req, res, allowedRoles = ['admin', 'editor',
 export const withAuth = (handler, allowedRoles = ['admin', 'editor', 'viewer']) => {
   return async (req, res) => {
     try {
-      const decoded = authenticateRequest(req, res, allowedRoles);
+      const decoded = await authenticateActiveRequest(req, res, allowedRoles);
       if (!decoded) return;
       req.user = decoded;
       return handler(req, res);
@@ -43,6 +43,37 @@ export const withAuth = (handler, allowedRoles = ['admin', 'editor', 'viewer']) 
       return res.status(401).json({ error: 'Token invalide' });
     }
   };
+};
+
+export const authenticateActiveRequest = async (
+  req,
+  res,
+  allowedRoles = ['admin', 'editor', 'viewer']
+) => {
+  const decoded = authenticateRequest(req, res, allowedRoles);
+  if (!decoded) return null;
+
+  try {
+    const [{ connectToDatabase }, { default: User }] = await Promise.all([
+      import('../lib/mongodb.js'),
+      import('../lib/models/UserModel.js'),
+    ]);
+    await connectToDatabase();
+    const user = await User.findById(decoded.id).select('role +auth_version');
+    const tokenVersion = Number(decoded.auth_version || 0);
+    const currentVersion = Number(user?.auth_version || 0);
+
+    if (!user || user.role !== decoded.role || tokenVersion !== currentVersion) {
+      res.status(401).json({ error: 'Session expirée' });
+      return null;
+    }
+
+    return decoded;
+  } catch (error) {
+    console.error('Active session verification error:', error.message);
+    res.status(503).json({ error: 'Vérification de session indisponible' });
+    return null;
+  }
 };
 
 // Helpers pour les rôles spécifiques

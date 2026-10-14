@@ -1,7 +1,7 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 import { ObjectId } from 'mongodb';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
   await connectToDatabase();
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 
   // Pour POST, PUT, DELETE : vérifier l'auth
   const allowedRoles = req.method === 'DELETE' ? ['admin'] : ['admin', 'editor'];
-  if (!authenticateRequest(req, res, allowedRoles)) return;
+  if (!await authenticateActiveRequest(req, res, allowedRoles)) return;
 
   switch (req.method) {
     case 'POST': {
@@ -40,19 +40,17 @@ export default async function handler(req, res) {
 
     case 'PUT': {
       const { id } = req.body;
-      const data = req.body;
-      delete data.id;
-      delete data._id;
-      data.updatedAt = new Date();
+      const { title, start, end, category, location, leader, audience, notes, allDay, browserId } = req.body;
+      const data = { title, start, end, category, location, leader, audience, notes, allDay, browserId, updatedAt: new Date() };
 
       let event = null;
       // Chercher par ObjectId
       if (ObjectId.isValid(id)) {
-        event = await Event.findByIdAndUpdate(id, data, { new: true });
+        event = await Event.findByIdAndUpdate(id, data, { new: true, runValidators: true });
       }
       // Sinon chercher par ancien ID numérique
       if (!event && !isNaN(parseInt(id))) {
-        event = await Event.findOneAndUpdate({ id: parseInt(id) }, data, { new: true });
+        event = await Event.findOneAndUpdate({ id: parseInt(id) }, data, { new: true, runValidators: true });
       }
 
       if (!event) return res.status(404).json({ error: "Event not found" });

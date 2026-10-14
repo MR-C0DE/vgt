@@ -9,6 +9,7 @@ import { PERMISSIONS } from "@/constants/roles";
 import styles from "./styles/change-password.module.css";
 import { FiKey, FiSave, FiArrowLeft, FiEye, FiEyeOff } from "react-icons/fi";
 import Link from "next/link";
+import { useRole } from "@/contexts/RoleContext";
 
 export default function ChangePassword() {
   return (
@@ -27,6 +28,7 @@ export default function ChangePassword() {
 
 function ChangePasswordContent() {
   const router = useRouter();
+  const { refresh } = useRole();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [showPasswords, setShowPasswords] = useState({
@@ -55,10 +57,10 @@ function ChangePasswordContent() {
     setMessage({ type: "", text: "" });
 
     // Validation
-    if (formData.newPassword.length < 6) {
+    if (formData.newPassword.length < 12) {
       setMessage({
         type: "error",
-        text: "Le mot de passe doit contenir au moins 6 caractères",
+        text: "Le mot de passe doit contenir au moins 12 caractères",
       });
       setLoading(false);
       return;
@@ -75,7 +77,7 @@ function ChangePasswordContent() {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.put(
+      const response = await axios.put(
         `/api/controllers/users/change-password`,
         {
           currentPassword: formData.currentPassword,
@@ -83,6 +85,11 @@ function ChangePasswordContent() {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        refresh();
+      }
 
       setMessage({ type: "success", text: "Mot de passe changé avec succès" });
       setFormData({

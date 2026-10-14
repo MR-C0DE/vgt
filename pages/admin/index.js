@@ -21,6 +21,7 @@ import {
   FiArrowRight
 } from "react-icons/fi";
 import { useRole } from '@/contexts/RoleContext';
+import { usePermissions } from '@/hooks/usePermissions';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
@@ -33,6 +34,7 @@ export default function Dashboard() {
   const [greeting, setGreeting] = useState("");
   const router = useRouter();
   const { user } = useRole();
+  const { can } = usePermissions();
 
   useEffect(() => {
     fetchStats();
@@ -117,7 +119,7 @@ export default function Dashboard() {
           {/* Statistiques principales */}
           <div className={styles.statsGrid}>
             {/* Messages */}
-            <Link href="/admin/messages" className={styles.statLink}>
+            {can('MESSAGES') && <Link href="/admin/messages" className={styles.statLink}>
               <div className={styles.statCard}>
                 <div className={styles.statIcon} style={{ background: '#fff9e6' }}>
                   <FiMail color="#ffc107" size={24} />
@@ -131,10 +133,10 @@ export default function Dashboard() {
                   <span>{stats.messages.unread} non lus</span>
                 </div>
               </div>
-            </Link>
+            </Link>}
 
             {/* Événements */}
-            <Link href="/admin/calendrier" className={styles.statLink}>
+            {can('CALENDAR') && <Link href="/admin/calendrier" className={styles.statLink}>
               <div className={styles.statCard}>
                 <div className={styles.statIcon} style={{ background: '#e6f7ff' }}>
                   <FiCalendar color="#17a2b8" size={24} />
@@ -148,10 +150,10 @@ export default function Dashboard() {
                   <span>{stats.events.thisMonth} ce mois</span>
                 </div>
               </div>
-            </Link>
+            </Link>}
 
             {/* Utilisateurs */}
-            <Link href="/admin/users" className={styles.statLink}>
+            {can('USERS') && <Link href="/admin/users" className={styles.statLink}>
               <div className={styles.statCard}>
                 <div className={styles.statIcon} style={{ background: '#e8f5e8' }}>
                   <FiUsers color="#28a745" size={24} />
@@ -165,10 +167,10 @@ export default function Dashboard() {
                   <span>{stats.users.admins} admins</span>
                 </div>
               </div>
-            </Link>
+            </Link>}
 
             {/* Annonces */}
-            <Link href="/admin/announcements" className={styles.statLink}>
+            {can('ANNOUNCEMENTS') && <Link href="/admin/announcements" className={styles.statLink}>
               <div className={styles.statCard}>
                 <div className={styles.statIcon} style={{ background: '#fff9e6' }}>
                   <FiBell color="#ffc107" size={24} />
@@ -191,13 +193,13 @@ export default function Dashboard() {
                   )}
                 </div>
               </div>
-            </Link>
+            </Link>}
           </div>
 
           {/* Section des graphiques / aperçus */}
           <div className={styles.dashboardGrid}>
             {/* Messages récents */}
-            <div className={styles.recentSection}>
+            {can('MESSAGES') && <div className={styles.recentSection}>
               <div className={styles.sectionHeader}>
                 <h2>
                   <FiMessageSquare className={styles.sectionIcon} />
@@ -242,10 +244,10 @@ export default function Dashboard() {
                   </div>
                 )}
               </div>
-            </div>
+            </div>}
 
             {/* Événements à venir */}
-            <div className={styles.recentSection}>
+            {can('CALENDAR') && <div className={styles.recentSection}>
               <div className={styles.sectionHeader}>
                 <h2>
                   <FiCalendar className={styles.sectionIcon} />
@@ -282,10 +284,10 @@ export default function Dashboard() {
                   </div>
                 )}
               </div>
-            </div>
+            </div>}
 
             {/* Annonces actives */}
-            <div className={styles.recentSection}>
+            {can('ANNOUNCEMENTS') && <div className={styles.recentSection}>
               <div className={styles.sectionHeader}>
                 <h2>
                   <FiBell className={styles.sectionIcon} />
@@ -318,10 +320,10 @@ export default function Dashboard() {
                   <FiBell /> Gérer les annonces
                 </Link>
               </div>
-            </div>
+            </div>}
 
             {/* Utilisateurs */}
-            <div className={styles.recentSection}>
+            {can('USERS') && <div className={styles.recentSection}>
               <div className={styles.sectionHeader}>
                 <h2>
                   <FiUsers className={styles.sectionIcon} />
@@ -352,7 +354,7 @@ export default function Dashboard() {
                   <FiUserCheck /> Gérer les utilisateurs
                 </Link>
               </div>
-            </div>
+            </div>}
           </div>
         </div>
       </RoleGuard>

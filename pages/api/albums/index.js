@@ -1,13 +1,13 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import Album from '@/lib/models/Album';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
     await connectToDatabase();
 
     const adminRequest = req.method === 'GET' && req.query.admin === 'true';
     const allowedRoles = req.method === 'DELETE' ? ['admin'] : ['admin', 'editor'];
-    if ((req.method !== 'GET' || adminRequest) && !authenticateRequest(req, res, allowedRoles)) {
+    if ((req.method !== 'GET' || adminRequest) && !await authenticateActiveRequest(req, res, allowedRoles)) {
         return;
     }
 
@@ -79,7 +79,7 @@ export default async function handler(req, res) {
             const { _id, created_at, ...updateData } = req.body;
             updateData.updated_at = new Date();
 
-            const album = await Album.findByIdAndUpdate(id, updateData, { new: true });
+            const album = await Album.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
             if (!album) {
                 return res.status(404).json({ error: 'Album non trouvé' });
             }

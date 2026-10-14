@@ -399,7 +399,7 @@ function UsersContent() {
                   value={editingUser.password}
                   onChange={handleInputChange}
                   required={!isEditing}
-                  minLength={6}
+                  minLength={12}
                 />
               </div>
 

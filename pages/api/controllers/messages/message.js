@@ -1,13 +1,13 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import Message from '@/lib/models/MessageModel';
 import { ObjectId } from 'mongodb';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 import { enforceRateLimit } from '@/utils/rateLimit';
 
 export default async function handler(req, res) {
   if (req.method === 'POST' && !enforceRateLimit(req, res, { name: 'contact-legacy', limit: 5, windowMs: 10 * 60_000 })) return;
   const allowedRoles = req.method === 'DELETE' ? ['admin'] : ['admin', 'editor'];
-  if (req.method !== 'POST' && !authenticateRequest(req, res, allowedRoles)) return;
+  if (req.method !== 'POST' && !await authenticateActiveRequest(req, res, allowedRoles)) return;
   await connectToDatabase();
 
   // Gestion des différentes méthodes HTTP

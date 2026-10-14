@@ -2,12 +2,12 @@ import { connectToDatabase } from '@/lib/mongodb';
 import User from '@/lib/models/UserModel';
 import bcrypt from 'bcryptjs';
 import { ObjectId } from 'mongodb';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
   await connectToDatabase();
 
-  const decoded = authenticateRequest(req, res, ['admin']);
+  const decoded = await authenticateActiveRequest(req, res, ['admin']);
   if (!decoded) return;
 
   switch (req.method) {
@@ -38,6 +38,12 @@ export default async function handler(req, res) {
       if (!username || !password || !first_name || !last_name || !email) {
         return res.status(400).json({ error: "Tous les champs requis ne sont pas remplis" });
       }
+      if (password.length < 12) {
+        return res.status(400).json({ error: "Le mot de passe doit contenir au moins 12 caractères" });
+      }
+      if (!['admin', 'editor', 'viewer'].includes(role)) {
+        return res.status(400).json({ error: "Rôle invalide" });
+      }
 
       const existing = await User.findOne({ $or: [{ username }, { email }] });
       if (existing) {
@@ -49,7 +55,7 @@ export default async function handler(req, res) {
         username, password: hashedPassword, first_name, last_name, email, phone, role
       });
 
-      const { password: _, ...userWithoutPassword } = user.toObject();
+      const { password: _, auth_version: __, ...userWithoutPassword } = user.toObject();
       return res.status(201).json(userWithoutPassword);
     }
 
@@ -71,6 +77,12 @@ export default async function handler(req, res) {
       if (!username || !first_name || !last_name || !email) {
         return res.status(400).json({ error: "Tous les champs requis ne sont pas remplis" });
       }
+      if (password && password.length < 12) {
+        return res.status(400).json({ error: "Le mot de passe doit contenir au moins 12 caractères" });
+      }
+      if (!['admin', 'editor', 'viewer'].includes(role)) {
+        return res.status(400).json({ error: "Rôle invalide" });
+      }
 
       const duplicate = await User.findOne({
         _id: { $ne: id },
@@ -80,12 +92,19 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: "Nom d'utilisateur ou email déjà utilisé" });
       }
 
+      const existingUser = await User.findById(id).select('+auth_version');
+      if (!existingUser) return res.status(404).json({ error: "Utilisateur non trouvé" });
+
       const updateData = { username, first_name, last_name, email, phone, role, updated_at: new Date() };
+      const mustInvalidateSessions = Boolean(password) || existingUser.role !== role;
       if (password) {
         updateData.password = await bcrypt.hash(password, 10);
       }
 
-      const user = await User.findByIdAndUpdate(id, updateData, { new: true }).select('-password');
+      const update = mustInvalidateSessions
+        ? { $set: updateData, $inc: { auth_version: 1 } }
+        : { $set: updateData };
+      const user = await User.findByIdAndUpdate(id, update, { new: true, runValidators: true }).select('-password');
       if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
       return res.status(200).json(user);
     }

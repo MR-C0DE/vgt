@@ -1,7 +1,7 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import User from '@/lib/models/UserModel';
 import jwt from 'jsonwebtoken';
-import { authenticateRequest, getJwtSecret } from '@/utils/authMiddleware';
+import { authenticateActiveRequest, getJwtSecret } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
   await connectToDatabase();
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const decoded = authenticateRequest(req, res);
+    const decoded = await authenticateActiveRequest(req, res);
     if (!decoded) return;
     const {
       email,
@@ -46,7 +46,8 @@ export default async function handler(req, res) {
         last_name: user.last_name,
         email: user.email,
         phone: user.phone,
-        role: user.role
+        role: user.role,
+        auth_version: decoded.auth_version || 0
       },
       getJwtSecret(),
       { expiresIn: '7d' }

@@ -1,6 +1,6 @@
 
 import { SafariConfirmation } from '@/lib/models/SafariConfirmation';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 import { enforceRateLimit } from '@/utils/rateLimit';
 
 const isValidPhone = (phone) => /^\+?[0-9\s\-()]{10,}$/.test(phone);
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   if (method === 'POST' && !enforceRateLimit(req, res, { name: 'safari-confirmation', limit: 5, windowMs: 10 * 60_000 })) return;
 
-  if (method !== 'POST' && !authenticateRequest(req, res, ['admin', 'editor'])) return;
+  if (method !== 'POST' && !await authenticateActiveRequest(req, res, ['admin', 'editor'])) return;
 
   if (method === "GET") {
     try {

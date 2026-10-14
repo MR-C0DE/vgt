@@ -34,7 +34,7 @@ export default function AdminSistersCalendar() {
     }, []);
 
     const fetchEvents = async () => {
-        const res = await fetch('/api/sisters/events');
+        const res = await fetch('/api/sisters/events?admin=true', { headers: authHeaders() });
         const data = await res.json();
         setEvents(data);
     };

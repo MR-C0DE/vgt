@@ -1,9 +1,9 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import SisterEvent from '@/lib/models/SisterEvent';
-import { authenticateRequest } from '@/utils/authMiddleware';
+import { authenticateActiveRequest } from '@/utils/authMiddleware';
 
 export default async function handler(req, res) {
-    if (!authenticateRequest(req, res, ['admin', 'editor'])) return;
+    if (!await authenticateActiveRequest(req, res, ['admin', 'editor'])) return;
     await connectToDatabase();
 
     if (req.method !== 'GET') {
