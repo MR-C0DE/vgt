@@ -1,363 +1,54 @@
-import { HeaderAdmin } from "@/components/HeaderAdmin";
-import RoleGuard from "@/components/RoleGuard";
-import { PERMISSIONS } from "@/constants/roles";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import axios from "axios";
+import { HeaderAdmin } from "@/components/HeaderAdmin";
+import RoleGuard from "@/components/RoleGuard";
+import { PERMISSIONS } from "@/constants/roles";
+import { useRole } from "@/contexts/RoleContext";
+import { usePermissions } from "@/hooks/usePermissions";
 import styles from "./styles/Dashboard.module.css";
-import {
-  FiMail,
-  FiCalendar,
-  FiUsers,
-  FiClock,
-  FiBell,
-  FiMessageSquare,
-  FiUserCheck,
-  FiEye,
-  FiEyeOff,
-  FiTrendingUp,
-  FiArrowRight
-} from "react-icons/fi";
-import { useRole } from '@/contexts/RoleContext';
-import { usePermissions } from '@/hooks/usePermissions';
+import { FiMail, FiCalendar, FiUsers, FiBell, FiArrowRight, FiImage, FiBookOpen, FiMusic, FiMonitor, FiCheckCircle, FiClock } from "react-icons/fi";
 
 export default function Dashboard() {
-  const [stats, setStats] = useState({
-    messages: { total: 0, unread: 0, recent: [] },
-    events: { total: 0, upcoming: 0, thisMonth: 0, recent: [] },
-    users: { total: 0, admins: 0, editors: 0 },
-    announcements: { total: 0, active: 0 }
-  });
+  const [stats, setStats] = useState({ messages:{total:0,unread:0,recent:[]}, events:{upcoming:0,thisMonth:0,recent:[]}, users:{total:0,admins:0}, announcements:{total:0,active:0} });
   const [loading, setLoading] = useState(true);
-  const [greeting, setGreeting] = useState("");
-  const router = useRouter();
   const { user } = useRole();
   const { can } = usePermissions();
 
   useEffect(() => {
-    fetchStats();
-    setGreeting(getGreeting());
+    axios.get("/api/controllers/dashboard/stats", { headers:{ Authorization:`Bearer ${localStorage.getItem("token") || ""}` } })
+      .then(({data}) => setStats(data)).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
-  const fetchStats = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("/api/controllers/dashboard/stats", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setStats(response.data);
-    } catch (error) {
-      console.error("Error fetching stats:", error);
-      if (error.response?.status === 401) {
-        router.push("/admin/login");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const tools = [
+    can("GALLERY") && { href:"/admin/gallery", icon:FiImage, title:"Galerie", text:"Albums et photos du site", status:"Disponible" },
+    { href:"/admin/formations", icon:FiBookOpen, title:"Documents & formations", text:"Guides, cours et documents d’équipe", status:"À configurer" },
+    { href:"/admin/louange", icon:FiMusic, title:"Louange & cantiques", text:"Répertoire des titres et des paroles", status:"Disponible" },
+    { href:"/admin/projecteur", icon:FiMonitor, title:"Présentations projecteur", text:"Afficher les paroles en plein écran", status:"Disponible" },
+  ].filter(Boolean);
 
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Bonjour";
-    if (hour < 18) return "Bon après-midi";
-    return "Bonsoir";
-  };
+  return <RoleGuard allowedRoles={PERMISSIONS.DASHBOARD}><Head><title>Espace de travail | Voice of God Tabernacle</title></Head><HeaderAdmin />
+    <main className={styles.dashboard}>
+      <section className={styles.welcome}><div><p className={styles.eyebrow}>Espace de travail VGT</p><h1>Bonjour {user?.firstName || user?.username || ""}</h1><p>Retrouvez ici les outils, les contenus et les activités de Voice of God Tabernacle.</p></div><div className={styles.today}>{new Date().toLocaleDateString("fr-CA",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</div></section>
 
-  const formatDate = (dateStr) => {
-    return new Date(dateStr).toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
-  if (loading) {
-    return (
-      <>
-        <HeaderAdmin />
-        <div className={styles.loadingContainer}>
-          <div className={styles.loader}></div>
-          <p>Chargement du tableau de bord...</p>
+      <section aria-labelledby="essentiel"><div className={styles.sectionTitle}><div><p className={styles.eyebrow}>Aujourd’hui</p><h2 id="essentiel">À surveiller</h2></div></div>
+        <div className={styles.statsGrid}>
+          {can("MESSAGES") && <Link href="/admin/messages" className={styles.statCard}><FiMail /><div><strong>{loading ? "—" : stats.messages.unread}</strong><span>message{stats.messages.unread === 1 ? "" : "s"} non lu{stats.messages.unread === 1 ? "" : "s"}</span></div><FiArrowRight /></Link>}
+          {can("CALENDAR") && <Link href="/admin/calendrier" className={styles.statCard}><FiCalendar /><div><strong>{loading ? "—" : stats.events.upcoming}</strong><span>événement{stats.events.upcoming === 1 ? "" : "s"} à venir</span></div><FiArrowRight /></Link>}
+          {can("ANNOUNCEMENTS") && <Link href="/admin/announcements" className={styles.statCard}><FiBell /><div><strong>{loading ? "—" : stats.announcements.active}</strong><span>annonce{stats.announcements.active === 1 ? "" : "s"} active{stats.announcements.active === 1 ? "" : "s"}</span></div><FiArrowRight /></Link>}
+          {can("USERS") && <Link href="/admin/users" className={styles.statCard}><FiUsers /><div><strong>{loading ? "—" : stats.users.total}</strong><span>membre{stats.users.total === 1 ? "" : "s"} de l’équipe</span></div><FiArrowRight /></Link>}
         </div>
-      </>
-    );
-  }
+      </section>
 
-  return (
-    <>
-      <RoleGuard allowedRoles={PERMISSIONS.DASHBOARD}>
-        <Head>
-          <title>Dashboard - Admin | Voice of God Tabernacle</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
+      <section aria-labelledby="ministeres"><div className={styles.sectionTitle}><div><p className={styles.eyebrow}>Ressources de l’église</p><h2 id="ministeres">Outils de travail</h2></div><Link href="/admin/ressources">Voir l’organisation complète <FiArrowRight /></Link></div>
+        <div className={styles.toolsGrid}>{tools.map(({href,icon:Icon,title,text,status}) => <Link href={href} className={styles.toolCard} key={href}><div className={styles.toolIcon}><Icon /></div><div className={styles.toolBody}><div><h3>{title}</h3><p>{text}</p></div><span className={status === "Disponible" ? styles.ready : styles.pending}>{status === "Disponible" ? <FiCheckCircle /> : <FiClock />}{status}</span></div><FiArrowRight className={styles.arrow} /></Link>)}</div>
+      </section>
 
-        <HeaderAdmin />
-
-        <div className={styles.dashboard}>
-          {/* En-tête avec message de bienvenue */}
-          <div className={styles.header}>
-            <div className={styles.headerLeft}>
-              <h1>Tableau de bord</h1>
-              <p className={styles.greeting}>
-                {greeting}, <span className={styles.userName}>{user?.firstName || user?.username || 'Administrateur'}</span>
-              </p>
-            </div>
-            <div className={styles.dateDisplay}>
-              {new Date().toLocaleDateString('fr-FR', {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-              })}
-            </div>
-          </div>
-
-          {/* Statistiques principales */}
-          <div className={styles.statsGrid}>
-            {/* Messages */}
-            {can('MESSAGES') && <Link href="/admin/messages" className={styles.statLink}>
-              <div className={styles.statCard}>
-                <div className={styles.statIcon} style={{ background: '#fff9e6' }}>
-                  <FiMail color="#ffc107" size={24} />
-                </div>
-                <div className={styles.statInfo}>
-                  <h3>{stats.messages.total}</h3>
-                  <p>Messages totaux</p>
-                </div>
-                <div className={styles.statBadge}>
-                  <FiEyeOff size={14} />
-                  <span>{stats.messages.unread} non lus</span>
-                </div>
-              </div>
-            </Link>}
-
-            {/* Événements */}
-            {can('CALENDAR') && <Link href="/admin/calendrier" className={styles.statLink}>
-              <div className={styles.statCard}>
-                <div className={styles.statIcon} style={{ background: '#e6f7ff' }}>
-                  <FiCalendar color="#17a2b8" size={24} />
-                </div>
-                <div className={styles.statInfo}>
-                  <h3>{stats.events.upcoming}</h3>
-                  <p>À venir</p>
-                </div>
-                <div className={styles.statBadge}>
-                  <FiCalendar size={14} />
-                  <span>{stats.events.thisMonth} ce mois</span>
-                </div>
-              </div>
-            </Link>}
-
-            {/* Utilisateurs */}
-            {can('USERS') && <Link href="/admin/users" className={styles.statLink}>
-              <div className={styles.statCard}>
-                <div className={styles.statIcon} style={{ background: '#e8f5e8' }}>
-                  <FiUsers color="#28a745" size={24} />
-                </div>
-                <div className={styles.statInfo}>
-                  <h3>{stats.users.total}</h3>
-                  <p>Utilisateurs</p>
-                </div>
-                <div className={styles.statBadge}>
-                  <FiUserCheck size={14} />
-                  <span>{stats.users.admins} admins</span>
-                </div>
-              </div>
-            </Link>}
-
-            {/* Annonces */}
-            {can('ANNOUNCEMENTS') && <Link href="/admin/announcements" className={styles.statLink}>
-              <div className={styles.statCard}>
-                <div className={styles.statIcon} style={{ background: '#fff9e6' }}>
-                  <FiBell color="#ffc107" size={24} />
-                </div>
-                <div className={styles.statInfo}>
-                  <h3>{stats.announcements.total}</h3>
-                  <p>Annonces</p>
-                </div>
-                <div className={styles.statBadge}>
-                  {stats.announcements.active > 0 ? (
-                    <>
-                      <FiEye size={14} />
-                      <span>{stats.announcements.active} actives</span>
-                    </>
-                  ) : (
-                    <>
-                      <FiEyeOff size={14} />
-                      <span>Aucune active</span>
-                    </>
-                  )}
-                </div>
-              </div>
-            </Link>}
-          </div>
-
-          {/* Section des graphiques / aperçus */}
-          <div className={styles.dashboardGrid}>
-            {/* Messages récents */}
-            {can('MESSAGES') && <div className={styles.recentSection}>
-              <div className={styles.sectionHeader}>
-                <h2>
-                  <FiMessageSquare className={styles.sectionIcon} />
-                  Messages récents
-                </h2>
-                <Link href="/admin/messages" className={styles.viewAllLink}>
-                  Voir tout <FiArrowRight />
-                </Link>
-              </div>
-
-              <div className={styles.recentList}>
-                {stats.messages.recent.length > 0 ? (
-                  stats.messages.recent.map((msg) => (
-                    <Link
-                      href="/admin/messages"
-                      key={msg._id}
-                      className={styles.recentItemLink}
-                    >
-                      <div className={styles.recentItem}>
-                        <div className={styles.recentHeader}>
-                          <div className={styles.recentSender}>
-                            <strong>{msg.firstname} {msg.lastname}</strong>
-                            <span className={msg.state === 'no-read' ? styles.unreadBadge : styles.readBadge}>
-                              {msg.state === 'no-read' ? 'Non lu' : 'Lu'}
-                            </span>
-                          </div>
-                          <span className={styles.recentTime}>
-                            {formatDate(msg.date)}
-                          </span>
-                        </div>
-                        <p className={styles.recentSubject}>{msg.objet}</p>
-                        <p className={styles.recentPreview}>
-                          {msg.message.substring(0, 80)}...
-                        </p>
-                      </div>
-                    </Link>
-                  ))
-                ) : (
-                  <div className={styles.emptyState}>
-                    <FiMail size={32} />
-                    <p>Aucun message récent</p>
-                  </div>
-                )}
-              </div>
-            </div>}
-
-            {/* Événements à venir */}
-            {can('CALENDAR') && <div className={styles.recentSection}>
-              <div className={styles.sectionHeader}>
-                <h2>
-                  <FiCalendar className={styles.sectionIcon} />
-                  Événements à venir
-                </h2>
-                <Link href="/admin/calendrier" className={styles.viewAllLink}>
-                  Voir tout <FiArrowRight />
-                </Link>
-              </div>
-
-              <div className={styles.recentList}>
-                {stats.events.recent?.length > 0 ? (
-                  stats.events.recent.map((event) => (
-                    <Link href="/admin/calendrier" key={event._id} className={styles.recentItemLink}>
-                      <div className={styles.recentItem}>
-                        <div className={styles.recentHeader}>
-                          <div className={styles.recentSender}>
-                            <strong>{event.title}</strong>
-                            <span className={styles.eventCategory}>{event.category}</span>
-                          </div>
-                          <span className={styles.recentTime}>{formatDate(event.start)}</span>
-                        </div>
-                        <p className={styles.recentPreview}>
-                          {event.location || 'Lieu non précisé'}
-                          {event.leader ? ` · ${event.leader}` : ''}
-                        </p>
-                      </div>
-                    </Link>
-                  ))
-                ) : (
-                  <div className={styles.emptyState}>
-                    <FiCalendar size={32} />
-                    <p>Aucun événement à venir</p>
-                  </div>
-                )}
-              </div>
-            </div>}
-
-            {/* Annonces actives */}
-            {can('ANNOUNCEMENTS') && <div className={styles.recentSection}>
-              <div className={styles.sectionHeader}>
-                <h2>
-                  <FiBell className={styles.sectionIcon} />
-                  Annonces actives
-                </h2>
-                <Link href="/admin/announcements" className={styles.viewAllLink}>
-                  Voir tout <FiArrowRight />
-                </Link>
-              </div>
-
-              <div className={styles.recentList}>
-                <div className={styles.statOverview}>
-                  <div className={styles.overviewItem}>
-                    <span className={styles.overviewValue}>{stats.announcements.total}</span>
-                    <span className={styles.overviewLabel}>Total</span>
-                  </div>
-                  <div className={styles.overviewItem}>
-                    <span className={styles.overviewValue}>{stats.announcements.active}</span>
-                    <span className={styles.overviewLabel}>Actives</span>
-                  </div>
-                  <div className={styles.overviewItem}>
-                    <span className={styles.overviewValue}>
-                      {stats.announcements.total - stats.announcements.active}
-                    </span>
-                    <span className={styles.overviewLabel}>Inactives</span>
-                  </div>
-                </div>
-
-                <Link href="/admin/announcements" className={styles.quickAction}>
-                  <FiBell /> Gérer les annonces
-                </Link>
-              </div>
-            </div>}
-
-            {/* Utilisateurs */}
-            {can('USERS') && <div className={styles.recentSection}>
-              <div className={styles.sectionHeader}>
-                <h2>
-                  <FiUsers className={styles.sectionIcon} />
-                  Utilisateurs
-                </h2>
-                <Link href="/admin/users" className={styles.viewAllLink}>
-                  Voir tout <FiArrowRight />
-                </Link>
-              </div>
-
-              <div className={styles.recentList}>
-                <div className={styles.statOverview}>
-                  <div className={styles.overviewItem}>
-                    <span className={styles.overviewValue}>{stats.users.total}</span>
-                    <span className={styles.overviewLabel}>Total</span>
-                  </div>
-                  <div className={styles.overviewItem}>
-                    <span className={styles.overviewValue}>{stats.users.admins}</span>
-                    <span className={styles.overviewLabel}>Admins</span>
-                  </div>
-                  <div className={styles.overviewItem}>
-                    <span className={styles.overviewValue}>{stats.users.editors}</span>
-                    <span className={styles.overviewLabel}>Éditeurs</span>
-                  </div>
-                </div>
-
-                <Link href="/admin/users" className={styles.quickAction}>
-                  <FiUserCheck /> Gérer les utilisateurs
-                </Link>
-              </div>
-            </div>}
-          </div>
-        </div>
-      </RoleGuard>
-    </>
-  );
+      <section className={styles.activity} aria-labelledby="activite"><div className={styles.sectionTitle}><div><p className={styles.eyebrow}>Vie de l’église</p><h2 id="activite">Activité récente</h2></div></div><div className={styles.activityGrid}>
+        <article><h3>Prochains événements</h3>{stats.events.recent?.length ? stats.events.recent.slice(0,3).map(event => <Link href="/admin/calendrier" key={event._id}><span><FiCalendar />{event.title}</span><small>{new Date(event.start).toLocaleDateString("fr-CA")}</small></Link>) : <p>Aucun événement à venir.</p>}</article>
+        <article><h3>État de l’espace</h3><ul><li><FiCheckCircle /> Galerie prête à être utilisée</li><li><FiCheckCircle /> Répertoire des cantiques opérationnel</li><li><FiCheckCircle /> Projection des paroles opérationnelle</li><li><FiClock /> Stockage des documents à choisir</li></ul></article>
+      </div></section>
+    </main>
+  </RoleGuard>;
 }

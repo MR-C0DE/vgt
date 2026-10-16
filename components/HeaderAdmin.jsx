@@ -4,21 +4,7 @@ import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
 import { useRole } from "@/contexts/RoleContext";
 import { usePermissions } from "@/hooks/usePermissions";
-import {
-  FiHome,
-  FiMail,
-  FiCalendar,
-  FiLogOut,
-  FiMenu,
-  FiX,
-  FiUsers,
-  FiBell,
-  FiUser,
-  FiKey,
-  FiChevronDown,
-  FiUserPlus,
-  FiImage,
-} from "react-icons/fi";
+import { FiHome, FiMail, FiCalendar, FiLogOut, FiMenu, FiX, FiUsers, FiBell, FiUser, FiKey, FiChevronDown, FiUserPlus, FiImage, FiBookOpen, FiMusic, FiMonitor, FiFolder } from "react-icons/fi";
 
 const HeaderAdmin = () => {
   const router = useRouter();
@@ -29,227 +15,36 @@ const HeaderAdmin = () => {
   const profileRef = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
-        setProfileMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    const closeOutside = (event) => profileRef.current && !profileRef.current.contains(event.target) && setProfileMenuOpen(false);
+    document.addEventListener("mousedown", closeOutside);
+    return () => document.removeEventListener("mousedown", closeOutside);
   }, []);
-
   useEffect(() => {
-    const closeMenus = () => {
-      setMobileMenuOpen(false);
-      setProfileMenuOpen(false);
-    };
-
-    router.events.on("routeChangeComplete", closeMenus);
-    return () => router.events.off("routeChangeComplete", closeMenus);
+    const close = () => { setMobileMenuOpen(false); setProfileMenuOpen(false); };
+    router.events.on("routeChangeComplete", close);
+    return () => router.events.off("routeChangeComplete", close);
   }, [router.events]);
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+  const active = (path) => router.pathname === path;
+  const initials = user ? `${user.firstName?.[0] || ""}${user.lastName?.[0] || ""}`.toUpperCase() || "VGT" : "VGT";
+  const role = user?.role === "admin" ? "Administrateur" : user?.role === "editor" ? "Éditeur" : "Lecteur";
+  const groups = [
+    { label: "Communication", links: [can("MESSAGES") && ["/admin/messages", "Messages", FiMail], can("ANNOUNCEMENTS") && ["/admin/announcements", "Annonces", FiBell]].filter(Boolean) },
+    { label: "Organisation", links: [can("CALENDAR") && ["/admin/calendrier", "Événements", FiCalendar], can("CALENDAR") && ["/admin/sisters-calendar", "Activités des sœurs", FiUserPlus]].filter(Boolean) },
+    { label: "Ressources", links: [["/admin/ressources", "Vue d’ensemble", FiFolder], can("GALLERY") && ["/admin/gallery", "Galerie", FiImage], ["/admin/formations", "Documents & formations", FiBookOpen], ["/admin/louange", "Louange & cantiques", FiMusic], ["/admin/projecteur", "Présentations", FiMonitor]].filter(Boolean) },
+  ];
 
-  const toggleProfileMenu = () => {
-    setProfileMenuOpen(!profileMenuOpen);
-  };
-
-  const isActive = (path) => {
-    return router.pathname === path;
-  };
-
-  const getInitials = () => {
-    if (!user) return "U";
-    const first = user.firstName?.charAt(0) || "";
-    const last = user.lastName?.charAt(0) || "";
-    return (first + last).toUpperCase() || "U";
-  };
-
-  const getRoleLabel = () => {
-    if (user?.role === "admin") return "Administrateur";
-    if (user?.role === "editor") return "Éditeur";
-    return "Lecteur";
-  };
-
-  return (
-    <header className={styles.header}>
-      <div className={styles.container}>
-        <div className={styles.logo}>
-          <h1>VGT ADMIN</h1>
-        </div>
-
-        <button
-          type="button"
-          className={styles.mobileMenuButton}
-          onClick={toggleMobileMenu}
-          aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-          aria-expanded={mobileMenuOpen}
-          aria-controls="admin-navigation"
-        >
-          {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-        </button>
-
-        <nav
-          id="admin-navigation"
-          className={`${styles.nav} ${mobileMenuOpen ? styles.navOpen : ""}`}
-        >
-          <ul className={styles.navList}>
-            <li className={styles.navItem}>
-              <Link
-                href="/admin"
-                className={`${styles.navLink} ${isActive("/admin") ? styles.active : ""}`}
-              >
-                <FiHome className={styles.icon} />
-                <span>Dashboard</span>
-              </Link>
-            </li>
-
-            {can("MESSAGES") && (
-              <li className={styles.navItem}>
-                <Link
-                  href="/admin/messages"
-                  className={`${styles.navLink} ${isActive("/admin/messages") ? styles.active : ""}`}
-                >
-                  <FiMail className={styles.icon} />
-                  <span>Messages</span>
-                </Link>
-              </li>
-            )}
-
-            {can("CALENDAR") && (
-              <li className={styles.navItem}>
-                <Link
-                  href="/admin/calendrier"
-                  className={`${styles.navLink} ${isActive("/admin/calendrier") ? styles.active : ""}`}
-                >
-                  <FiCalendar className={styles.icon} />
-                  <span>Événements</span>
-                </Link>
-              </li>
-            )}
-
-            {can("ANNOUNCEMENTS") && (
-              <li className={styles.navItem}>
-                <Link
-                  href="/admin/announcements"
-                  className={`${styles.navLink} ${isActive("/admin/announcements") ? styles.active : ""}`}
-                >
-                  <FiBell className={styles.icon} />
-                  <span>Annonces</span>
-                </Link>
-              </li>
-            )}
-
-            {can("GALLERY") && (
-              <li className={styles.navItem}>
-                <Link
-                  href="/admin/gallery"
-                  className={`${styles.navLink} ${isActive("/admin/gallery") ? styles.active : ""}`}
-                >
-                  <FiImage className={styles.icon} />
-                  <span>Galerie</span>
-                </Link>
-              </li>
-            )}
-
-            {can("USERS") && (
-              <li className={styles.navItem}>
-                <Link
-                  href="/admin/users"
-                  className={`${styles.navLink} ${isActive("/admin/users") ? styles.active : ""}`}
-                >
-                  <FiUsers className={styles.icon} />
-                  <span>Utilisateurs</span>
-                </Link>
-              </li>
-            )}
-
-            {/* Gestion des sœurs */}
-            {can("CALENDAR") && (
-              <li className={styles.navItem}>
-                <Link
-                  href="/admin/sisters-calendar"
-                  className={`${styles.navLink} ${router.pathname === "/admin/sisters-calendar" ? styles.active : ""}`}
-                >
-                  <FiUserPlus className={styles.icon} />
-                  <span>Activités des sœurs</span>
-                </Link>
-              </li>
-            )}
-
-            {user && (
-              <li className={styles.navItem} ref={profileRef}>
-                <button
-                  type="button"
-                  onClick={toggleProfileMenu}
-                  className={styles.profileButton}
-                  aria-expanded={profileMenuOpen}
-                  aria-haspopup="menu"
-                >
-                  <div className={styles.profileAvatar}>{getInitials()}</div>
-                  <span className={styles.profileName}>
-                    {user.firstName || user.username}
-                  </span>
-                  <FiChevronDown
-                    className={`${styles.chevron} ${profileMenuOpen ? styles.chevronOpen : ""}`}
-                  />
-                </button>
-
-                {profileMenuOpen && (
-                  <div className={styles.profileMenu}>
-                    <div className={styles.profileHeader}>
-                      <div className={styles.profileAvatarLarge}>
-                        {getInitials()}
-                      </div>
-                      <div className={styles.profileInfo}>
-                        <strong>
-                          {user.firstName} {user.lastName}
-                        </strong>
-                        <span>@{user.username}</span>
-                        <span className={styles.profileRole}>
-                          {getRoleLabel()}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className={styles.profileMenuItems}>
-                      <Link
-                        href="/admin/profile"
-                        className={styles.profileMenuItem}
-                        onClick={() => setProfileMenuOpen(false)}
-                      >
-                        <FiUser /> Mon profil
-                      </Link>
-                      <Link
-                        href="/admin/change-password"
-                        className={styles.profileMenuItem}
-                        onClick={() => setProfileMenuOpen(false)}
-                      >
-                        <FiKey /> Changer mot de passe
-                      </Link>
-                      <div className={styles.profileDivider}></div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setProfileMenuOpen(false);
-                          logout();
-                        }}
-                        className={styles.profileMenuItem}
-                      >
-                        <FiLogOut /> Déconnexion
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </li>
-            )}
-          </ul>
-        </nav>
-      </div>
-    </header>
-  );
+  return <header className={styles.header}><div className={styles.container}>
+    <Link href="/admin" className={styles.brand} aria-label="Accueil de l’espace de travail VGT"><span className={styles.brandMark}>VGT</span><span><strong>Espace de travail</strong><small>Voice of God Tabernacle</small></span></Link>
+    <button type="button" className={styles.mobileMenuButton} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"} aria-expanded={mobileMenuOpen} aria-controls="admin-navigation">{mobileMenuOpen ? <FiX /> : <FiMenu />}</button>
+    <nav id="admin-navigation" className={`${styles.nav} ${mobileMenuOpen ? styles.navOpen : ""}`}>
+      <Link href="/admin" className={`${styles.homeLink} ${active("/admin") ? styles.active : ""}`}><FiHome /><span>Accueil</span></Link>
+      {groups.map(group => group.links.length > 0 && <div className={styles.navGroup} key={group.label}><span className={styles.groupLabel}>{group.label}</span><div className={styles.groupLinks}>{group.links.map(([href, label, Icon]) => <Link key={href} href={href} className={`${styles.navLink} ${active(href) ? styles.active : ""}`}><Icon /><span>{label}</span></Link>)}</div></div>)}
+      {can("USERS") && <div className={styles.navGroup}><span className={styles.groupLabel}>Équipe</span><div className={styles.groupLinks}><Link href="/admin/users" className={`${styles.navLink} ${active("/admin/users") ? styles.active : ""}`}><FiUsers /><span>Utilisateurs</span></Link></div></div>}
+    </nav>
+    {user && <div className={styles.profile} ref={profileRef}><button type="button" onClick={() => setProfileMenuOpen(!profileMenuOpen)} className={styles.profileButton} aria-expanded={profileMenuOpen} aria-haspopup="menu"><span className={styles.profileAvatar}>{initials}</span><span className={styles.profileName}>{user.firstName || user.username}</span><FiChevronDown className={profileMenuOpen ? styles.chevronOpen : ""} /></button>
+      {profileMenuOpen && <div className={styles.profileMenu}><div className={styles.profileHeader}><span className={styles.profileAvatarLarge}>{initials}</span><div><strong>{user.firstName} {user.lastName}</strong><span>@{user.username}</span><em>{role}</em></div></div><div className={styles.profileMenuItems}><Link href="/admin/profile" className={styles.profileMenuItem}><FiUser /> Mon profil</Link><Link href="/admin/change-password" className={styles.profileMenuItem}><FiKey /> Changer le mot de passe</Link><button type="button" onClick={logout} className={styles.profileMenuItem}><FiLogOut /> Déconnexion</button></div></div>}
+    </div>}
+  </div></header>;
 };
-
 export { HeaderAdmin };
